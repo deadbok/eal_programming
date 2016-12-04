@@ -1,0 +1,24 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i '''\par
+Name: prog3\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (30/10-2016)\par
+ \par
+Program to convert square feet to acres.\par
+'''}\par
+{\cf8\b def} {\cf19 main}():\par
+	{\cf5\i # Get the area in square feet}\par
+	square_feet {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Input the total square feet? }{\cf2 '})\par
+	{\cf5\i # Calculate the acres, by first converting the input to}\par
+	{\cf5\i # a floating point value, divide by 43560, convert this to a}\par
+	{\cf5\i # string and add it to the initial message string.}\par
+	{\cf8\b print}({\cf2 '}{\cf2 Acres: }{\cf2 '} {\cf4 +} {\cf8 str}({\cf8 float}(square_feet) {\cf4 /} {\cf4 43560}))\par
+\par
+{\cf5\i #Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+	main()\par
+}

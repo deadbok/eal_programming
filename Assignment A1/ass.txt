@@ -1,0 +1,31 @@
+1. Personal Information
+	Write a program that displays the following information:
+	• Your name
+	• Your address, with city, state, and ZIP
+	• Your telephone number
+	• Your college major
+
+2. Sales Prediction
+	A company has determined that its annual profit is typically 23 percent of total sales. Write
+	a program that asks the user to enter the projected amount of total sales, and then displays
+	the profit that will be made from that amount.
+	Hint: use the value 0.23 to represent 23 percent.
+
+3. Land Calculation
+	One acre of land is equivalent to 43,560 square feet. Write a program that asks the user to
+	enter the total square feet in a tract of land and calculates the number of acres in the tract.
+	Hint: divide the amount entered by 43,560 to get the number of acres.
+
+4. Total Purchase
+	A customer in a store is purchasing five items. Write a program that asks for the price of
+	each item, and then displays the subtotal of the sale, the amount of sales tax, and the total.
+	Assume the sales tax is 6 percent.
+
+5. Distance Traveled
+	Assuming there are no accidents or delays, the distance that a car travels down the inter-
+	state can be calculated with the following formula:
+	Distance = Speed * Time
+	A car is traveling at 60 miles per hour. Write a program that displays the following:
+	• The distance the car will travel in 5 hours
+	• The distance the car will travel in 8 hours
+	• The distance the car will travel in 12 hours

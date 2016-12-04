@@ -1,0 +1,129 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 4\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (13/11-2016)\par
+\par
+Asks the user to enter the monthly costs for expenses incurred from operating\par
+and owning an automobile. Print out the total cost of the expenses for a month\par
+and a year.\par
+"""}\par
+{\cf8\b class} {\cf19\b Car}({\cf8 object}):\par
+    {\cf2\i """\par
+    Class to calculate the expenses incurred from operating and owning an\par
+    automobile.\par
+    """}\par
+    {\cf5\i # Loan payment per month.}\par
+    loan_payment {\cf4 =} {\cf4 0}\par
+    {\cf5\i # Insurance payment per month.}\par
+    insurance {\cf4 =} {\cf4 0}\par
+    {\cf5\i # Expenses on gas per month.}\par
+    gas {\cf4 =} {\cf4 0}\par
+    {\cf5\i # Expenses on oil per month.}\par
+    oil {\cf4 =} {\cf4 0}\par
+    {\cf5\i # Expences on tires per month.}\par
+    tires {\cf4 =} {\cf4 0}\par
+    {\cf5\i # Expenses on maintenance per moth.}\par
+    maintenance {\cf4 =} {\cf4 0}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Ask for values from the user, for expenses, when instantiating this\par
+        object.\par
+        """}\par
+        {\cf8\b print}({\cf2 '}{\cf2 Enter the monthly payment for each of these expenses:}{\cf2 '})\par
+        {\cf8\b try}:\par
+            {\cf8 self}{\cf4 .}loan_payment {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf10\b \\t}{\cf2 Loan payment: }{\cf2 '}))\par
+            {\cf8 self}{\cf4 .}insurance {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf10\b \\t}{\cf2 Insurance: }{\cf2 '}))\par
+            {\cf8 self}{\cf4 .}gas {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf10\b \\t}{\cf2 Gas: }{\cf2 '}))\par
+            {\cf8 self}{\cf4 .}oil {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf10\b \\t}{\cf2 Oil: }{\cf2 '}))\par
+            {\cf8 self}{\cf4 .}tires {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf10\b \\t}{\cf2 Tires: }{\cf2 '}))\par
+            {\cf8 self}{\cf4 .}maintenance {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf10\b \\t}{\cf2 Maintainance: }{\cf2 '}))\par
+        {\cf8\b except} {\cf24\b ValueError}:\par
+            {\cf5\i # Complain when something unexpected was entered.}\par
+            {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
+            {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf8\b def} {\cf19 calc_expenses_for_months}({\cf8 self}, current_expenses{\cf4 =}{\cf8 None}, months{\cf4 =}{\cf4 1}):\par
+        {\cf2\i """\par
+        Calculate the expenses for an span of months.\par
+\par
+        :param current_expenses: Tuple of the current expenses incurred up until\par
+                                 the current call of the function.\par
+        :param months: Span of months to calculate expenses for.\par
+        :return: A dictionary with the total cost for each expense.\par
+        """}\par
+        {\cf5\i # If there are still more month to go.}\par
+        {\cf8\b if} months {\cf4 !=} {\cf4 0}:\par
+            {\cf5\i # If this is not the first call to this function.}\par
+            {\cf8\b if} current_expenses {\cf12\b is} {\cf12\b not} {\cf8 None}:\par
+                {\cf5\i # Add monthly expenses to the current expenses.}\par
+                current_expenses[{\cf2 '}{\cf2 Loan payment}{\cf2 '}] {\cf4 +}{\cf4 =} {\cf8 self}{\cf4 .}loan_payment\par
+                current_expenses[{\cf2 '}{\cf2 Insurance}{\cf2 '}] {\cf4 +}{\cf4 =} {\cf8 self}{\cf4 .}insurance\par
+                current_expenses[{\cf2 '}{\cf2 Gas}{\cf2 '}] {\cf4 +}{\cf4 =} {\cf8 self}{\cf4 .}gas\par
+                current_expenses[{\cf2 '}{\cf2 Oil}{\cf2 '}] {\cf4 +}{\cf4 =} {\cf8 self}{\cf4 .}oil\par
+                current_expenses[{\cf2 '}{\cf2 Tires}{\cf2 '}] {\cf4 +}{\cf4 =} {\cf8 self}{\cf4 .}tires\par
+                current_expenses[{\cf2 '}{\cf2 Maintenance}{\cf2 '}] {\cf4 +}{\cf4 =} {\cf8 self}{\cf4 .}maintenance\par
+            {\cf8\b else}:\par
+                {\cf5\i # If this is the first call create a dictionary for the}\par
+                {\cf5\i # expenses and add them for the current month.}\par
+                current_expenses {\cf4 =} {\cf8 dict}()\par
+                current_expenses[{\cf2 '}{\cf2 Loan payment}{\cf2 '}] {\cf4 =} {\cf8 self}{\cf4 .}loan_payment\par
+                current_expenses[{\cf2 '}{\cf2 Insurance}{\cf2 '}] {\cf4 =} {\cf8 self}{\cf4 .}insurance\par
+                current_expenses[{\cf2 '}{\cf2 Gas}{\cf2 '}] {\cf4 =} {\cf8 self}{\cf4 .}gas\par
+                current_expenses[{\cf2 '}{\cf2 Oil}{\cf2 '}] {\cf4 =} {\cf8 self}{\cf4 .}oil\par
+                current_expenses[{\cf2 '}{\cf2 Tires}{\cf2 '}] {\cf4 =} {\cf8 self}{\cf4 .}tires\par
+                current_expenses[{\cf2 '}{\cf2 Maintenance}{\cf2 '}] {\cf4 =} {\cf8 self}{\cf4 .}maintenance\par
+            {\cf5\i # Make the function recursive, to shoot myself in the foot when}\par
+            {\cf5\i # I have to create the hierarchy diagram.}\par
+            {\cf5\i # The function calls itself until month is 0.}\par
+            {\cf8\b return}({\cf8 self}{\cf4 .}calc_expenses_for_months(current_expenses, months {\cf4 -} {\cf4 1}))\par
+        {\cf8\b else}:\par
+            {\cf5\i # If this is the final call, return a dictionary of the acumulated}\par
+            {\cf5\i # expenses.}\par
+            {\cf8\b return}(current_expenses)\par
+\par
+    {\cf8\b def} {\cf19 expenses_for_months}({\cf8 self}, months{\cf4 =}{\cf4 1}):\par
+        {\cf2\i """\par
+        Calculate and output the expenses for an span of months.\par
+\par
+        :param months: Span of months to calculate expenses for.\par
+        """}\par
+        {\cf5\i # Print a header for the expenses output.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Expenses for \{\} months: }{\cf2 '}{\cf4 .}format(months))\par
+        {\cf5\i # Get a dictionary with the total expenses as values and expense name}\par
+        {\cf5\i # as key.}\par
+        expenses {\cf4 =} {\cf8 self}{\cf4 .}calc_expenses_for_months({\cf8 None}, months)\par
+        {\cf5\i # Variable to keep the total cost of all expenses.}\par
+        total_cost {\cf4 =} {\cf4 0}\par
+        {\cf5\i # Run through all expenses in the dictionary printing their key}\par
+        {\cf5\i # as description and value as result.}\par
+        {\cf8\b for} key, value {\cf12\b in} expenses{\cf4 .}items():\par
+            {\cf5\i # Align both the description and the result using new style string}\par
+            {\cf5\i # formatting.}\par
+            {\cf8\b print}({\cf2 '}{\cf10\b \\t}{\cf2 \{:<12\}: \{:12.2f\}}{\cf2 '}{\cf4 .}format(key, value))\par
+            total_cost {\cf4 +}{\cf4 =} value\par
+        {\cf5\i #Print the total cost}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\t}{\cf2 \{:<12\}: \{:12.2f\}}{\cf2 '}{\cf4 .}format({\cf2 '}{\cf2 Total cost}{\cf2 '}, total_cost))\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i """\par
+    Program main entry point.\par
+    """}\par
+    {\cf5\i #Create the Car instance}\par
+    car {\cf4 =} Car()\par
+    {\cf5\i # Calculate and print the expenses for one month.}\par
+    car{\cf4 .}expenses_for_months({\cf4 1})\par
+    {\cf5\i # Calcualte and print the expenses for a year.}\par
+    car{\cf4 .}expenses_for_months({\cf4 12})\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

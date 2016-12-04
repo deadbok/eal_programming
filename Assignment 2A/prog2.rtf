@@ -1,0 +1,62 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i '''\par
+Name: Program 2\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (13/11-2016)\par
+\par
+Calculate the county and state sales tax, and the final total of a purchase.\par
+'''}\par
+{\cf8\b def} {\cf19 county_tax}(total_purchase {\cf4 =} {\cf4 0}):\par
+    {\cf2\i '''\par
+    Calculate the county tax of 2% of the total purchase.\par
+\par
+    :param total_purchase: Amount spend on the purchase in total.\par
+    :return: Amount of county tax.\par
+    '''}\par
+    {\cf5\i # Calculate the county tax.}\par
+    {\cf8\b return}(total_purchase {\cf4 *} {\cf4 0.02})\par
+\par
+\par
+{\cf8\b def} {\cf19 state_tax}(total_purchase{\cf4 =}{\cf4 0}):\par
+    {\cf2\i '''\par
+    Calculate the state tax of 4% of the total purchase.\par
+\par
+    :param total_purchase: Amount spend on the purchase in total.\par
+    :return: Amount of state tax.\par
+    '''}\par
+    {\cf5\i # Calculate the state tax}\par
+    {\cf8\b return}(total_purchase {\cf4 *} {\cf4 0.04})\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i '''\par
+    Program main entry point.\par
+    '''}\par
+    {\cf5\i # Get the amount of purchase from the user.}\par
+    {\cf8\b try}:\par
+        total_purchase {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf2 Enter the amount of a purchase: }{\cf2 '}))\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf5\i # Print the totals}\par
+    {\cf5\i # Use new style Python 3 format strings.}\par
+    {\cf5\i # \{:12.2f\} means align for a total of 12 digits with 2 digits}\par
+    {\cf5\i # after the decimal point.}\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Total purchase:}{\cf10\b \\t}{\cf10\b \\t}{\cf10\b \\t}{\cf2 \{:12.2f\}}{\cf2 '}{\cf4 .}format(total_purchase))\par
+    {\cf8\b print}({\cf2 '}{\cf2 State sales tax (4}{\cf2 %}{\cf2 ):}{\cf10\b \\t}{\cf2 \{:12.2f\}}{\cf2 '}{\cf4 .}format(state_tax(total_purchase)))\par
+    {\cf8\b print}({\cf2 '}{\cf2 County sales tax (2}{\cf2 %}{\cf2 ):}{\cf10\b \\t}{\cf2 \{:12.2f\}}{\cf2 '}{\cf4 .}format(county_tax(total_purchase)))\par
+    {\cf8\b print}({\cf2 '}{\cf2 Final total:}{\cf10\b \\t}{\cf10\b \\t}{\cf10\b \\t}{\cf2 \{:12.2f\}}{\cf2 '}{\cf4 .}format(total_purchase {\cf4 +}\par
+                                              state_tax(total_purchase) {\cf4 +}\par
+                                              county_tax(total_purchase)))\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

@@ -1,0 +1,78 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 5\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (13/11-2016)\par
+\par
+Get the name of a secondary colour created from mixing to primary colours.\par
+"""}\par
+\par
+\par
+{\cf8\b def} {\cf19 get_color}():\par
+    {\cf2\i """\par
+    Get the name of a primare color from the user.\par
+\par
+    :return: 'red', 'blue', or 'yellow'.\par
+    """}\par
+    {\cf5\i # Get the colour from the user, convert to lower case.}\par
+    color {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Enter the name of a primary colour: }{\cf2 '}){\cf4 .}lower()\par
+    {\cf5\i # Raise an exception if the input is invalid.}\par
+    {\cf8\b if} color {\cf12\b not} {\cf12\b in} [{\cf2 '}{\cf2 red}{\cf2 '}, {\cf2 '}{\cf2 blue}{\cf2 '}, {\cf2 '}{\cf2 yellow}{\cf2 '}]:\par
+        {\cf8\b raise} {\cf24\b ValueError}\par
+    {\cf5\i # Return the color.}\par
+    {\cf8\b return} (color)\par
+\par
+\par
+{\cf8\b def} {\cf19 mix_colors}(first_color, second_color):\par
+    {\cf2\i """\par
+    Return the secondary colour resulting from mixing two primare ones.\par
+\par
+    :param first_color: The first primary colour.\par
+    :param second_color: The second primary colour.\par
+    :return: The resulting secondary colour.\par
+    """}\par
+    {\cf5\i # Create a look up table for all colour mixes.}\par
+    color_look_up {\cf4 =} \{{\cf2 '}{\cf2 red}{\cf2 '}:\par
+                         \{{\cf2 '}{\cf2 red}{\cf2 '}: {\cf2 '}{\cf2 red}{\cf2 '},\par
+                          {\cf2 '}{\cf2 blue}{\cf2 '}: {\cf2 '}{\cf2 purple}{\cf2 '},\par
+                          {\cf2 '}{\cf2 yellow}{\cf2 '}: {\cf2 '}{\cf2 orange}{\cf2 '}\},\par
+                     {\cf2 '}{\cf2 blue}{\cf2 '}:\par
+                         \{{\cf2 '}{\cf2 red}{\cf2 '}: {\cf2 '}{\cf2 purple}{\cf2 '},\par
+                          {\cf2 '}{\cf2 blue}{\cf2 '}: {\cf2 '}{\cf2 blue}{\cf2 '},\par
+                          {\cf2 '}{\cf2 yellow}{\cf2 '}: {\cf2 '}{\cf2 green}{\cf2 '}\},\par
+                     {\cf2 '}{\cf2 yellow}{\cf2 '}:\par
+                         \{{\cf2 '}{\cf2 red}{\cf2 '}: {\cf2 '}{\cf2 orange}{\cf2 '},\par
+                          {\cf2 '}{\cf2 blue}{\cf2 '}: {\cf2 '}{\cf2 green}{\cf2 '},\par
+                          {\cf2 '}{\cf2 yellow}{\cf2 '}: {\cf2 '}{\cf2 yellow}{\cf2 '}\}\par
+                     \}\par
+    {\cf5\i # Return the secondary colour.}\par
+    {\cf8\b return} (color_look_up[first_color][second_color])\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i """\par
+    Program main entry point.\par
+    """}\par
+    {\cf5\i # Get the colours from the user.}\par
+    {\cf8\b try}:\par
+        first_color {\cf4 =} get_color()\par
+        second_color {\cf4 =} get_color()\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only }{\cf2 "}{\cf2 red}{\cf2 "}{\cf2 , }{\cf2 "}{\cf2 blue}{\cf2 "}{\cf2 , and }{\cf2 "}{\cf2 yellow}{\cf2 "}{\cf2 .}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf5\i # Print the result}\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Mixing the primary colours }{\cf2 '} {\cf4 +} first_color {\cf4 +} {\cf2 '}{\cf2  and }{\cf2 '} {\cf4 +}\par
+          second_color {\cf4 +} {\cf2 '}{\cf2  results in the secondary colour }{\cf2 '} {\cf4 +}\par
+          mix_colors(first_color, second_color))\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

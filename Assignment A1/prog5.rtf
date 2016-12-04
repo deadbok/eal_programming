@@ -1,0 +1,31 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i '''\par
+Name: prog5\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (30/10-2016)\par
+ \par
+Program to print the distance traveled at a speed of 60 mph in 5, 8,\par
+and 12 hours.\par
+'''}\par
+{\cf8\b def} {\cf19 main}():\par
+	{\cf5\i #Speed in mph}\par
+	mph {\cf4 =} {\cf4 60}\par
+	\par
+	{\cf5\i #Print a message to tell what is calulated}\par
+	{\cf8\b print}({\cf2 '}{\cf2 When traveling at }{\cf2 '} {\cf4 +} {\cf8 str}(mph) {\cf4 +} {\cf2 '}{\cf2  miles per hour:}{\cf10\b \\n}{\cf2 '});\par
+	\par
+	{\cf5\i #Loop through the values 5, 8, 12 which is the hours traveled.}\par
+	{\cf8\b for} hours {\cf12\b in} [{\cf4 5}, {\cf4 8}, {\cf4 12}]:\par
+		{\cf5\i #Calculate and print the distance traveled by the formula}\par
+		{\cf5\i #distance = hours * speed.}\par
+		{\cf8\b print}({\cf2 '}{\cf2 The distance traveled after }{\cf2 '} {\cf4 +} {\cf8 str}(hours) {\cf4 +} {\cf2 '}{\cf2  is }{\cf2 '} {\cf4 +}\par
+			   {\cf8 str}(hours {\cf4 *} mph) {\cf4 +} {\cf2 '}{\cf2  miles.}{\cf2 '})\par
+			   \par
+{\cf5\i #Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+	main()\par
+}

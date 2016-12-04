@@ -1,0 +1,46 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i '''\par
+Name: prog4\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (30/10-2016)\par
+ \par
+Calculate the total price of a number of items, as well as the taxes\par
+paid.\par
+'''}\par
+{\cf8\b def} {\cf19 main}():\par
+	{\cf5\i #Start with and emtpy total}\par
+	total_price {\cf4 =} {\cf4 0}\par
+	total_items {\cf4 =} {\cf4 0}\par
+	\par
+	{\cf5\i #Get the price}\par
+	price {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Input item price (stop adding items by }{\cf2 '} {\cf4 +}\par
+				  {\cf2 '}{\cf2 inputting less than 1):}{\cf2 '})\par
+	{\cf5\i #Keep asking for the price of an item until the user inputs 0}\par
+	{\cf8\b while} price {\cf4 >} {\cf4 0}:\par
+		{\cf5\i #Add the price of the new item}\par
+		total_price {\cf4 +}{\cf4 =} {\cf8 float}(price)\par
+		{\cf5\i #Keep count of the number of items added}\par
+		total_items {\cf4 +}{\cf4 =} {\cf4 1}\par
+		{\cf5\i #Ask for the price of antoher item}\par
+		price {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Input item price (stop adding items by }{\cf2 '} {\cf4 +}\par
+				    {\cf2 '}{\cf2 inputting less than 1):}{\cf2 '})\par
+\par
+	{\cf5\i #Print the subtotal}\par
+	{\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 The subtotal price of your }{\cf2 '} {\cf4 +} {\cf8 str}(total_items) {\cf4 +}\par
+		  {\cf2 '}{\cf2  items are: }{\cf2 '} {\cf4 +} {\cf8 str}({\cf8 float}(total_price)))\par
+	{\cf5\i #Print the tax}\par
+	{\cf8\b print}({\cf2 '}{\cf2 Sales tax (6}{\cf2 %}{\cf2 ) amounts to: }{\cf2 '} {\cf4 +}\par
+		  {\cf8 str}({\cf8 float}(total_price) {\cf4 *} {\cf4 0.06}))\par
+	{\cf5\i #Print the total price}\par
+	{\cf8\b print}({\cf2 '}{\cf2 The total price for you items including tax is: }{\cf2 '} {\cf4 +}\par
+		   {\cf8 str}((total_price {\cf4 +} {\cf8 float}(total_price) {\cf4 *} {\cf4 0.06})))\par
+\par
+\par
+{\cf5\i #Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+	main()\par
+}

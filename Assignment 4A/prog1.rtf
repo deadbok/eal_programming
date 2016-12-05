@@ -6,41 +6,28 @@
 {\cf2\i '''\par
 Name: Program 1\par
 Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
-Version: 1.0 (19/11-2016)\par
+Version: 1.0 (2016-12-04)\par
 \par
-Convert to roman numerals.\par
+Program that keeps a running total of the number of bugs collected during the\par
+seven days\par
 '''}\par
-\par
-\par
-{\cf8\b def} {\cf19 to_roman}(number{\cf4 =}{\cf4 1}):\par
-    {\cf2\i '''\par
-    Convert a number in to a string with Roman numerals.\par
-\par
-    :param number: Number to convert (between, and including, 1 and 10)\par
-    :return: A string with the with the Roman numeral representation.\par
-    '''}\par
-    {\cf5\i # Look up table for each number.}\par
-    roman_look_up {\cf4 =} \{{\cf4 1}: {\cf2 '}{\cf2 I}{\cf2 '}, {\cf4 2}: {\cf2 '}{\cf2 II}{\cf2 '}, {\cf4 3}: {\cf2 '}{\cf2 III}{\cf2 '}, {\cf4 4}: {\cf2 '}{\cf2 IV}{\cf2 '}, {\cf4 5}: {\cf2 '}{\cf2 V}{\cf2 '},\par
-                     {\cf4 6}: {\cf2 '}{\cf2 VI}{\cf2 '}, {\cf4 7}: {\cf2 '}{\cf2 VII}{\cf2 '}, {\cf4 8}: {\cf2 '}{\cf2 VIII}{\cf2 '}, {\cf4 9}: {\cf2 '}{\cf2 IX}{\cf2 '}, {\cf4 10}: {\cf2 '}{\cf2 X}{\cf2 '}\}\par
-    {\cf5\i # Return the Roman numeral using the look up.}\par
-    {\cf8\b return} (roman_look_up[number])\par
-\par
-\par
 {\cf8\b def} {\cf19 main}():\par
     {\cf2\i '''\par
     Main entry point.\par
     '''}\par
-    {\cf5\i # Get the amount of kilometres from the user.}\par
+    {\cf5\i # Get bugs each day.}\par
+    bugs {\cf4 =} {\cf4 0}\par
     {\cf8\b try}:\par
-        number {\cf4 =} {\cf8 int}({\cf8 input}({\cf2 '}{\cf2 Input a number in the range of 1 through 10: }{\cf2 '}))\par
-        {\cf8\b if} (number {\cf4 <} {\cf4 1}) {\cf12\b or} (number {\cf4 >} {\cf4 10}):\par
-            {\cf8\b raise} {\cf24\b ValueError}\par
+        {\cf8\b for} day {\cf12\b in} {\cf8 range}({\cf4 1},{\cf4 8}):\par
+            {\cf8\b print}({\cf2 '}{\cf2 Input the number of bugs for day \{\} }{\cf2 '}{\cf4 .}format(day) {\cf4 +}\par
+                  {\cf2 '}{\cf2 (\{\} in total until now): }{\cf2 '}{\cf4 .}format(bugs), end{\cf4 =}{\cf2 '}{\cf2 '})\par
+            bugs {\cf4 +}{\cf4 =} {\cf8 int}({\cf8 input}())\par
     {\cf8\b except} {\cf24\b ValueError}:\par
         {\cf5\i # Complain when something unexpected was entered.}\par
-        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers in the range of 1 through 10.}{\cf2 '})\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
         {\cf8 exit}({\cf4 1})\par
 \par
-    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 \{\} is }{\cf2 "}{\cf2 \{\}}{\cf2 "}{\cf2  in Roman numerals.}{\cf2 '}{\cf4 .}format(number, to_roman(number)))\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Total bugs collected during the seven days: \{\}.}{\cf2 '}{\cf4 .}format(bugs))\par
 \par
 \par
 {\cf5\i # Run this when invoked directly}\par

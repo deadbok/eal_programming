@@ -6,71 +6,66 @@
 """
 Name: Program 5
 Author: Martin Bo Kristensen Grønholdt.
-Version: 1.0 (13/11-2016)
+Version: 1.0 (2016-12-04)
 
-Get the name of a secondary colour created from mixing to primary colours.
+Calculate the avarage rainfall over a period of years.
 """
 
 
-def get_color():
-    """
-    Get the name of a primare color from the user.
+def get_rain_year():
+    '''
+    Get the monthly rainfall for a year.
 
-    :return: 'red', 'blue', or 'yellow'.
-    """
-    # Get the colour from the user, convert to lower case.
-    color = input('Enter the name of a primary colour: ').lower()
-    # Raise an exception if the input is invalid.
-    if color not in ['red', 'blue', 'yellow']:
-        raise ValueError
-    # Return the color.
-    return (color)
-
-
-def mix_colors(first_color, second_color):
-    """
-    Return the secondary colour resulting from mixing two primare ones.
-
-    :param first_color: The first primary colour.
-    :param second_color: The second primary colour.
-    :return: The resulting secondary colour.
-    """
-    # Create a look up table for all colour mixes.
-    color_look_up = {'red':
-                         {'red': 'red',
-                          'blue': 'purple',
-                          'yellow': 'orange'},
-                     'blue':
-                         {'red': 'purple',
-                          'blue': 'blue',
-                          'yellow': 'green'},
-                     'yellow':
-                         {'red': 'orange',
-                          'blue': 'green',
-                          'yellow': 'yellow'}
-                     }
-    # Return the secondary colour.
-    return (color_look_up[first_color][second_color])
+    :return: Array of rainfall each month
+    '''
+    # Create list for the values.
+    months = list()
+    # Loop through month.
+    for month in range(1, 13):
+        print('Input amount of rain for month number {} '.format(month) +
+              '( in inches): ', end='')
+        # Add the amount to the list
+        months.append(float(input()))
+    # Return the list
+    return months
 
 
 def main():
-    """
+    '''
     Program main entry point.
-    """
-    # Get the colours from the user.
+    '''
+    # Number of years.
+    years = 0
+    # List of list of values for all months of all years.
+    stats = list()
     try:
-        first_color = get_color()
-        second_color = get_color()
+        # Get the number of years from the user.
+        years = int(input('Input the number of years of rain statistics' +
+                          ' to use: '))
+
+        # Get values for all months by using looping through the years
+        for year in range(1, years + 1):
+            print('\nValues for year {}'.format(year))
+            stats.append(get_rain_year())
     except ValueError:
         # Complain when something unexpected was entered.
-        print('\nPlease use only "red", "blue", and "yellow".')
+        print('\nPlease use only numbers.')
         exit(1)
 
-    # Print the result
-    print('\nMixing the primary colours ' + first_color + ' and ' +
-          second_color + ' results in the secondary colour ' +
-          mix_colors(first_color, second_color))
+    # Print final statistics.
+    total_months = len(stats) * 12
+    print('\nNumber of month in the period: {}'.format(total_months))
 
+    #Calculate total rainfall
+    total_rainfall = 0
+    for year in range(0, years):
+        for month in range(0, 12):
+            total_rainfall += stats[year][month]
+
+    print('Total rainfall for the period (in inches): ' +
+          '{:0.2f}'.format(total_rainfall))
+    print('Avarage rainfall for the period (in inches): ' +
+          '{:0.2f}'.format(total_rainfall/total_months))
 
 # Run this when invoked directly
 if __name__ == '__main__':

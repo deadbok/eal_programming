@@ -1,70 +1,76 @@
 # Programming Exercises #
 
- 1. In the text book “Starting Out with Python - 2nd Edition”, do chapter 4: “Programming
-    Exercises”: 1, 2, 3 and 5.
+This assignment will train Python: repetition structures: while and for
+loops, if-else, elif, functions, input, format, numbers, calculations.
 
-It is a requirement to:
+1. In the text book “Starting Out with Python - 2nd Edition”,
+   do chapter 5: “Programming Exercises”: 1, 2, 3, 4, 5 and 6.
 
- 1. not use global variables.
- 2. subdivide the programs into functions.
- 3. use Passing Arguments to Functions.
- 4. draw an activity diagram for Exercises: 2, 3 and 5
+2. Draw a UML Activity Diagram for Exercise 1 and 6.
+3. Draw the Hierarchy Diagram for Exercise 6.
 
-
-## 1. Roman Numerals ##
-
-Write a program that prompts the user to enter a number within the range of 1 through 10.
-The program should display the Roman numeral version of that number. If the number is
-outside the range of 1 through 10, the program should display an error message. The fol-
-lowing table shows the Roman numerals for the numbers 1 through 10:
-
-| Number | Roman Numeral |
-|:-------|:--------------|
-|      1 |             I |
-|      2 |            II |
-|      3 |           III |
-|      4 |            IV |
-|      5 |             V |
-|      6 |            VI |
-|      7 |           VII |
-|      8 |          VIII |
-|      9 |            IX |
-|     10 |             X |
+It is a requirement, to subdivide the programs into functions. Only do
+it to an extend which makes sense.
 
 
-## 2. Areas of Rectangles ##
+##  1. Bug Collector ##
 
-The area of a rectangle is the rectangle’s length times its width. Write a program that asks
-for the length and width of two rectangles. The program should tell the user which rectangle
-has the greater area, or if the areas are the same.
+A bug collector collects bugs every day for seven days. Write a program that keeps a run-
+ning total of the number of bugs collected during the seven days. The loop should ask for
+the number of bugs collected for each day, and when the loop is finished, the program
+should display the total number of bugs collected.
 
+## 2. Calories Burned ##
 
-## 3. Mass and Weight ##
+Running on a particular treadmill you burn 3.9 calories per minute. Write a program
+that uses a loop to display the number of calories burned after 10, 15, 20, 25, and 30
+minutes.
 
-Scientists measure an object’s mass in kilograms and its weight in newtons. If you know the
-amount of mass of an object in kilograms, you can calculate its weight in newtons with the
-following formula:
+## 3. Budget Analysis ##
 
-    weight = mass * 9.8
+Write a program that asks the user to enter the amount that he or she has budgeted for a
+month. A loop should then prompt the user to enter each of his or her expenses for the
+month, and keep a running total. When the loop finishes, the program should display the
+amount that the user is over or under budget.
 
-Write a program that asks the user to enter an object’s mass, and then calculates its weight.
-If the object weighs more than 1,000 newtons, display a message indicating that it is too
-heavy. If the object weighs less than 10 newtons, display a message indicating that it is too
-light.
+## 4. Distance Traveled ###
+The distance a vehicle travels can be calculated as follows:
 
+    distance = speed * time
+    
+For example, if a train travels 40 miles per hour for three hours, the distance traveled is 120
+miles. Write a program that asks the user for the speed of a vehicle (in miles per hour) and
+the number of hours it has traveled. It should then use a loop to display the distance the
+vehicle has traveled for each hour of that time period. Here is an example of the desired
+output:
 
-## 5. Colour Mixer ##
+    What is the speed of the vehicle in mph? 40 [enter]
+    How many hours has it traveled? 3 [enter]
+   Hour    Distance Traveled 
+   ---------------------------
+    1            40
+    2            80
+    3           120
 
-The colors red, blue, and yellow are known as the primary colors because they cannot be
-made by mixing other colors. When you mix two primary colors, you get a secondary color,
-as shown here:
+## 5. Average Rainfall ##
 
- * When you mix red and blue, you get purple.
- * When you mix red and yellow, you get orange.
- * When you mix blue and yellow, you get green.
+Write a program that uses nested loops to collect data and calculate the average rain-
+fall over a period of years. The program should first ask for the number of years. The
+outer loop will iterate once for each year. The inner loop will iterate twelve times, once
+for each month. Each iteration of the inner loop will ask the user for the inches of rain-
+fall for that month. After all iterations, the program should display the number of
+months, the total inches of rainfall, and the average rainfall per month for the entire
+period.
 
-Design a program that prompts the user to enter the names of two primary colors to mix.
-If the user enters anything other than “red,” “blue,” or “yellow,” the program should dis-
-play an error message. Otherwise, the program should display the name of the secondary
-color that results.
+## 6. Celsius to Fahrenheit Table ##
 
+Write a program that displays a table of the Celsius temperatures 0 through 20 and their
+Fahrenheit equivalents. The formula for converting a temperature from Celsius to
+Fahrenheit is
+
+         9
+         -
+    F =  5C + 32
+    
+where F is the Fahrenheit temperature and C is the Celsius temperature. Your program
+must use a loop to display the table.

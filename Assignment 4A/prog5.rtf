@@ -6,71 +6,66 @@
 {\cf2\i """\par
 Name: Program 5\par
 Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
-Version: 1.0 (13/11-2016)\par
+Version: 1.0 (2016-12-04)\par
 \par
-Get the name of a secondary colour created from mixing to primary colours.\par
+Calculate the avarage rainfall over a period of years.\par
 """}\par
 \par
 \par
-{\cf8\b def} {\cf19 get_color}():\par
-    {\cf2\i """\par
-    Get the name of a primare color from the user.\par
+{\cf8\b def} {\cf19 get_rain_year}():\par
+    {\cf2\i '''\par
+    Get the monthly rainfall for a year.\par
 \par
-    :return: 'red', 'blue', or 'yellow'.\par
-    """}\par
-    {\cf5\i # Get the colour from the user, convert to lower case.}\par
-    color {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Enter the name of a primary colour: }{\cf2 '}){\cf4 .}lower()\par
-    {\cf5\i # Raise an exception if the input is invalid.}\par
-    {\cf8\b if} color {\cf12\b not} {\cf12\b in} [{\cf2 '}{\cf2 red}{\cf2 '}, {\cf2 '}{\cf2 blue}{\cf2 '}, {\cf2 '}{\cf2 yellow}{\cf2 '}]:\par
-        {\cf8\b raise} {\cf24\b ValueError}\par
-    {\cf5\i # Return the color.}\par
-    {\cf8\b return} (color)\par
-\par
-\par
-{\cf8\b def} {\cf19 mix_colors}(first_color, second_color):\par
-    {\cf2\i """\par
-    Return the secondary colour resulting from mixing two primare ones.\par
-\par
-    :param first_color: The first primary colour.\par
-    :param second_color: The second primary colour.\par
-    :return: The resulting secondary colour.\par
-    """}\par
-    {\cf5\i # Create a look up table for all colour mixes.}\par
-    color_look_up {\cf4 =} \{{\cf2 '}{\cf2 red}{\cf2 '}:\par
-                         \{{\cf2 '}{\cf2 red}{\cf2 '}: {\cf2 '}{\cf2 red}{\cf2 '},\par
-                          {\cf2 '}{\cf2 blue}{\cf2 '}: {\cf2 '}{\cf2 purple}{\cf2 '},\par
-                          {\cf2 '}{\cf2 yellow}{\cf2 '}: {\cf2 '}{\cf2 orange}{\cf2 '}\},\par
-                     {\cf2 '}{\cf2 blue}{\cf2 '}:\par
-                         \{{\cf2 '}{\cf2 red}{\cf2 '}: {\cf2 '}{\cf2 purple}{\cf2 '},\par
-                          {\cf2 '}{\cf2 blue}{\cf2 '}: {\cf2 '}{\cf2 blue}{\cf2 '},\par
-                          {\cf2 '}{\cf2 yellow}{\cf2 '}: {\cf2 '}{\cf2 green}{\cf2 '}\},\par
-                     {\cf2 '}{\cf2 yellow}{\cf2 '}:\par
-                         \{{\cf2 '}{\cf2 red}{\cf2 '}: {\cf2 '}{\cf2 orange}{\cf2 '},\par
-                          {\cf2 '}{\cf2 blue}{\cf2 '}: {\cf2 '}{\cf2 green}{\cf2 '},\par
-                          {\cf2 '}{\cf2 yellow}{\cf2 '}: {\cf2 '}{\cf2 yellow}{\cf2 '}\}\par
-                     \}\par
-    {\cf5\i # Return the secondary colour.}\par
-    {\cf8\b return} (color_look_up[first_color][second_color])\par
+    :return: Array of rainfall each month\par
+    '''}\par
+    {\cf5\i # Create list for the values.}\par
+    months {\cf4 =} {\cf8 list}()\par
+    {\cf5\i # Loop through month.}\par
+    {\cf8\b for} month {\cf12\b in} {\cf8 range}({\cf4 1}, {\cf4 13}):\par
+        {\cf8\b print}({\cf2 '}{\cf2 Input amount of rain for month number \{\} }{\cf2 '}{\cf4 .}format(month) {\cf4 +}\par
+              {\cf2 '}{\cf2 ( in inches): }{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf5\i # Add the amount to the list}\par
+        months{\cf4 .}append({\cf8 float}({\cf8 input}()))\par
+    {\cf5\i # Return the list}\par
+    {\cf8\b return} months\par
 \par
 \par
 {\cf8\b def} {\cf19 main}():\par
-    {\cf2\i """\par
+    {\cf2\i '''\par
     Program main entry point.\par
-    """}\par
-    {\cf5\i # Get the colours from the user.}\par
+    '''}\par
+    {\cf5\i # Number of years.}\par
+    years {\cf4 =} {\cf4 0}\par
+    {\cf5\i # List of list of values for all months of all years.}\par
+    stats {\cf4 =} {\cf8 list}()\par
     {\cf8\b try}:\par
-        first_color {\cf4 =} get_color()\par
-        second_color {\cf4 =} get_color()\par
+        {\cf5\i # Get the number of years from the user.}\par
+        years {\cf4 =} {\cf8 int}({\cf8 input}({\cf2 '}{\cf2 Input the number of years of rain statistics}{\cf2 '} {\cf4 +}\par
+                          {\cf2 '}{\cf2  to use: }{\cf2 '}))\par
+\par
+        {\cf5\i # Get values for all months by using looping through the years}\par
+        {\cf8\b for} year {\cf12\b in} {\cf8 range}({\cf4 1}, years {\cf4 +} {\cf4 1}):\par
+            {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Values for year \{\}}{\cf2 '}{\cf4 .}format(year))\par
+            stats{\cf4 .}append(get_rain_year())\par
     {\cf8\b except} {\cf24\b ValueError}:\par
         {\cf5\i # Complain when something unexpected was entered.}\par
-        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only }{\cf2 "}{\cf2 red}{\cf2 "}{\cf2 , }{\cf2 "}{\cf2 blue}{\cf2 "}{\cf2 , and }{\cf2 "}{\cf2 yellow}{\cf2 "}{\cf2 .}{\cf2 '})\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
         {\cf8 exit}({\cf4 1})\par
 \par
-    {\cf5\i # Print the result}\par
-    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Mixing the primary colours }{\cf2 '} {\cf4 +} first_color {\cf4 +} {\cf2 '}{\cf2  and }{\cf2 '} {\cf4 +}\par
-          second_color {\cf4 +} {\cf2 '}{\cf2  results in the secondary colour }{\cf2 '} {\cf4 +}\par
-          mix_colors(first_color, second_color))\par
+    {\cf5\i # Print final statistics.}\par
+    total_months {\cf4 =} {\cf8 len}(stats) {\cf4 *} {\cf4 12}\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Number of month in the period: \{\}}{\cf2 '}{\cf4 .}format(total_months))\par
 \par
+    {\cf5\i #Calculate total rainfall}\par
+    total_rainfall {\cf4 =} {\cf4 0}\par
+    {\cf8\b for} year {\cf12\b in} {\cf8 range}({\cf4 0}, years):\par
+        {\cf8\b for} month {\cf12\b in} {\cf8 range}({\cf4 0}, {\cf4 12}):\par
+            total_rainfall {\cf4 +}{\cf4 =} stats[year][month]\par
+\par
+    {\cf8\b print}({\cf2 '}{\cf2 Total rainfall for the period (in inches): }{\cf2 '} {\cf4 +}\par
+          {\cf2 '}{\cf2 \{:0.2f\}}{\cf2 '}{\cf4 .}format(total_rainfall))\par
+    {\cf8\b print}({\cf2 '}{\cf2 Avarage rainfall for the period (in inches): }{\cf2 '} {\cf4 +}\par
+          {\cf2 '}{\cf2 \{:0.2f\}}{\cf2 '}{\cf4 .}format(total_rainfall{\cf4 /}total_months))\par
 \par
 {\cf5\i # Run this when invoked directly}\par
 {\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par

@@ -6,46 +6,31 @@
 '''
 Name: Program 3
 Author: Martin Bo Kristensen Grønholdt.
-Version: 1.0 (19/11-2016)
+Version: 1.0 (2016-12-04)
 
-Calculate the weight of an object in newtons, warn if the object is lighter
-than 10 newtons or heavier than 1000 newtons.
+Calculate budget by first entering income and than expenses until '0' is
+entered.
 '''
-def get_weight(mass=1):
-    """
-    Get the weight in newtons from the mass in kilograms.
-
-    :param mass: Mass in kilograms.
-    :return: Weight in newtons.
-    """
-    return(mass * 9.8)
-
-
 def main():
     '''
     Program main entry point.
     '''
-    # Get the amount of purchase from the user.
     try:
-        mass = float(input('Enter the mass of the object in kilograms: '))
+        budget = float(input('Input the amount of money budgeted for' +
+                             'a month: '))
+
+        print('\nInput expenses, end inputting by entering "0"')
+        expense = float(input('Input expense: '))
+        while expense > 0:
+            budget -= expense
+            print("\nCurrent amount of budget left: {:0.2f}\n".format(budget))
+            expense = float(input('Input expense: '))
     except ValueError:
         # Complain when something unexpected was entered.
         print('\nPlease use only numbers.')
         exit(1)
 
-    # Calculate the weight.
-    weight = get_weight(mass)
-    # Print it.
-    print('\nAn object with a mass of {:0.2f} kilograms'.format(mass) +
-          ' has a weight of {:0.2f} newtons.'.format(weight))
-
-    # Print a warning if object is larger or smaller than the min, max values.
-    if weight > 1000:
-        print('Warning: the object is heavier than 1000 newtons')
-    if weight < 10:
-        print('Warning: the object is lighter than 10 newtons')
-
-
+    print("\nFinal amount of budget left: {:0.2f}\n".format(budget))
 # Run this when invoked directly
 if __name__ == '__main__':
     main()

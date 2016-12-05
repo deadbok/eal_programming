@@ -1,0 +1,53 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 4\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2016-12-04)\par
+\par
+Print distance travelled at a given speed at a given number of hours.\par
+"""}\par
+{\cf8\b def} {\cf19 get_distance}(hours{\cf4 =}{\cf4 1}, mph{\cf4 =}{\cf4 40}):\par
+    {\cf2\i '''\par
+    Get ditance travelled at a certain speed after a certain number of hours.\par
+\par
+    :param hours: Number of hours.\par
+    :param mph: Miles per hour\par
+    :return: Distance travelled\par
+    '''}\par
+    {\cf5\i # Calculate the total distance.}\par
+    {\cf8\b return} {\cf8 float}(mph {\cf4 *} hours)\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i '''\par
+    Program main entry point.\par
+    '''}\par
+    {\cf5\i # Get hours and mph from the user.}\par
+    hours {\cf4 =} {\cf4 0}\par
+    mph {\cf4 =} {\cf4 0}\par
+    {\cf8\b try}:\par
+        mph {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf2 Input the speed of the vehichle in MPH: }{\cf2 '}))\par
+        hours {\cf4 =} {\cf8 int}({\cf8 input}({\cf2 '}{\cf2 Input hours travalled by the vehichle: }{\cf2 '}))\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf5\i # Print header.}\par
+    {\cf8\b print}({\cf2 '}{\cf2 Hour}{\cf10\b \\t}{\cf2 Distance traveled}{\cf2 '})\par
+    {\cf8\b print}({\cf2 '}{\cf2 -------------------------}{\cf2 '})\par
+    {\cf5\i # Print a table of distance travelled at a certain number of housr of}\par
+    {\cf5\i # travel}\par
+    {\cf8\b for} hours {\cf12\b in} {\cf8 range}({\cf4 1}, hours {\cf4 +} {\cf4 1}):\par
+        {\cf5\i #Print result.}\par
+        {\cf8\b print}({\cf2 '}{\cf2 \{:4\}}{\cf10\b \\t}{\cf2 '}{\cf4 .}format(hours) {\cf4 +}\par
+              {\cf2 '}{\cf2 \{:12.2f\}}{\cf2 '}{\cf4 .}format(get_distance(hours)))\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

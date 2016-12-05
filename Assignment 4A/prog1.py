@@ -6,41 +6,28 @@
 '''
 Name: Program 1
 Author: Martin Bo Kristensen Grønholdt.
-Version: 1.0 (19/11-2016)
+Version: 1.0 (2016-12-04)
 
-Convert to roman numerals.
+Program that keeps a running total of the number of bugs collected during the
+seven days
 '''
-
-
-def to_roman(number=1):
-    '''
-    Convert a number in to a string with Roman numerals.
-
-    :param number: Number to convert (between, and including, 1 and 10)
-    :return: A string with the with the Roman numeral representation.
-    '''
-    # Look up table for each number.
-    roman_look_up = {1: 'I', 2: 'II', 3: 'III', 4: 'IV', 5: 'V',
-                     6: 'VI', 7: 'VII', 8: 'VIII', 9: 'IX', 10: 'X'}
-    # Return the Roman numeral using the look up.
-    return (roman_look_up[number])
-
-
 def main():
     '''
     Main entry point.
     '''
-    # Get the amount of kilometres from the user.
+    # Get bugs each day.
+    bugs = 0
     try:
-        number = int(input('Input a number in the range of 1 through 10: '))
-        if (number < 1) or (number > 10):
-            raise ValueError
+        for day in range(1,8):
+            print('Input the number of bugs for day {} '.format(day) +
+                  '({} in total until now): '.format(bugs), end='')
+            bugs += int(input())
     except ValueError:
         # Complain when something unexpected was entered.
-        print('\nPlease use only numbers in the range of 1 through 10.')
+        print('\nPlease use only numbers.')
         exit(1)
 
-    print('\n{} is "{}" in Roman numerals.'.format(number, to_roman(number)))
+    print('\nTotal bugs collected during the seven days: {}.'.format(bugs))
 
 
 # Run this when invoked directly

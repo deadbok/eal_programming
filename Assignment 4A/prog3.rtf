@@ -6,46 +6,31 @@
 {\cf2\i '''\par
 Name: Program 3\par
 Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
-Version: 1.0 (19/11-2016)\par
+Version: 1.0 (2016-12-04)\par
 \par
-Calculate the weight of an object in newtons, warn if the object is lighter\par
-than 10 newtons or heavier than 1000 newtons.\par
+Calculate budget by first entering income and than expenses until '0' is\par
+entered.\par
 '''}\par
-{\cf8\b def} {\cf19 get_weight}(mass{\cf4 =}{\cf4 1}):\par
-    {\cf2\i """\par
-    Get the weight in newtons from the mass in kilograms.\par
-\par
-    :param mass: Mass in kilograms.\par
-    :return: Weight in newtons.\par
-    """}\par
-    {\cf8\b return}(mass {\cf4 *} {\cf4 9.8})\par
-\par
-\par
 {\cf8\b def} {\cf19 main}():\par
     {\cf2\i '''\par
     Program main entry point.\par
     '''}\par
-    {\cf5\i # Get the amount of purchase from the user.}\par
     {\cf8\b try}:\par
-        mass {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf2 Enter the mass of the object in kilograms: }{\cf2 '}))\par
+        budget {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf2 Input the amount of money budgeted for}{\cf2 '} {\cf4 +}\par
+                             {\cf2 '}{\cf2 a month: }{\cf2 '}))\par
+\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Input expenses, end inputting by entering }{\cf2 "}{\cf2 0}{\cf2 "}{\cf2 '})\par
+        expense {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf2 Input expense: }{\cf2 '}))\par
+        {\cf8\b while} expense {\cf4 >} {\cf4 0}:\par
+            budget {\cf4 -}{\cf4 =} expense\par
+            {\cf8\b print}({\cf2 "}{\cf10\b \\n}{\cf2 Current amount of budget left: \{:0.2f\}}{\cf10\b \\n}{\cf2 "}{\cf4 .}format(budget))\par
+            expense {\cf4 =} {\cf8 float}({\cf8 input}({\cf2 '}{\cf2 Input expense: }{\cf2 '}))\par
     {\cf8\b except} {\cf24\b ValueError}:\par
         {\cf5\i # Complain when something unexpected was entered.}\par
         {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
         {\cf8 exit}({\cf4 1})\par
 \par
-    {\cf5\i # Calculate the weight.}\par
-    weight {\cf4 =} get_weight(mass)\par
-    {\cf5\i # Print it.}\par
-    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 An object with a mass of \{:0.2f\} kilograms}{\cf2 '}{\cf4 .}format(mass) {\cf4 +}\par
-          {\cf2 '}{\cf2  has a weight of \{:0.2f\} newtons.}{\cf2 '}{\cf4 .}format(weight))\par
-\par
-    {\cf5\i # Print a warning if object is larger or smaller than the min, max values.}\par
-    {\cf8\b if} weight {\cf4 >} {\cf4 1000}:\par
-        {\cf8\b print}({\cf2 '}{\cf2 Warning: the object is heavier than 1000 newtons}{\cf2 '})\par
-    {\cf8\b if} weight {\cf4 <} {\cf4 10}:\par
-        {\cf8\b print}({\cf2 '}{\cf2 Warning: the object is lighter than 10 newtons}{\cf2 '})\par
-\par
-\par
+    {\cf8\b print}({\cf2 "}{\cf10\b \\n}{\cf2 Final amount of budget left: \{:0.2f\}}{\cf10\b \\n}{\cf2 "}{\cf4 .}format(budget))\par
 {\cf5\i # Run this when invoked directly}\par
 {\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
     main()\par

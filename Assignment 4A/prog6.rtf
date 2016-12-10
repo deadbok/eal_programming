@@ -1,0 +1,42 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 6\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2016-12-04)\par
+\par
+Output a table with the range 0-20 degrees celsius converted to degrees\par
+Fahrenheit.\par
+"""}\par
+\par
+\par
+{\cf8\b def} {\cf19 cel2fah}(celsius {\cf4 =} {\cf4 0}):\par
+    {\cf2\i '''\par
+    Convert degrees celsius to Fahrenheit\par
+\par
+    :param celsius: Degrees celsius.\par
+    :return: Degrees Fahrenheit.\par
+    '''}\par
+    {\cf8\b return} ({\cf4 9} {\cf4 /} {\cf4 5}) {\cf4 *} celsius {\cf4 +} {\cf4 32}\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i '''\par
+    Program main entry point.\par
+    '''}\par
+    {\cf5\i # Print a header.}\par
+    {\cf8\b print}({\cf2 '}{\cf2 Conversion table from degrees Celsius to degrees Fahrenheit:}{\cf10\b \\n}{\cf2 '})\par
+    {\cf8\b print}({\cf2 '}{\cf2 Celsius}{\cf10\b \\t}{\cf10\b \\t}{\cf2 Fahrenheit}{\cf2 '})\par
+    {\cf8\b print}({\cf2 '}{\cf2 -----------------------}{\cf2 '})\par
+    {\cf5\i # Print a table of Celsius conversions from 0-20}\par
+    {\cf8\b for} celsius {\cf12\b in} {\cf8 range}({\cf4 0}, {\cf4 21}):\par
+        {\cf8\b print}({\cf2 '}{\cf2 \{:6\}}{\cf10\b \\t}{\cf10\b \\t}{\cf2 '}{\cf4 .}format(celsius) {\cf4 +}\par
+              {\cf2 '}{\cf2 \{:9.2f\}}{\cf2 '}{\cf4 .}format(cel2fah(celsius)))\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

@@ -1,78 +1,191 @@
-{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python}\par
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
 {\cf5\i # -*- coding: utf-8 -*-}\par
 {\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
 {\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
 {\cf5\i # because of the country specific letter in my surname.}\par
 {\cf2\i """\par
-Name: Program 4\par
+Name: Christmas Tree\par
 Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
-Version: 1.0 (2016-12-04)\par
+Version: 1.0 (2016-12-11)\par
 \par
 Print a christmas tree.\par
-\par
-                   *\par
-                  ***\par
-                 *VO*V\par
-                *****i*\par
-               ****iiV*O\par
-              V***O*OO***\par
-             **OO********O\par
-            *V*******VVO***\par
-           **OV*******V*O*i*\par
-          *OV*****Vi**V***O**\par
-         iii*V******VO******i*\par
-        **V****i*ii***i******iO\par
-                  ***\par
-                  ***\par
-\par
-        Balls: 15 Pct:  10.42\par
-        Cones: 15 Pct:  10.42\par
-        Candl: 14 Pct:   9.72\par
-        Stars: 100 Pct: 69.44\par
-        ----------------------\par
-        Total: 144 Pct: 100.00\par
 """}\par
+{\cf8\b from} {\cf19\b random} {\cf8\b import} randrange\par
+\par
+{\cf8\b from} {\cf19\b colorama} {\cf8\b import} Fore\par
 \par
 \par
-{\cf8\b def} {\cf19 get_distance}(hours{\cf4 =}{\cf4 1}, mph{\cf4 =}{\cf4 40}):\par
+{\cf8\b def} {\cf19 stem}(tree_width, stem_width):\par
     {\cf2\i '''\par
-    Get ditance travelled at a certain speed after a certain number of hours.\par
+    Print the stem of the christmas tree.\par
 \par
-    :param hours: Number of hours.\par
-    :param mph: Miles per hour\par
-    :return: Distance travelled\par
+    :param tree_width: Width of the christmas tree.\par
+    :param stem_width: Width of the christmas tree stem.\par
+    :return: Nothing.\par
     '''}\par
-    {\cf5\i # Calculate the total distance.}\par
-    {\cf8\b return} {\cf8 float}(mph {\cf4 *} hours)\par
+    {\cf5\i # Find the offset where the stem starts}\par
+    stem_start {\cf4 =} {\cf8 int}(tree_width {\cf4 /} {\cf4 2} {\cf4 -} {\cf4 1})\par
+    {\cf8\b for} h {\cf12\b in} {\cf8 range}({\cf4 0}, {\cf4 2}):\par
+        {\cf5\i # Loop until the end of the stem.}\par
+        {\cf8\b for} w {\cf12\b in} {\cf8 range}({\cf4 0}, stem_start {\cf4 +} stem_width):\par
+            {\cf8\b if} w {\cf4 <} stem_start:\par
+                {\cf5\i # Non stem position, print space.}\par
+                {\cf8\b print}({\cf2 '}{\cf2  }{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+            {\cf8\b else}:\par
+                {\cf5\i # Stem position, print #.}\par
+                {\cf8\b print}(Fore{\cf4 .}RED {\cf4 +} {\cf2 '}{\cf2 #}{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf8\b print}()\par
+\par
+\par
+{\cf8\b def} {\cf19 print_tree_char}(dist):\par
+    {\cf2\i '''\par
+    Print one character of the actual tree. Chooses randomly among the rest of\par
+    the characters available.\par
+\par
+    :param dist:\par
+    :return:\par
+    '''}\par
+    count {\cf4 =} {\cf8 sum}([c[{\cf4 1}] {\cf8\b for} c {\cf12\b in} dist])\par
+\par
+    {\cf5\i # We're at the last character.}\par
+    {\cf8\b if} count {\cf4 ==} {\cf4 1}:\par
+        i {\cf4 =} {\cf4 0}\par
+        {\cf5\i # Don't waste time, just find it.}\par
+        {\cf8\b while} dist[i][{\cf4 1}] {\cf4 ==} {\cf4 0}:\par
+            i {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+        {\cf5\i # And print it.}\par
+        dist[i] {\cf4 =} (dist[i][{\cf4 0}], dist[i][{\cf4 1}] {\cf4 -} {\cf4 1})\par
+        {\cf8\b print}(dist[i][{\cf4 0}])\par
+    {\cf5\i # Some other character in the tree.}\par
+    {\cf8\b else}:\par
+        {\cf5\i # Pick a random character among the rest needed.}\par
+        choice {\cf4 =} randrange({\cf4 0}, count)\par
+\par
+        {\cf5\i # Find the choice by distributing them among all the possible characters}\par
+        {\cf5\i # in the tree.}\par
+        i {\cf4 =} {\cf4 0}\par
+        {\cf8\b while} choice {\cf4 >} {\cf8 sum}([c[{\cf4 1}] {\cf8\b for} c {\cf12\b in} dist[{\cf4 0}:i {\cf4 +} {\cf4 1}]]):\par
+            i {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+        {\cf5\i # Bad choice, all used up.}\par
+        {\cf8\b if} dist[i][{\cf4 1}] {\cf4 ==} {\cf4 0}:\par
+            {\cf5\i # Make another choice}\par
+            {\cf8\b return} (print_tree_char(dist))\par
+        {\cf8\b else}:\par
+            {\cf5\i # Print the character.}\par
+            dist[i] {\cf4 =} (dist[i][{\cf4 0}], dist[i][{\cf4 1}] {\cf4 -} {\cf4 1})\par
+            {\cf8\b print}(dist[i][{\cf4 0}], end{\cf4 =}{\cf2 '}{\cf2 '})\par
+\par
+    {\cf8\b return} (dist[i][{\cf4 0}])\par
+\par
+\par
+{\cf8\b def} {\cf19 tree}(width, height, stem_width, dist):\par
+    {\cf2\i '''\par
+    Print the tree.\par
+\par
+    :param height: Height, in characters, of the tree.\par
+    :param stem_width: Width, in characters, of the tree.\par
+    :param dist: Characters and the number to be used in the tree.\par
+    :return:\par
+    '''}\par
+    {\cf5\i # Get the area.}\par
+    n_chars {\cf4 =} {\cf4 0}\par
+    {\cf8\b for} i {\cf12\b in} {\cf8 range}({\cf4 0}, {\cf4 12}):\par
+        n_chars {\cf4 +}{\cf4 =} i {\cf4 *} {\cf4 2} {\cf4 +} {\cf4 1}\par
+\par
+    {\cf5\i # Dictionary of chars, and how many have been used.}\par
+    use {\cf4 =} {\cf8 dict}()\par
+    {\cf5\i # Create a dictionary to keep a record of the number of used characters.}\par
+    {\cf8\b for} char {\cf12\b in} dist:\par
+        {\cf5\i # Add all characters to the dictionary with 0 used.}\par
+        use[char[{\cf4 0}]] {\cf4 =} {\cf4 0}\par
+\par
+    {\cf5\i # Find the middle of the tree.}\par
+    tree_middle {\cf4 =} {\cf8 int}(width {\cf4 /} {\cf4 2})\par
+    {\cf5\i # Row width of the top.}\par
+    row_width {\cf4 =} {\cf4 1}\par
+    {\cf5\i # Loop from the top down.}\par
+    {\cf8\b for} h {\cf12\b in} {\cf8 range}({\cf4 0}, height):\par
+        {\cf5\i # New line.}\par
+        {\cf8\b print}()\par
+        {\cf5\i # Loop from left to right.}\par
+        {\cf8\b for} w {\cf12\b in} {\cf8 range}({\cf4 0}, tree_middle {\cf4 +} row_width):\par
+            {\cf5\i # Print the filling spaces before the tree.}\par
+            {\cf8\b if} w {\cf4 <} (tree_middle {\cf4 -} {\cf8 int}(row_width {\cf4 /} {\cf4 2})):\par
+                {\cf8\b print}({\cf2 '}{\cf2  }{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+            {\cf5\i # Print the top.}\par
+            {\cf8\b elif} row_width {\cf4 ==} {\cf4 1}:\par
+                {\cf5\i # A star at the top.}\par
+                i {\cf4 =} {\cf4 0}\par
+                {\cf8\b while} {\cf2 '}{\cf2 *}{\cf2 '} {\cf12\b not} {\cf12\b in} dist[i][{\cf4 0}]:\par
+                    i {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+                {\cf5\i # Print the character.}\par
+                dist[i] {\cf4 =} (dist[i][{\cf4 0}], dist[i][{\cf4 1}] {\cf4 -} {\cf4 1})\par
+                {\cf8\b print}(dist[i][{\cf4 0}], end{\cf4 =}{\cf2 '}{\cf2 '})\par
+                {\cf5\i # Add to used}\par
+                use[dist[i][{\cf4 0}]] {\cf4 +}{\cf4 =} {\cf4 1}\par
+            {\cf5\i # Print the rows of the tree itself.}\par
+            {\cf8\b elif} w {\cf4 <}{\cf4 =} (tree_middle {\cf4 +} {\cf8 int}(row_width {\cf4 /} {\cf4 2})):\par
+                use[print_tree_char(dist)] {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+        {\cf5\i # Next row is wider.}\par
+        row_width {\cf4 +}{\cf4 =} {\cf4 2}\par
+\par
+    stem(width, stem_width)\par
+    {\cf8\b return}(use)\par
 \par
 \par
 {\cf8\b def} {\cf19 main}():\par
     {\cf2\i '''\par
     Program main entry point.\par
     '''}\par
-    {\cf5\i # Set percentage for the decorations.}\par
-    balls {\cf4 =} {\cf4 10}\par
-    candles {\cf4 =} {\cf4 10}\par
-    cones {\cf4 =} {\cf4 10}\par
-\par
-    {\cf5\i # Size of the tree, keep thw width an uneven number.}\par
-    width {\cf4 =} {\cf4 23}\par
-    height {\cf4 =} {\cf4 12}\par
+    {\cf5\i # Height of the tree, and stem width.}\par
+    height {\cf4 =} {\cf4 1}\par
     stem_width {\cf4 =} {\cf4 3}\par
 \par
-    {\cf5\i # Print the tree.}\par
-    {\cf8\b for} h {\cf12\b in} {\cf8 range}({\cf4 0}, height):\par
-        {\cf8\b print}({\cf2 '}{\cf2 *}{\cf2 '})\par
+    {\cf8\b try}:\par
+        height {\cf4 =} {\cf8 int}({\cf8 input}({\cf2 '}{\cf2 Input the height of the christmas tree: }{\cf2 '}))\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
 \par
-    {\cf5\i # Print the stem.}\par
-    stem_start {\cf4 =} width {\cf4 /} {\cf4 2} {\cf4 -} {\cf4 1}\par
-    {\cf8\b for} h {\cf12\b in} {\cf8 range}({\cf4 0}, {\cf4 2}):\par
-        {\cf5\i # Loop until the}\par
-        {\cf8\b for} w {\cf12\b in} {\cf8 range}({\cf4 0}, width {\cf4 +} stem_width):\par
-            {\cf8\b if} w {\cf4 <} stem_start:\par
-                {\cf8\b print}({\cf2 '}{\cf2 '})\par
-            {\cf8\b else}:\par
-                {\cf8\b print}({\cf2 '}{\cf2 *}{\cf2 '})\par
+    {\cf5\i # Get the number of characters in the tree.}\par
+    n_chars {\cf4 =} {\cf4 0}\par
+    {\cf8\b for} i {\cf12\b in} {\cf8 range}({\cf4 0}, height):\par
+        n_chars {\cf4 +}{\cf4 =} i {\cf4 *} {\cf4 2} {\cf4 +} {\cf4 1}\par
+    width {\cf4 =} i {\cf4 *} {\cf4 2} {\cf4 +} {\cf4 1}\par
+\par
+    {\cf5\i # Set number of characters for each type of decorations.}\par
+    tree_chars {\cf4 =} [\par
+        (Fore{\cf4 .}MAGENTA {\cf4 +} {\cf2 '}{\cf2 O}{\cf2 '}, {\cf8 int}((n_chars {\cf4 /} {\cf4 100}) {\cf4 *} {\cf4 10})),\par
+        (Fore{\cf4 .}LIGHTWHITE_EX {\cf4 +} {\cf2 '}{\cf2 i}{\cf2 '}, {\cf8 int}((n_chars {\cf4 /} {\cf4 100}) {\cf4 *} {\cf4 10})),\par
+        (Fore{\cf4 .}LIGHTRED_EX {\cf4 +} {\cf2 '}{\cf2 V}{\cf2 '}, {\cf8 int}((n_chars {\cf4 /} {\cf4 100}) {\cf4 *} {\cf4 10})),\par
+        (Fore{\cf4 .}LIGHTYELLOW_EX {\cf4 +} {\cf2 '}{\cf2 *}{\cf2 '}, {\cf8 int}((n_chars {\cf4 /} {\cf4 100}) {\cf4 *} {\cf4 10})),\par
+        (Fore{\cf4 .}GREEN {\cf4 +} {\cf2 '}{\cf2 #}{\cf2 '}, {\cf8 int}((n_chars {\cf4 /} {\cf4 100}) {\cf4 *} {\cf4 60}))]\par
+\par
+    {\cf5\i # Fix rounding errors by adding more green.}\par
+    tree_chars[{\cf4 4}] {\cf4 =} (tree_chars[{\cf4 4}][{\cf4 0}], tree_chars[{\cf4 4}][{\cf4 1}] {\cf4 +} n_chars {\cf4 -}\par
+                     {\cf8 sum}([c[{\cf4 1}] {\cf8\b for} c {\cf12\b in} tree_chars]))\par
+\par
+    {\cf5\i # Print the tree after a new line.}\par
+    {\cf8\b print}()\par
+    use {\cf4 =} tree(width, height, stem_width, tree_chars)\par
+\par
+    {\cf5\i # Print statistics after a new line.}\par
+    {\cf8\b print}()\par
+    total_number {\cf4 =} {\cf4 0}\par
+    total_percent {\cf4 =} {\cf4 0}\par
+    {\cf8\b for} char, number {\cf12\b in} use{\cf4 .}items():\par
+        percent {\cf4 =} number {\cf4 /} (n_chars {\cf4 /} {\cf4 100})\par
+        {\cf8\b print}({\cf2 '}{\cf2 \{\}}{\cf2 '}{\cf4 .}format(char) {\cf4 +} Fore{\cf4 .}WHITE {\cf4 +}\par
+              {\cf2 '}{\cf2 : \{:4\} = \{:5.2f\}}{\cf2 '}{\cf4 .}format(number, percent))\par
+        total_number {\cf4 +}{\cf4 =} number\par
+        total_percent {\cf4 +}{\cf4 =} percent\par
+    {\cf8\b print}(Fore{\cf4 .}WHITE {\cf4 +} {\cf2 '}{\cf2 -------------------------------}{\cf2 '})\par
+    {\cf8\b print}(Fore{\cf4 .}WHITE {\cf4 +} {\cf2 '}{\cf2    \{:4\}   \{:5.2f\}}{\cf2 '}{\cf4 .}format(total_number, total_percent))\par
 \par
 \par
 {\cf5\i # Run this when invoked directly}\par

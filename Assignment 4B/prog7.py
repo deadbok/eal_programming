@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # The above lines tell the shell to use python as interpreter when the
 # script is called directly, and that this file uses utf-8 encoding,

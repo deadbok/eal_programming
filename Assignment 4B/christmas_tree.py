@@ -178,14 +178,16 @@ def main():
     print()
     total_number = 0
     total_percent = 0
+    print(Fore.WHITE + ' Type |   Nr.  |  Percent')
+    print(Fore.WHITE + '-------------------------------')
     for char, number in use.items():
         percent = number / (n_chars / 100)
-        print('{}'.format(char) + Fore.WHITE +
-              ': {:4} = {:5.2f}'.format(number, percent))
+        print('  {}'.format(char) + Fore.WHITE +
+              '   |{:6}  | {:6.2f}%'.format(number, percent))
         total_number += number
         total_percent += percent
     print(Fore.WHITE + '-------------------------------')
-    print(Fore.WHITE + '   {:4}   {:5.2f}'.format(total_number, total_percent))
+    print(Fore.WHITE + '      |{:6}  | {:6.2f}%'.format(total_number, total_percent))
 
 
 # Run this when invoked directly

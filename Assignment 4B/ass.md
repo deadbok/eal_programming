@@ -13,8 +13,8 @@
 ### Challenge: Make a program that draws a Christmas tree. ###
 
 3. Challenge: Make the Christmas tree program and also decorate the tree. The decoration
-   should be approximately 10% balls 'O', 10% cones 'V', 10% candles 'i' and the rest stars
-   '*'. The decoration should be random, so no two trees are decorated in the same way. It
+   should be approximately 10% balls `O`, 10% cones `V`, 10% candles `i` and the rest stars
+   `*`. The decoration should be random, so no two trees are decorated in the same way. It
    should be possible to enter the number of rows for the tree.
    How many rows should the tree be? 12
 

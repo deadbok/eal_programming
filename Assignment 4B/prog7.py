@@ -54,14 +54,14 @@ def main():
         exit(1)
 
     print('\nDaily salery\t| Day\t|\tTotal salery')
-    print('------------------------------------------')
+    print('--------------------------------------------')
     total_pay = grow_or_pay(pay, days)
-    print('------------------------------------------')
+    print('--------------------------------------------')
     total_pounds = int(total_pay / 100)
     total_pennies = total_pay - (total_pounds * 100)
-    print('{:.2f} is {:.0f} pounds and {:2.0f} pennies'.format(total_pay,
-                                                               total_pounds,
-                                                               total_pennies))
+    print('{:.0f} pounds and {:2.0f} pennies in {} days.'.format(total_pounds,
+                                                                 total_pennies,
+                                                                 days))
 
 
 # Run this when invoked directly

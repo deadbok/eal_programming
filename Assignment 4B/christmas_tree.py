@@ -23,9 +23,11 @@ def stem(tree_width, stem_width):
     :param stem_width: Width of the christmas tree stem.
     :return: Nothing.
     '''
+    stem_width = int(tree_width / 7)
+    stem_height = int(tree_width / 6)
     # Find the offset where the stem starts
-    stem_start = int(tree_width / 2 - 1)
-    for h in range(0, 2):
+    stem_start = int(tree_width / 2 - (stem_width / 2))
+    for h in range(0, stem_height):
         # Loop until the end of the stem.
         for w in range(0, stem_start + stem_width):
             if w < stem_start:

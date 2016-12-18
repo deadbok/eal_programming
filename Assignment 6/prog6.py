@@ -26,7 +26,7 @@ def main():
             # Convert them to a list of integers using list comprehensions.
             numbers = [int(x) for x in numbers.split(',')]
             # Print the total sum.
-            print('The sum of the numbers: {}'.format(sum(numbers)))
+            print('The average of the numbers: {:.2f}'.format(sum(numbers) / len(numbers)))
     except IOError as ex:
         # Complain when something goes wrong with the file access.
         print('Exception: {}'.format(str(ex)))

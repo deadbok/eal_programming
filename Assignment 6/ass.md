@@ -8,9 +8,6 @@ content. Double check what files you operate on and what option is chosen to avo
 erasing a file.
 In the text book “Starting Out with Python - 2nd Edition”, do chapter 7: “Programming Exercises”:
 
- 1. File Display. Make the program both append to the actual file and to show the
-    content. See output suggestion hereafter.
- 2. File Head Display
  6. Average of Numbers
  7. Random Number File Writer
  8. Random Number File Reader
@@ -19,46 +16,6 @@ Challenge:
  10. Golf Scores
 
 Remember to read and comply with the “Hand in requirements” listed first in this document.
-
-## File Display ##
-
-Assume that a file containing a series of integers is named numbers.txt and exists on the
-computer’s disk. Write a program that displays all of the numbers in the file.
-Programming Exercises
-
-###Chapter 7 Exercise 1. Output suggestion.###
-
-    This program prompts the user for a series of numbers
-    and stores them in a file named numbers.txt
-    End the entry by typing: "0"
-    Enter number: 4
-    Enter number: 5
-    Enter number: 6
-    Enter number: 0
-    Data written to numbers.txt.
-    Now listing the content of the file numbers.txt
-    4.00
-    5.00
-    6.00
-    -------------------
-    End of file reached
-
-## File Head Display ##
-
-Write a program that asks the user for the name of a file. The program should display only
-the first five lines of the file’s contents. If the file contains less than five lines, it should dis-
-play the file’s entire contents.
-
-###Chapter 7 Exercise 2. Output suggestion.###
-
-    Display file header.
-    Enter name of file to be displayed: testText.txt
-    ------------------
-    Line 1: This is a test
-    Line 2: text to test a
-    Line 3: Python program.
-    Line 4: Only 4 lines long.
-    End of file reached
 
 ## Average of Numbers ##
 
@@ -93,7 +50,7 @@ Writer. Write another program that reads the random numbers from the file, displ
 numbers, and then display the following data:
 
  * The total of the numbers
- *  The number of random numbers read from the file
+ * The number of random numbers read from the file
 
 ## Exception Handing ##
 
@@ -141,7 +98,8 @@ Here a file that does not exist is entered:
 
 The Springfork Amateur Golf Club has a tournament every weekend. The club president
 has asked you to write two programs:
+
  1 A program that will read each player’s name and golf score as keyboard input, and then
-    save these as records in a file named golf.txt. (Each record will have a field for the
-    player’s name and a field for the player’s score.)
+   save these as records in a file named golf.txt. (Each record will have a field for the
+   player’s name and a field for the player’s score.)
  2 A program that reads the records from the golf.txt file and displays them.

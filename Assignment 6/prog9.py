@@ -4,7 +4,7 @@
 # script is called directly, and that this file uses utf-8 encoding,
 # because of the country specific letter in my surname.
 """
-Name: prog6.py
+Name: prog9.py
 Author: Martin Bo Kristensen Grønholdt.
 Version: 1.0 (2016-12-18)
 

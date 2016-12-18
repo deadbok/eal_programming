@@ -1,0 +1,62 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: prog7.py\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2016-12-18)\par
+\par
+A program that writes random integers to a file.\par
+"""}\par
+{\cf8\b from} {\cf19\b random} {\cf8\b import} randrange\par
+{\cf8\b import} {\cf19\b os}\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i '''\par
+    Program main entry point.\par
+    '''}\par
+    {\cf5\i # Get a file name and the number of integers to write to it.}\par
+    {\cf8\b try}:\par
+        filename {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Enter a file name to write the random integers to: }{\cf2 '})\par
+        count {\cf4 =} {\cf8 int}({\cf8 input}({\cf2 '}{\cf2 Enter number of random integers to generate: }{\cf2 '}))\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf8\b print}({\cf2 '}{\cf2 Please use only numbers.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+    {\cf8\b except} {\cf24\b Exception} {\cf8\b as} ex:\par
+        {\cf8\b print}({\cf2 '}{\cf2 Exception: \{\}}{\cf2 '}{\cf4 .}format({\cf8 str}(ex)))\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Something went wrong, try another name.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf5\i # Check and warn if the file exists.}\par
+    {\cf8\b if} os{\cf4 .}path{\cf4 .}exists(filename):\par
+        {\cf8\b print}({\cf2 '}{\cf2 WARNING: Path exists are you sure you want to continue }{\cf2 '} {\cf4 +}\par
+              {\cf2 '}{\cf2 overwriting (y to continue)? }{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf8\b if} {\cf8 input}() {\cf4 !=} {\cf2 '}{\cf2 y}{\cf2 '}:\par
+            {\cf8 exit}({\cf4 0})\par
+\par
+    {\cf8\b try}:\par
+        {\cf5\i # Open the file.}\par
+        {\cf8\b with} {\cf8 open}(filename, {\cf2 '}{\cf2 w}{\cf2 '}) {\cf8\b as} number_file:\par
+            {\cf5\i # Write the correct number of entries.}\par
+            {\cf8\b for} i {\cf12\b in} {\cf8 range}({\cf4 0}, count):\par
+                number {\cf4 =} randrange({\cf4 0}, {\cf4 100})\par
+                {\cf8\b if} i {\cf4 >} {\cf4 0}:\par
+                    {\cf5\i # Generate a Comma Separated File.}\par
+                    number_file{\cf4 .}write({\cf2 '}{\cf2 ,}{\cf2 '})\par
+\par
+                number_file{\cf4 .}write({\cf8 str}(number))\par
+                {\cf8\b print}({\cf2 '}{\cf2 \{\}, }{\cf2 '}{\cf4 .}format(number), end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf8\b print}({\cf2 '}{\cf2 done.}{\cf2 '})\par
+    {\cf8\b except} {\cf24\b IOError}:\par
+        {\cf8\b print}({\cf2 '}{\cf2 Error writing file.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

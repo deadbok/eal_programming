@@ -1,0 +1,101 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 6 "Test Average and Grade"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-10)\par
+\par
+Convert 5 grades from numbers into letter.\par
+"""}\par
+\par
+\par
+{\cf8\b def} {\cf19 calc_average}(grade1, grade2, grade3, grade4, grade5):\par
+    {\cf2\i """\par
+    Return the avarage of 5 scores.\par
+\par
+    :param grade1: Grade 1\par
+    :param grade2: Grade 2\par
+    :param grade3: Grade 3\par
+    :param grade4: Grade 4\par
+    :param grade5: Grade 5\par
+    :return: The average grade as a number.\par
+    """}\par
+    {\cf5\i # Return the average.}\par
+    {\cf8\b return} (grade1 {\cf4 +} grade2 {\cf4 +} grade3 {\cf4 +} grade4 {\cf4 +} grade5) {\cf4 /} {\cf4 5}\par
+\par
+\par
+{\cf8\b def} {\cf19 determine_grade}(score):\par
+    {\cf2\i """\par
+    Return the letter score using the following conversion\par
+    table:\par
+\par
+     Score    | Letter Grade\par
+    ----------|---------------\par
+     90{\u8211}100   | A\par
+     80{\u8211}89    | B\par
+     70{\u8211}79    | C\par
+     60{\u8211}69    | D\par
+     Below 60 | F\par
+\par
+    :param score: The numerical score.\par
+    :return: The letter score.\par
+    """}\par
+    {\cf5\i # Be !positive and return 'F' by default.}\par
+    ret {\cf4 =} {\cf2 '}{\cf2 F}{\cf2 '}\par
+    {\cf5\i # Use if to convert to letter score.}\par
+    {\cf8\b if} score {\cf4 >}{\cf4 =} {\cf4 90}:\par
+        ret {\cf4 =} {\cf2 '}{\cf2 A}{\cf2 '}\par
+    {\cf8\b elif} score {\cf4 >}{\cf4 =} {\cf4 80}:\par
+        ret {\cf4 =} {\cf2 '}{\cf2 B}{\cf2 '}\par
+    {\cf8\b elif} score {\cf4 >}{\cf4 =} {\cf4 70}:\par
+        ret {\cf4 =} {\cf2 '}{\cf2 C}{\cf2 '}\par
+    {\cf8\b elif} score {\cf4 >}{\cf4 =} {\cf4 60}:\par
+        ret {\cf4 =} {\cf2 '}{\cf2 D}{\cf2 '}\par
+\par
+    {\cf8\b return} ret\par
+\par
+\par
+{\cf8\b def} {\cf19 get_grade}():\par
+    {\cf2\i """\par
+    Get the one grade from the user.\par
+\par
+    :return: The grade.\par
+    """}\par
+    {\cf8\b try}:\par
+        {\cf8\b return} ({\cf8 float}({\cf8 input}({\cf2 '}{\cf2 Input a numerical score (0-100): }{\cf2 '})))\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i """\par
+    Program main entry point.\par
+    """}\par
+    {\cf5\i # Handle the input in a list.}\par
+    scores {\cf4 =} {\cf8 list}()\par
+    {\cf8\b for} i {\cf12\b in} {\cf8 range}({\cf4 5}):\par
+        scores{\cf4 .}append(get_grade())\par
+\par
+    {\cf5\i # I would much rather have passed the list, but the assignment says}\par
+    {\cf5\i # otherwise.}\par
+    average {\cf4 =} calc_average(scores[{\cf4 0}], scores[{\cf4 1}], scores[{\cf4 2}], scores[{\cf4 3}],\par
+                           scores[{\cf4 4}])\par
+\par
+    {\cf5\i # Print the input scores and their letter scores.}\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Scores: }{\cf2 '})\par
+    {\cf8\b for} score {\cf12\b in} scores:\par
+        {\cf8\b print}({\cf2 '}{\cf2  \{:6.2f\}: \{\}}{\cf2 '}{\cf4 .}format(score, determine_grade(score)))\par
+    {\cf5\i # Print the average.}\par
+    {\cf8\b print}(\par
+        {\cf2 '}{\cf10\b \\n}{\cf2 Average score \{:0.2f\}: \{\}}{\cf2 '}{\cf4 .}format(average, determine_grade(average)))\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

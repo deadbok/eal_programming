@@ -1,0 +1,74 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i '''\par
+Name: Program 1 "Total Sales"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-15)\par
+\par
+Compute the total sale for a week.\par
+'''}\par
+\par
+\par
+{\cf8\b def} {\cf19 get_sales}(weekdays):\par
+    {\cf2\i """\par
+    Get the sales figure for each day from the user.\par
+\par
+    :param weekdays: Weekdays to get the sales figures for.\par
+    :return: A list of the sales figures for the week.\par
+    """}\par
+    {\cf5\i # Create the sales list, holding sale figures.}\par
+    sales {\cf4 =} {\cf8 list}()\par
+\par
+    {\cf8\b try}:\par
+        {\cf5\i # Ask for the sales figure for each day.}\par
+        {\cf8\b for} day {\cf12\b in} weekdays:\par
+            sales{\cf4 .}append({\cf8 float}({\cf8 input}({\cf2 '}{\cf2 Input sales for \{:10\}: }{\cf2 '}{\cf4 .}format(day))))\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf8\b return} (sales)\par
+\par
+\par
+{\cf8\b def} {\cf19 print_sales}(weekdays, sales):\par
+    {\cf2\i """\par
+    Print the sales and the acumulated total.\par
+\par
+    :param weekdays: Weekdays to print the sales for.\par
+    :return: Nothing.\par
+    """}\par
+    {\cf5\i # Index into the lists}\par
+    i {\cf4 =} {\cf4 0}\par
+    {\cf5\i # Sum of sales}\par
+    {\cf8 sum} {\cf4 =} {\cf4 0}\par
+    {\cf5\i # Print the header}\par
+    {\cf8\b print}({\cf2 '}{\cf2  \{:10\}|\{:^9\} | \{:9\}}{\cf2 '}{\cf4 .}format({\cf2 '}{\cf2 Week day}{\cf2 '}, {\cf2 '}{\cf2 Sale}{\cf2 '}, {\cf2 '}{\cf2 Total}{\cf2 '}))\par
+    {\cf8\b print}({\cf2 '}{\cf2 -}{\cf2 '} {\cf4 *} {\cf4 33})\par
+    {\cf5\i # Print row for each day}\par
+    {\cf8\b for} i {\cf12\b in} {\cf8 range}({\cf8 len}(weekdays)):\par
+        {\cf8 sum} {\cf4 +}{\cf4 =} sales[i]\par
+        {\cf8\b print}({\cf2 '}{\cf2  \{:10\}|\{:9.2f\} |\{:9.2f\}}{\cf2 '}{\cf4 .}format(weekdays[i], sales[i], {\cf8 sum}))\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i '''\par
+    Main entry point.\par
+    '''}\par
+    {\cf5\i # List of the days for that are calculated.}\par
+    weekdays {\cf4 =} [{\cf2 '}{\cf2 Monday}{\cf2 '}, {\cf2 '}{\cf2 Tuesday}{\cf2 '}, {\cf2 '}{\cf2 Wednesday}{\cf2 '}, {\cf2 '}{\cf2 Thursday}{\cf2 '}, {\cf2 '}{\cf2 Friday}{\cf2 '},\par
+                {\cf2 '}{\cf2 Saturday}{\cf2 '}, {\cf2 '}{\cf2 Sunday}{\cf2 '}]\par
+    {\cf5\i # Get number of feet.}\par
+    sales {\cf4 =} get_sales(weekdays)\par
+    {\cf8\b print}()\par
+    {\cf5\i # Output result.}\par
+    print_sales(weekdays, sales)\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

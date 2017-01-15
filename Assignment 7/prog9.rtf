@@ -1,0 +1,150 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 9 "Rock, Paper, Scissors Game"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-15)\par
+\par
+A program that lets the user enter the name of a team and then displays the\par
+number of times that team has won the World Series in the time period from 1903\par
+through 2009.\par
+"""}\par
+{\cf8\b import} {\cf19\b random}\par
+\par
+\par
+{\cf8\b def} {\cf19 load_winners}(filename{\cf4 =}{\cf2 '}{\cf2 WorldSeriesWinners.txt}{\cf2 '}):\par
+    {\cf2\i """\par
+    Load the World Series winnin data from a file.\par
+\par
+    :return: Dictionary of winners and years.\par
+    """}\par
+    {\cf8\b print}({\cf2 '}{\cf2 Loading winner data...}{\cf2 '})\par
+    winners {\cf4 =} {\cf8 dict}()\par
+    {\cf8\b try}:\par
+        {\cf5\i # Keep track of the year.}\par
+        year {\cf4 =} {\cf4 1903}\par
+        {\cf5\i # Open 'numbers.txt' for reading.}\par
+        {\cf8\b with} {\cf8 open}(filename, {\cf2 '}{\cf2 r}{\cf2 '}) {\cf8\b as} data_file:\par
+            {\cf5\i # Run until 2010}\par
+            {\cf8\b while} (year {\cf4 <} {\cf4 2010}):\par
+                {\cf5\i # Skip 1904 and 1994}\par
+                {\cf8\b if} (year {\cf4 !=} {\cf4 1904}) {\cf12\b and} (year {\cf4 !=} {\cf4 1994}):\par
+                    {\cf5\i # Get the team from the file remove new lines and convert to}\par
+                    {\cf5\i # lower case to facilitate later matching.}\par
+                    team {\cf4 =} data_file{\cf4 .}readline(){\cf4 .}strip(){\cf4 .}lower()\par
+                    {\cf8\b print}({\cf2 '}{\cf10\b \\t}{\cf2 \{\}:}{\cf10\b \\t}{\cf2 \{\}}{\cf2 '}{\cf4 .}format(year, team{\cf4 .}title()))\par
+                    {\cf8\b if} team {\cf12\b in} winners{\cf4 .}keys():\par
+                        {\cf5\i # The team is here update the list with current year.}\par
+                        winners[team]{\cf4 .}append(year)\par
+                    {\cf8\b else}:\par
+                        {\cf5\i # Team is not here create a new list for the winning}\par
+                        {\cf5\i # years}\par
+                        winners[team] {\cf4 =} [year]\par
+                year {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+    {\cf8\b except} {\cf24\b IOError} {\cf8\b as} ex:\par
+        {\cf5\i # Complain when something goes wrong with the file access.}\par
+        {\cf8\b print}({\cf2 '}{\cf2 Exception: \{\}}{\cf2 '}{\cf4 .}format({\cf8 str}(ex)))\par
+        {\cf8\b print}({\cf2 '}{\cf2 Error loading winners.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+    {\cf8\b print}({\cf2 '}{\cf2 OK}{\cf10\b \\n}{\cf2 '})\par
+    {\cf8\b return} (winners)\par
+\par
+\par
+{\cf8\b def} {\cf19 get_team}(winners):\par
+    {\cf2\i """\par
+    Get the the team to get the wins for.\par
+\par
+    :return: The name that the user selected.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 list_teams}():\par
+        {\cf2\i """\par
+        List all team names in the winners dictionary.\par
+        """}\par
+        {\cf5\i # Counter for the output}\par
+        i {\cf4 =} {\cf4 1}\par
+        {\cf5\i # Print eac team}\par
+        {\cf8\b for} team {\cf12\b in} teams:\par
+            {\cf8\b print}(\par
+                {\cf2 '}{\cf2 \{\}:}{\cf10\b \\t}{\cf2 \{\} (\{\})}{\cf2 '}{\cf4 .}format(i, team{\cf4 .}title(), {\cf8 len}(winners[team])))\par
+            i {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+    {\cf5\i # List of all team names}\par
+    teams {\cf4 =} [winner {\cf8\b for} winner {\cf12\b in} winners]\par
+    {\cf8\b try}:\par
+        {\cf5\i # Ask for the sales figure for each day.}\par
+        team {\cf4 =} {\cf8 int}({\cf8 input}(\par
+            {\cf2 '}{\cf10\b \\n}{\cf2 Enter a number of the team (-1 to quit, 0 to list teams): }{\cf2 '}))\par
+        {\cf5\i # Give the user a chance to get out.}\par
+        {\cf8\b if} team {\cf4 ==} {\cf4 -}{\cf4 1}:\par
+            {\cf5\i # Signal that we want out.}\par
+            {\cf8\b return} ({\cf8 None})\par
+        {\cf5\i # List team names.}\par
+        {\cf8\b if} team {\cf4 ==} {\cf4 0}:\par
+            list_teams()\par
+            {\cf5\i # Select team.}\par
+            {\cf8\b return} get_team(winners)\par
+\par
+        {\cf5\i # Adjust for indexing the list}\par
+        team {\cf4 -}{\cf4 =} {\cf4 1}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\t}{\cf2 \{\} selected.}{\cf2 '}{\cf4 .}format(teams[team]{\cf4 .}title()))\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf10\b \\n}{\cf2 '})\par
+        {\cf5\i # Select team.}\par
+        {\cf8\b return} get_team(winners)\par
+    {\cf8\b except} {\cf24\b IndexError}:\par
+        {\cf5\i # The index was not in the list}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Team not found.}{\cf10\b \\n}{\cf2 '})\par
+        list_teams()\par
+        {\cf5\i # Select team.}\par
+        {\cf8\b return} get_team(winners)\par
+\par
+    {\cf8\b return} (teams[team])\par
+\par
+\par
+{\cf8\b def} {\cf19 print_team_info}(team, years):\par
+    {\cf2\i """\par
+    Print the number of wins and the winning years of a team.\par
+\par
+    :param team: The name of the team.\par
+    :param years: A list of ears the team has won.\par
+    """}\par
+    {\cf5\i # Create a comma seperated list of the years in a string}\par
+    year_str {\cf4 =} {\cf2 '}{\cf2 ,}{\cf2 '}{\cf4 .}join([{\cf2 '}{\cf2 \{:5\}}{\cf2 '}{\cf4 .}format(year) {\cf8\b for} year {\cf12\b in} years])\par
+    {\cf5\i # Print the numbers.}\par
+    {\cf8\b if} {\cf8 len}(years) {\cf4 >} {\cf4 1}:\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 \{\} has \{\} victories in the years:\{\}}{\cf2 '}{\cf4 .}format(team{\cf4 .}title(),\par
+                                                             {\cf8 len}(years),\par
+                                                             year_str))\par
+    {\cf8\b else}:\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 \{\} has \{\} victory in: \{\}}{\cf2 '}{\cf4 .}format(team{\cf4 .}title(), {\cf8 len}(years),\par
+                                                  year_str))\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i '''\par
+    Program main entry point.\par
+    '''}\par
+    {\cf5\i # Load the data}\par
+    winners {\cf4 =} load_winners()\par
+    {\cf5\i # Select a team.}\par
+    team {\cf4 =} get_team(winners)\par
+    {\cf5\i # Keep going until the user says stop.}\par
+    {\cf8\b while} team {\cf12\b is} {\cf12\b not} {\cf8 None}:\par
+        {\cf5\i # Print team info}\par
+        print_team_info(team, winners[team])\par
+        {\cf5\i # Select team}\par
+        team {\cf4 =} get_team(winners)\par
+\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Bye.}{\cf2 '})\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

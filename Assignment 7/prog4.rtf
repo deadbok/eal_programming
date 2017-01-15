@@ -1,0 +1,83 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 4 "World Series Champions"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-15)\par
+\par
+Get 20 numbers from the user put them in a list and show:\par
+\par
+ * The lowest number in the list\par
+ * The highest number in the list\par
+ * The total of the numbers in the list\par
+ * The average of the numbers in the list.\par
+"""}\par
+\par
+\par
+{\cf8\b def} {\cf19 get_numbers}(numbers):\par
+    {\cf2\i """\par
+    Get some numbers from the user.\par
+\par
+    :param numbers: Number of numbers to generate.\par
+    :return: A list of random numbers.\par
+    """}\par
+    {\cf5\i # Create the list.}\par
+    number_list {\cf4 =} {\cf8 list}()\par
+    {\cf5\i # Ask nicely.}\par
+    {\cf8\b print}({\cf2 '}{\cf2 Please input \{\} numbers:}{\cf2 '}{\cf4 .}format(numbers))\par
+    {\cf8\b try}:\par
+        {\cf5\i # Counter for the output.}\par
+        i {\cf4 =} {\cf4 0}\par
+        {\cf5\i # Ask for each number.}\par
+        {\cf8\b for} number {\cf12\b in} {\cf8 range}(numbers):\par
+            i {\cf4 +}{\cf4 =} {\cf4 1}\par
+            number_list{\cf4 .}append({\cf8 float}({\cf8 input}({\cf2 '}{\cf10\b \\t}{\cf2 Input \{\}. number: }{\cf2 '}{\cf4 .}format(i))))\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please use only numbers.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf8\b return} (number_list)\par
+\par
+\par
+{\cf8\b def} {\cf19 print_numbers_info}(numbers):\par
+    {\cf2\i """\par
+    Print info about a list of numbers\par
+\par
+    :param numbers: The list of numbers.\par
+    """}\par
+    {\cf5\i # The numbers, sorted.}\par
+    sorted_numbers {\cf4 =} {\cf8 sorted}(numbers)\par
+\par
+    {\cf5\i # Print them}\par
+    {\cf8\b print}({\cf2 '}{\cf2 The sorted numbers are:}{\cf10\b \\n}{\cf10\b \\t}{\cf2 \{\}}{\cf2 '}{\cf4 .}format(\par
+        {\cf2 '}{\cf10\b \\n}{\cf10\b \\t}{\cf2 '}{\cf4 .}join([{\cf2 '}{\cf2 \{:13.2f\}}{\cf2 '}{\cf4 .}format(number) {\cf8\b for} number {\cf12\b in} sorted_numbers])))\par
+    {\cf8\b print}()\par
+    {\cf5\i # Print the rest of the info.}\par
+    {\cf8\b print}({\cf2 '}{\cf2 The lowest number is: \{:.2f\}}{\cf2 '}{\cf4 .}format(sorted_numbers[{\cf4 0}]))\par
+    {\cf8\b print}({\cf2 '}{\cf2 The highest number is: \{:.2f\}}{\cf2 '}{\cf4 .}format(sorted_numbers[{\cf4 -}{\cf4 1}]))\par
+    {\cf8\b print}({\cf2 '}{\cf2 The total of the numbers is: \{:.2f\}}{\cf2 '}{\cf4 .}format({\cf8 sum}(numbers)))\par
+    {\cf8\b print}({\cf2 '}{\cf2 The average of the numbers is: \{:.2f\}}{\cf2 '}{\cf4 .}format(\par
+        {\cf8 sum}(numbers) {\cf4 /} {\cf8 len}(numbers)))\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i """\par
+    Program main entry point.\par
+    """}\par
+    {\cf5\i # Handle the input in a list.}\par
+    numbers {\cf4 =} {\cf8 list}()\par
+    numbers {\cf4 =} get_numbers({\cf4 20})\par
+\par
+    {\cf8\b print}()\par
+\par
+    print_numbers_info(numbers)\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

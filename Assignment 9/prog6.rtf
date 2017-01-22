@@ -1,0 +1,75 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 4 "Average Number of Words"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-22)\par
+\par
+Read a file with one sentence per line, and calculates the average number of\par
+words per sentence.\par
+"""}\par
+\par
+\par
+{\cf8\b def} {\cf19 load_sentences}(filename{\cf4 =}{\cf2 '}{\cf2 textErrorList.txt}{\cf2 '}):\par
+    {\cf2\i """\par
+    Load sentences from a file separated by lines.\par
+\par
+    :return: List of sentences.\par
+    """}\par
+    {\cf8\b print}({\cf2 '}{\cf2 Loading text data...}{\cf2 '})\par
+    {\cf5\i # List of sentences}\par
+    sentences {\cf4 =} {\cf8 list}()\par
+    {\cf5\i # Load the file}\par
+    {\cf8\b try}:\par
+        {\cf8\b with} {\cf8 open}(filename, {\cf2 '}{\cf2 r}{\cf2 '}) {\cf8\b as} data_file:\par
+            {\cf8\b for} line {\cf12\b in} data_file:\par
+                {\cf5\i # Strip line endings}\par
+                sentences{\cf4 .}append(line{\cf4 .}strip())\par
+    {\cf8\b except} {\cf24\b IOError} {\cf8\b as} ex:\par
+        {\cf5\i # Complain when something goes wrong with the file access.}\par
+        {\cf8\b print}({\cf2 '}{\cf2 Exception: \{\}}{\cf2 '}{\cf4 .}format({\cf8 str}(ex)))\par
+        {\cf8\b print}({\cf2 '}{\cf2 Error loading winners.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+    {\cf8\b print}({\cf2 '}{\cf2 OK}{\cf10\b \\n}{\cf2 '})\par
+    {\cf8\b return} (sentences)\par
+\par
+\par
+{\cf8\b def} {\cf19 count_words}(sentences):\par
+    {\cf2\i """\par
+    Count words in a list of sentences separated by space.\par
+\par
+    :param sentences: List of sentences.\par
+    :return: Number of words.\par
+    """}\par
+    {\cf5\i # Count all words and print what is going on.}\par
+    i {\cf4 =} {\cf4 1}\par
+    total_n_words {\cf4 =} {\cf4 0}\par
+    {\cf8\b for} sentence {\cf12\b in} sentences:\par
+        {\cf5\i # Split word by spaces}\par
+        words {\cf4 =} sentence{\cf4 .}split()\par
+        n_words {\cf4 =} {\cf8 len}(words)\par
+        total_n_words {\cf4 +}{\cf4 =} n_words\par
+        {\cf8\b print}({\cf2 '}{\cf2 Line \{:2\}, \{:2\} words:}{\cf10\b \\t}{\cf2 \{\}}{\cf2 '}{\cf4 .}format(i, n_words,\par
+                                                  {\cf8 str}(words){\cf4 .}strip({\cf2 "}{\cf2 []}{\cf2 "})))\par
+        i {\cf4 +}{\cf4 =} {\cf4 1}\par
+    {\cf8\b return} (total_n_words)\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i """\par
+    Program main entry point.\par
+    """}\par
+    sentences {\cf4 =} load_sentences()\par
+    n_words {\cf4 =} count_words(sentences)\par
+    {\cf5\i # Print result.}\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Average number of words per sentence: \{:.2f\}}{\cf2 '}{\cf4 .}format(\par
+        n_words {\cf4 /} {\cf8 len}(sentences)))\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

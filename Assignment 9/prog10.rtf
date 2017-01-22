@@ -1,0 +1,84 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 9 "Most Frequent Character"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-22)\par
+\par
+Display the most frequent character in a string entered by the user.\par
+"""}\par
+\par
+\par
+{\cf8\b def} {\cf19 ch_freqency}(data):\par
+    {\cf2\i """\par
+    Count the occurrence of each character in the data, and return the count in\par
+    a dictionary.\par
+\par
+    :param data: Input string\par
+    :return: List of tuples (character, count).\par
+    """}\par
+    {\cf5\i # Dictionary to keep count}\par
+    counts {\cf4 =} {\cf8 dict}()\par
+    {\cf5\i # Strip whitespaces and lowercase.}\par
+    data {\cf4 =} {\cf2 '}{\cf2 '}{\cf4 .}join(data{\cf4 .}split()){\cf4 .}lower()\par
+    {\cf5\i # Run through all characters.}\par
+    {\cf8\b for} ch {\cf12\b in} data:\par
+        {\cf5\i # Create a new entry if it is not there, else add.}\par
+        {\cf8\b if} ch {\cf12\b not} {\cf12\b in} counts{\cf4 .}keys():\par
+            counts[ch] {\cf4 =} {\cf4 1}\par
+        {\cf8\b else}:\par
+            counts[ch] {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+    {\cf5\i # The final list.}\par
+    ret {\cf4 =} {\cf8 list}()\par
+    {\cf5\i # Sort the dictionary entries by value, and them to a list as tuples.}\par
+    {\cf8\b for} w {\cf12\b in} {\cf8 sorted}(counts, key{\cf4 =}counts{\cf4 .}get, reverse{\cf4 =}{\cf8 True}):\par
+        ret{\cf4 .}append((w, counts[w]))\par
+\par
+    {\cf8\b return} ret\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i '''\par
+    Program main entry point.\par
+    '''}\par
+    {\cf5\i # Get string from user.}\par
+    user_str {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Input a string: }{\cf2 '})\par
+\par
+    {\cf5\i # Count the characters}\par
+    counts {\cf4 =} ch_freqency(user_str)\par
+\par
+    {\cf5\i # Get the highest count from the sorted list.}\par
+    {\cf8 max} {\cf4 =} counts[{\cf4 0}][{\cf4 1}]\par
+    {\cf5\i # List of other characters with max count.}\par
+    other_ch {\cf4 =} {\cf8 list}()\par
+    {\cf5\i # Just a counter.}\par
+    i {\cf4 =} {\cf4 1}\par
+    {\cf5\i # Current entry}\par
+    count {\cf4 =} counts[i]\par
+    {\cf5\i # Find all other characters that occur as many times as the most occurring.}\par
+    {\cf8\b while} count[{\cf4 1}] {\cf4 ==} {\cf8 max}:\par
+        other_ch{\cf4 .}append(count[{\cf4 0}])\par
+        i {\cf4 +}{\cf4 =} {\cf4 1}\par
+        count {\cf4 =} counts[i]\par
+\par
+    {\cf5\i # Print the result.}\par
+    {\cf8\b print}({\cf2 '}{\cf2 Most frequent character }{\cf2 "}{\cf2 \{\}}{\cf2 "}{\cf2  occurs \{\} times}{\cf2 '}{\cf4 .}format(counts[{\cf4 0}][{\cf4 0}],\par
+                                                                counts[{\cf4 0}][{\cf4 1}]),\par
+          end{\cf4 =}{\cf2 '}{\cf2 '})\par
+\par
+    {\cf5\i # Print contenders or end the line.}\par
+    {\cf8\b if} {\cf8 len}(other_ch):\par
+        {\cf8\b print}({\cf2 '}{\cf2  (characters that occur the same number of times: \{\}).}{\cf2 '}{\cf4 .}format(\par
+            {\cf8 str}(other_ch){\cf4 .}strip({\cf2 "}{\cf2 []}{\cf2 "})))\par
+    {\cf8\b else}:\par
+        {\cf8\b print}({\cf2 '}{\cf2 .}{\cf2 '})\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

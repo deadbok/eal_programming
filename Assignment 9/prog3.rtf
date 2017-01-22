@@ -1,0 +1,48 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i '''\par
+Name: Program 1 "Date Printer"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-22)\par
+\par
+A program that reads a date in the form mm/dd/yyyy from the user and reformat\par
+it to the form March 12, 2012.\par
+'''}\par
+{\cf8\b from} {\cf19\b datetime} {\cf8\b import} datetime\par
+\par
+{\cf8\b def} {\cf19 get_date}():\par
+    {\cf2\i """\par
+    Get a date of the form mm/dd/yyyy, complain if input is wrong.\par
+\par
+    :return: A datetime object.\par
+    """}\par
+    date_str {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Input a date in the form mm/dd/yyyy: }{\cf2 '})\par
+\par
+    {\cf5\i # Do sanity check of the input.}\par
+    {\cf8\b try}:\par
+        {\cf5\i # Use the datetime object function strptime to from correct form,}\par
+        {\cf5\i # gives us free validation of the input.}\par
+        date {\cf4 =} datetime{\cf4 .}strptime(date_str, {\cf2 '}{\cf2 %}{\cf2 m/}{\cf9\b %d}{\cf2 /}{\cf2 %}{\cf2 Y}{\cf2 '})\par
+    {\cf8\b except} {\cf24\b ValueError}:\par
+        {\cf5\i # Complain when something unexpected was entered.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Please enter a date of the form mm/dd/yyyy.}{\cf2 '})\par
+        {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf8\b return} date\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i '''\par
+    Main entry point.\par
+    '''}\par
+    date {\cf4 =} get_date()\par
+    {\cf5\i # Use the datetime object function strftime to convert to the correct form.}\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 The date is: \{\}}{\cf2 '}{\cf4 .}format(date{\cf4 .}strftime({\cf2 '}{\cf2 %}{\cf2 B }{\cf9\b %d}{\cf2 , }{\cf2 %}{\cf2 Y}{\cf2 '})))\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

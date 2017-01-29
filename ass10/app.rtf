@@ -1,0 +1,300 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf2\i """\par
+Name: Program 8 "Name and Email Addresses"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-29)\par
+\par
+Program control and ui code.\par
+"""}\par
+{\cf8\b from} {\cf19\b data} {\cf8\b import} Data\par
+\par
+\par
+{\cf8\b class} {\cf19\b App}:\par
+    {\cf2\i """\par
+    This class takes care of the overall control and ui of the application.\par
+    """}\par
+    {\cf5\i # The key assignments for the menu.}\par
+    QUIT {\cf4 =} {\cf4 0}\par
+    ADD {\cf4 =} {\cf4 1}\par
+    EDIT {\cf4 =} {\cf4 2}\par
+    DEL {\cf4 =} {\cf4 3}\par
+    SEARCH {\cf4 =} {\cf4 4}\par
+    LIST {\cf4 =} {\cf4 5}\par
+    SELECT {\cf4 =} {\cf4 6}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, db_file_name):\par
+        {\cf2\i """\par
+        Create the application class.\par
+\par
+        :param db_file_name: The name of the file to pickle the data to and\par
+                             from.\par
+        """}\par
+        {\cf5\i # File name to save the data to.}\par
+        {\cf8 self}{\cf4 .}db_file_name {\cf4 =} db_file_name\par
+        {\cf5\i # The object that holds the actual data.}\par
+        {\cf8 self}{\cf4 .}data {\cf4 =} Data(db_file_name)\par
+        {\cf5\i # List of menu items, their numbers, and methods.}\par
+        {\cf8 self}{\cf4 .}menu_items {\cf4 =} [\par
+            ({\cf8 self}{\cf4 .}QUIT, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}QUIT, {\cf2 '}{\cf2 Quit}{\cf2 '}),\par
+             {\cf8 None}),\par
+            ({\cf8 self}{\cf4 .}ADD, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}ADD, {\cf2 '}{\cf2 Add an entry}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}add),\par
+            ({\cf8 self}{\cf4 .}EDIT, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}EDIT, {\cf2 '}{\cf2 Edit an entry}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}edit),\par
+            ({\cf8 self}{\cf4 .}DEL, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}DEL, {\cf2 '}{\cf2 Delete an entry}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}delete),\par
+            ({\cf8 self}{\cf4 .}SEARCH, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}SEARCH, {\cf2 '}{\cf2 Search for an entry}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}search),\par
+            ({\cf8 self}{\cf4 .}LIST, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}LIST, {\cf2 '}{\cf2 List all entries}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}printAll),\par
+            ({\cf8 self}{\cf4 .}SELECT, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}SELECT, {\cf2 '}{\cf2 Select an entry}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}select)]\par
+        {\cf5\i # Currently no entry is selected.}\par
+        {\cf8 self}{\cf4 .}selected {\cf4 =} {\cf8 None}\par
+        {\cf8 self}{\cf4 .}op {\cf4 =} {\cf4 -}{\cf4 1}\par
+\par
+    {\cf8\b def} {\cf19 menu}({\cf8 self}):\par
+        {\cf2\i """\par
+        Print the main menu.\par
+        """}\par
+        {\cf5\i # Print header and selection name.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Main menu}{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}selected {\cf12\b is} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf2  (no entry selected):}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf8\b print}({\cf2 '}{\cf2  (\{\} selected): }{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}selected))\par
+\par
+        {\cf5\i # Print menu entries.}\par
+        {\cf8\b for} entry {\cf12\b in} {\cf8 self}{\cf4 .}menu_items:\par
+            {\cf8\b print}(entry[{\cf4 1}])\par
+\par
+        {\cf5\i # Print the data of the selected entry.}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}selected {\cf12\b is} {\cf12\b not} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Selected: }{\cf2 '})\par
+            {\cf8 self}{\cf4 .}printEntry({\cf8 self}{\cf4 .}selected, {\cf8 False})\par
+\par
+    {\cf8\b def} {\cf19 selectOp}({\cf8 self}):\par
+        {\cf2\i """\par
+        Present a menu and validate the user selection.\par
+        """}\par
+        {\cf5\i # Show the menu.}\par
+        {\cf8 self}{\cf4 .}menu()\par
+        {\cf5\i # Get the user choice.}\par
+        choice {\cf4 =} {\cf8 input}({\cf2 '}{\cf10\b \\n}{\cf2 Select operation: }{\cf2 '})\par
+        {\cf5\i # Blank line.}\par
+        {\cf8\b print}({\cf2 '}{\cf2 '})\par
+\par
+        {\cf5\i # Validate the user input.}\par
+        {\cf8\b try}:\par
+            {\cf8 self}{\cf4 .}op {\cf4 =} {\cf8 int}(choice)\par
+            {\cf5\i # Check if the choice is within range.}\par
+            {\cf8\b if} ({\cf8 self}{\cf4 .}op {\cf4 <} {\cf4 0}) {\cf12\b or} ({\cf8 self}{\cf4 .}op {\cf4 >} {\cf8 len}({\cf8 self}{\cf4 .}menu_items)):\par
+                {\cf8\b raise} {\cf24\b ValueError}\par
+        {\cf8\b except} {\cf24\b ValueError}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 Wrong input, please try again}{\cf2 '})\par
+            {\cf5\i # Call recursively, program dies if you do enough wrong choices,}\par
+            {\cf5\i # because of this.}\par
+            {\cf8 self}{\cf4 .}selectOp()\par
+\par
+    {\cf8\b def} {\cf19 add}({\cf8 self}):\par
+        {\cf2\i """\par
+        Add entry.\par
+        """}\par
+        {\cf5\i # Get the name of the new entry.}\par
+        name {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Input the name of the new entry: }{\cf2 '})\par
+        {\cf5\i # Check if the key exists}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}data{\cf4 .}isEntry(name):\par
+            {\cf8\b print}({\cf2 '}{\cf2 There is an existing entry under that name}{\cf2 '} {\cf4 +}\par
+                  {\cf2 '}{\cf2 , you can only edit it.}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf5\i # The key is OK, get the e-mail address.}\par
+            email {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Input the e-mail address of the new entry: }{\cf2 '})\par
+            {\cf5\i # Add the data.}\par
+            {\cf8 self}{\cf4 .}data{\cf4 .}add(name, email)\par
+            {\cf8\b print}({\cf2 '}{\cf2 \{\} added}{\cf2 '}{\cf4 .}format(name))\par
+        {\cf5\i # Be nice and select the entry.}\par
+        {\cf8 self}{\cf4 .}selected {\cf4 =} name\par
+\par
+    {\cf8\b def} {\cf19 edit}({\cf8 self}):\par
+        {\cf2\i """\par
+        Edit an entry.\par
+        """}\par
+        {\cf5\i # Check if a valid entry is selected.}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}selected {\cf12\b is} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 An entry must be selected}{\cf2 '})\par
+        {\cf8\b elif} {\cf8 self}{\cf4 .}selected {\cf12\b not} {\cf12\b in} {\cf8 self}{\cf4 .}data{\cf4 .}entries(){\cf4 .}keys():\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name }{\cf2 "}{\cf2 \{\}}{\cf2 "}{\cf2  not found}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}selected))\par
+            {\cf8 self}{\cf4 .}selected {\cf4 =} {\cf8 None}\par
+        {\cf8\b else}:\par
+            {\cf5\i # Get new name.}\par
+            new_name {\cf4 =} {\cf8 input}(\par
+                {\cf2 '}{\cf2 Input the new name of the entry [\{\}]: }{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}selected))\par
+            {\cf5\i # Chose default on empty.}\par
+            {\cf8\b if} {\cf8 len}(new_name) {\cf4 <} {\cf4 1}:\par
+                new_name {\cf4 =} {\cf8 self}{\cf4 .}selected\par
+\par
+            {\cf5\i # Get new e-mail.}\par
+            email {\cf4 =} {\cf8 input}(\par
+                {\cf2 '}{\cf2 Input the new e-mail address of the entry [\{\}]: }{\cf2 '}{\cf4 .}format(\par
+                    {\cf8 self}{\cf4 .}data{\cf4 .}entries()[{\cf8 self}{\cf4 .}selected]))\par
+            {\cf5\i # Chose default on empty.}\par
+            {\cf8\b if} {\cf8 len}(email) {\cf4 <} {\cf4 1}:\par
+                email {\cf4 =} {\cf8 self}{\cf4 .}data{\cf4 .}entries()[{\cf8 self}{\cf4 .}selected]\par
+\par
+            {\cf5\i # Apply the changed data.}\par
+            {\cf8 self}{\cf4 .}data{\cf4 .}edit({\cf8 self}{\cf4 .}selected, new_name, email)\par
+            {\cf5\i # Select the item.}\par
+            {\cf8 self}{\cf4 .}selected {\cf4 =} new_name\par
+            {\cf8\b print}({\cf2 '}{\cf2 \{\} changed}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}selected))\par
+\par
+    {\cf8\b def} {\cf19 delete}({\cf8 self}):\par
+        {\cf2\i """\par
+        Delete an entry.\par
+        """}\par
+        {\cf5\i # Check if a valid entry is selected.}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}selected {\cf12\b is} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 An entry must be selected}{\cf2 '})\par
+        {\cf8\b elif} {\cf8 self}{\cf4 .}selected {\cf12\b not} {\cf12\b in} {\cf8 self}{\cf4 .}data{\cf4 .}entries(){\cf4 .}keys():\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name }{\cf2 "}{\cf2 \{\}}{\cf2 "}{\cf2  not found}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}selected))\par
+            {\cf8 self}{\cf4 .}selected {\cf4 =} {\cf8 None}\par
+        {\cf8\b else}:\par
+            {\cf5\i # Yep. Delete it.}\par
+            {\cf8 self}{\cf4 .}data{\cf4 .}delete({\cf8 self}{\cf4 .}selected)\par
+            {\cf8\b print}({\cf2 '}{\cf2 \{\} deleted}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}selected))\par
+            {\cf5\i # Un-select.}\par
+            {\cf8 self}{\cf4 .}selected {\cf4 =} {\cf8 None}\par
+\par
+    {\cf8\b def} {\cf19 search}({\cf8 self}):\par
+        {\cf2\i """\par
+        Search for an entry by a string.\par
+        :return:\par
+        """}\par
+        {\cf5\i # Check if there are any entries.}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}data{\cf4 .}n_entries():\par
+            {\cf5\i # Print some help.}\par
+            {\cf8\b print}({\cf2 '}{\cf2 Supported search patterns:}{\cf10\b \\n}{\cf2 '} {\cf4 +}\par
+                  {\cf2 '}{\cf2  *}{\cf10\b \\t}{\cf2 matches everything}{\cf10\b \\n}{\cf2 '} {\cf4 +}\par
+                  {\cf2 '}{\cf2  ?}{\cf10\b \\t}{\cf2 	matches any single character}{\cf10\b \\n}{\cf2 '} {\cf4 +}\par
+                  {\cf2 '}{\cf2  [seq]}{\cf10\b \\t}{\cf2 matches any character in seq}{\cf10\b \\n}{\cf2 '} {\cf4 +}\par
+                  {\cf2 '}{\cf2 [!seq]}{\cf10\b \\t}{\cf2 matches any character not in seq}{\cf10\b \\n}{\cf2 '})\par
+            {\cf5\i # Get the search string from the user.}\par
+            search_str {\cf4 =} {\cf8 input}({\cf2 '}{\cf2 Input search string: }{\cf2 '})\par
+            {\cf5\i # Search the data.}\par
+            {\cf8 self}{\cf4 .}data{\cf4 .}search(search_str)\par
+\par
+            {\cf5\i # Print the number of entries found.}\par
+            {\cf8\b if} {\cf8 self}{\cf4 .}data{\cf4 .}n_search_results() {\cf4 ==} {\cf4 1}:\par
+                {\cf8\b print}({\cf2 '}{\cf2 Found \{\} entry}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}data{\cf4 .}n_search_results()))\par
+            {\cf8\b else}:\par
+                {\cf8\b print}({\cf2 '}{\cf2 Found \{\} entries}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}data{\cf4 .}n_search_results()))\par
+            {\cf5\i # Select item if it there is only one.}\par
+            {\cf8\b if} {\cf8 self}{\cf4 .}data{\cf4 .}n_search_results() {\cf4 ==} {\cf4 1}:\par
+                {\cf8 self}{\cf4 .}selected {\cf4 =} {\cf8 self}{\cf4 .}data{\cf4 .}search_results()[{\cf4 0}]\par
+            {\cf8\b else}:\par
+                {\cf8\b print}({\cf2 '}{\cf2 Use a more specific search string.}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 No entries}{\cf2 '})\par
+\par
+    {\cf8\b def} {\cf19 select}({\cf8 self}):\par
+        {\cf2\i """\par
+        Select an entry.\par
+        """}\par
+        {\cf5\i # Are there any entries?}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}data{\cf4 .}n_entries():\par
+            {\cf5\i # De-select currently selected.}\par
+            {\cf8 self}{\cf4 .}selected {\cf4 =} {\cf8 None}\par
+            {\cf5\i # Do a search.}\par
+            {\cf8 self}{\cf4 .}search()\par
+            {\cf5\i # If none is selected print the result of the search.}\par
+            {\cf8\b if} {\cf8 self}{\cf4 .}selected {\cf12\b is} {\cf8 None}:\par
+                {\cf8 self}{\cf4 .}printSearch()\par
+        {\cf8\b else}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 No entries}{\cf2 '})\par
+\par
+    {\cf8\b def} {\cf19 printEntry}({\cf8 self}, name, selection{\cf4 =}{\cf8 True}):\par
+        {\cf2\i """\par
+        Print a named entry.\par
+\par
+        :param name: The name of the entry.\par
+        :param selection: Highlight selection.\par
+        """}\par
+        {\cf5\i # Check the key.}\par
+        {\cf8\b if} name {\cf12\b not} {\cf12\b in} {\cf8 self}{\cf4 .}data{\cf4 .}entries(){\cf4 .}keys():\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name }{\cf2 "}{\cf2 \{\}}{\cf2 "}{\cf2  not found}{\cf2 '}{\cf4 .}format(name))\par
+        {\cf8\b else}:\par
+            {\cf5\i # Print and highlight selection.}\par
+            {\cf8\b if} selection {\cf12\b and} {\cf8 self}{\cf4 .}selected {\cf4 ==} name:\par
+                {\cf8\b print}({\cf2 '}{\cf2 * Name: \{:20\}}{\cf2 '}{\cf4 .}format(name) {\cf4 +} {\cf2 '}{\cf2  - }{\cf2 '} {\cf4 +}\par
+                      {\cf2 '}{\cf2 E-mail: \{:>20\} *}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}data{\cf4 .}email(name)))\par
+            {\cf8\b else}:\par
+                {\cf8\b print}({\cf2 '}{\cf2   Name: \{:20\}}{\cf2 '}{\cf4 .}format(name) {\cf4 +} {\cf2 '}{\cf2  - }{\cf2 '} {\cf4 +}\par
+                      {\cf2 '}{\cf2 E-mail: \{:>20\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}data{\cf4 .}email(name)))\par
+\par
+    {\cf8\b def} {\cf19 printAll}({\cf8 self}):\par
+        {\cf2\i """\par
+        Print all entries.\par
+        """}\par
+        {\cf8\b if} {\cf8 len}({\cf8 self}{\cf4 .}data{\cf4 .}entries()) {\cf4 !=} {\cf4 0}:\par
+            {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 All entries:}{\cf2 '})\par
+            {\cf5\i # Print all entries.}\par
+            {\cf8\b for} name {\cf12\b in} {\cf8 self}{\cf4 .}data{\cf4 .}entries(){\cf4 .}keys():\par
+                {\cf8 self}{\cf4 .}printEntry(name)\par
+        {\cf8\b else}:\par
+            {\cf5\i # Tell that there are no entries.}\par
+            {\cf8\b print}({\cf2 '}{\cf2 No entries}{\cf2 '})\par
+\par
+    {\cf8\b def} {\cf19 printSearch}({\cf8 self}):\par
+        {\cf2\i """\par
+        Print all entries from the current search result.\par
+        """}\par
+        {\cf5\i # Result counter.}\par
+        i {\cf4 =} {\cf4 1}\par
+\par
+        {\cf5\i # Print results.}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}data{\cf4 .}n_search_results() {\cf4 ==} {\cf4 0}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 No search results}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf8\b for} name {\cf12\b in} {\cf8 self}{\cf4 .}data{\cf4 .}search_results():\par
+                {\cf8\b print}({\cf2 '}{\cf2  \{:d\}; }{\cf2 '}{\cf4 .}format(i), end{\cf4 =}{\cf2 '}{\cf2 '})\par
+                {\cf8 self}{\cf4 .}printEntry(name)\par
+                i {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+    {\cf8\b def} {\cf19 save}({\cf8 self}):\par
+        {\cf2\i """\par
+        Save the data.\par
+        """}\par
+        {\cf8\b print}({\cf2 '}{\cf2 Saving data to }{\cf2 '} {\cf4 +} {\cf8 self}{\cf4 .}db_file_name)\par
+        {\cf8 self}{\cf4 .}data{\cf4 .}save()\par
+\par
+    {\cf8\b def} {\cf19 load}({\cf8 self}):\par
+        {\cf2\i """\par
+        Load the data.\par
+        """}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}data{\cf4 .}load():\par
+            {\cf8\b print}({\cf2 '}{\cf2 Data loaded from }{\cf2 '} {\cf4 +} {\cf8 self}{\cf4 .}db_file_name)\par
+\par
+    {\cf8\b def} {\cf19 run}({\cf8 self}):\par
+        {\cf2\i """\par
+        Load the data and enter the main loop. Save the data on exit.\par
+\par
+        """}\par
+        {\cf5\i # Load data.}\par
+        {\cf8 self}{\cf4 .}load()\par
+        {\cf5\i # No selection.}\par
+        {\cf8 self}{\cf4 .}data{\cf4 .}selected {\cf4 =} {\cf8 None}\par
+\par
+        {\cf5\i # Let the user select an operation.}\par
+        {\cf8 self}{\cf4 .}selectOp()\par
+\par
+        {\cf5\i # Run until quit is selected.}\par
+        {\cf8\b while} {\cf8 self}{\cf4 .}op {\cf4 !=} {\cf4 0}:\par
+            {\cf5\i # Run the selected operation.}\par
+            {\cf8 self}{\cf4 .}menu_items[{\cf8 self}{\cf4 .}op][{\cf4 2}]()\par
+            {\cf5\i # Let the user select an operation.}\par
+            {\cf8 self}{\cf4 .}selectOp()\par
+\par
+        {\cf5\i # Save the data.}\par
+        {\cf8 self}{\cf4 .}save()\par
+\par
+        {\cf8\b print}({\cf2 '}{\cf2 Bye.}{\cf2 '})\par
+}

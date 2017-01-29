@@ -1,0 +1,215 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf2\i """\par
+Name: Program 8 "Name and Email Addresses"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-01-29)\par
+\par
+Data handling code.\par
+"""}\par
+{\cf8\b import} {\cf19\b fnmatch}\par
+{\cf8\b import} {\cf19\b pickle}\par
+{\cf8\b import} {\cf19\b os.path}\par
+\par
+\par
+{\cf5\i # noinspection PyPep8Naming}\par
+{\cf8\b class} {\cf19\b Data}:\par
+    {\cf2\i """\par
+    This class does all data handling. It stores names and associated e-mail\par
+    addresses.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, file_name):\par
+        {\cf2\i """\par
+        Construct a data object for\par
+        :param file_name: The name and path of the file used to store the data.\par
+        """}\par
+        {\cf5\i # The dictionary holding the data.}\par
+        {\cf8 self}{\cf4 .}data {\cf4 =} {\cf8 dict}()\par
+        {\cf5\i # Data file name}\par
+        {\cf8 self}{\cf4 .}file_name {\cf4 =} file_name\par
+        {\cf5\i # List of last search results.}\par
+        {\cf8 self}{\cf4 .}data_search_results {\cf4 =} {\cf8 list}()\par
+\par
+    {\cf8\b def} {\cf19 save}({\cf8 self}):\par
+        {\cf2\i """\par
+        Save the data using pickle. Complain and exit on error.\par
+        """}\par
+        {\cf8\b try}:\par
+            {\cf5\i # Open the file for binary write access.}\par
+            {\cf8\b with} {\cf8 open}({\cf8 self}{\cf4 .}file_name, {\cf2 '}{\cf2 wb}{\cf2 '}) {\cf8\b as} data_file:\par
+                {\cf5\i # Pickle the data to the file.}\par
+                pickle{\cf4 .}dump({\cf8 self}{\cf4 .}data, data_file)\par
+        {\cf8\b except} {\cf24\b IOError} {\cf8\b as} ex:\par
+            {\cf5\i # Complain when something goes wrong with the file access.}\par
+            {\cf8\b print}({\cf2 '}{\cf2 Exception: \{\}}{\cf2 '}{\cf4 .}format({\cf8 str}(ex)))\par
+            {\cf8\b print}({\cf2 '}{\cf2 Error saving data.}{\cf2 '})\par
+            {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf8\b def} {\cf19 load}({\cf8 self}):\par
+        {\cf2\i """\par
+        Load data from a file using pickle. Complain and exit on error.\par
+        :return: True on success, False otherwise,\par
+        """}\par
+        {\cf8\b try}:\par
+            {\cf5\i # Check if there is a file.}\par
+            {\cf8\b if} os{\cf4 .}path{\cf4 .}isfile({\cf8 self}{\cf4 .}file_name):\par
+                {\cf5\i # Open the file.}\par
+                {\cf8\b with} {\cf8 open}({\cf8 self}{\cf4 .}file_name, {\cf2 '}{\cf2 rb}{\cf2 '}) {\cf8\b as} data_file:\par
+                    {\cf5\i # Un-pickle the data}\par
+                    {\cf8 self}{\cf4 .}data {\cf4 =} pickle{\cf4 .}load(data_file)\par
+                {\cf8\b return} {\cf8 True}\par
+\par
+            {\cf5\i # Tell that load did not succeed, but the error was not fatal.}\par
+            {\cf8\b return} {\cf8 False}\par
+        {\cf8\b except} {\cf24\b IOError} {\cf8\b as} ex:\par
+            {\cf5\i # Complain when something goes wrong with the file access.}\par
+            {\cf8\b print}({\cf2 '}{\cf2 Exception: \{\}}{\cf2 '}{\cf4 .}format({\cf8 str}(ex)))\par
+            {\cf8\b print}({\cf2 '}{\cf2 Error saving data.}{\cf2 '})\par
+            {\cf8 exit}({\cf4 1})\par
+\par
+    {\cf8\b def} {\cf19 isEntry}({\cf8 self}, name, error_not_found{\cf4 =}{\cf8 False}):\par
+        {\cf2\i """\par
+        Check if name is in the data.\par
+\par
+        :param name: The exact name to look for.\par
+        :param error_not_found: Show an error if name is not found, is set to\par
+                                True.\par
+        :return: True if found, False otherwise.\par
+        """}\par
+        {\cf5\i # Default to not found.}\par
+        ret {\cf4 =} {\cf8 False}\par
+        {\cf5\i # Look for the key.}\par
+        {\cf8\b if} name {\cf12\b in} {\cf8 self}{\cf4 .}data{\cf4 .}keys():\par
+            ret {\cf4 =} {\cf8 True}\par
+        {\cf8\b else}:\par
+            {\cf5\i # Print error if not found, and asked to.}\par
+            {\cf8\b if} error_not_found {\cf12\b is} {\cf8 True}:\par
+                {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name }{\cf2 "}{\cf2 \{\}}{\cf2 "}{\cf2  not found}{\cf2 '}{\cf4 .}format(name))\par
+        {\cf5\i # Return result.}\par
+        {\cf8\b return} ret\par
+\par
+    {\cf8\b def} {\cf19 n_entries}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the number of entries in the data.\par
+\par
+        :return: Number of entries in the data.\par
+        """}\par
+        {\cf8\b return} {\cf8 len}({\cf8 self}{\cf4 .}data)\par
+\par
+    {\cf8\b def} {\cf19 entries}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return a dictionary with all entries in the data.\par
+        :return:\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}data\par
+\par
+    {\cf8\b def} {\cf19 add}({\cf8 self}, name, email):\par
+        {\cf2\i """\par
+        Add an entry to the data.\par
+\par
+        :param name: Name to add.\par
+        :param email:  E-mail to add.\par
+        """}\par
+        {\cf5\i # Check if the key is correct.}\par
+        {\cf8\b if} name {\cf12\b is} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name can not be empty}{\cf2 '})\par
+        {\cf8\b elif} {\cf8 len}(name) {\cf4 <} {\cf4 1}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name can not be empty}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf5\i # Add/overwrite if it is.}\par
+            {\cf8 self}{\cf4 .}data[name] {\cf4 =} email\par
+\par
+    {\cf8\b def} {\cf19 edit}({\cf8 self}, old_name, new_name, email):\par
+        {\cf2\i """\par
+        Change an entry.\par
+\par
+        :param old_name: The original name of the entry.\par
+        :param new_name: the new name of the entry, None to keep the old.\par
+        :param email: Email address to set for the entry.\par
+        """}\par
+        {\cf5\i # Keep the old name if no new is given}\par
+        {\cf8\b if} new_name {\cf12\b is} {\cf8 None}:\par
+            new_name {\cf4 =} old_name\par
+\par
+        {\cf5\i # Add/Change the entry.}\par
+        {\cf8 self}{\cf4 .}add(new_name, email)\par
+\par
+        {\cf5\i # Delete the old entry if this is a new key.}\par
+        {\cf8\b if} old_name {\cf4 !=} new_name:\par
+            {\cf8 self}{\cf4 .}delete(old_name)\par
+\par
+    {\cf8\b def} {\cf19 delete}({\cf8 self}, name):\par
+        {\cf2\i """\par
+        Delete an entry.\par
+\par
+        :param name: Name of the entry to delete.\par
+        """}\par
+        {\cf5\i # Check if the key is correct.}\par
+        {\cf8\b if} name {\cf12\b is} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name can not be empty}{\cf2 '})\par
+        {\cf8\b elif} {\cf8 len}(name) {\cf4 <} {\cf4 1}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name can not be empty}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf5\i # Delete the entry if okay.}\par
+            {\cf8\b del} {\cf8 self}{\cf4 .}data[name]\par
+\par
+    {\cf8\b def} {\cf19 email}({\cf8 self}, name):\par
+        {\cf2\i """\par
+        Return the e-mail address of an entry.\par
+\par
+        :param name: Name of the entry.\par
+        :return: E-mail address or empty string if not found.\par
+        """}\par
+        {\cf5\i # Default to empty string.}\par
+        email {\cf4 =} {\cf2 '}{\cf2 '}\par
+\par
+        {\cf5\i # Do some validation.}\par
+        {\cf8\b if} name {\cf12\b is} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name can not be empty}{\cf2 '})\par
+        {\cf8\b elif} {\cf8 len}(name) {\cf4 <} {\cf4 1}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: Name can not be empty}{\cf2 '})\par
+        {\cf8\b elif} {\cf8 len}({\cf8 self}{\cf4 .}data) {\cf4 <} {\cf4 1}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 ERROR: No entries}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf5\i # The key checks out.}\par
+            email {\cf4 =} {\cf8 self}{\cf4 .}data[name]\par
+        {\cf5\i # Return the e-mail address if found.}\par
+        {\cf8\b return} email\par
+\par
+    {\cf8\b def} {\cf19 search}({\cf8 self}, search_str):\par
+        {\cf2\i """\par
+        Find a string in the data entries using fnmatch.\par
+\par
+        :param search_str: String to search for including wildcards.\par
+        :return: List of names that matches the search string.\par
+        """}\par
+        {\cf5\i # Use a set to keep the results so they only appear once.}\par
+        names {\cf4 =} {\cf8 set}()\par
+\par
+        {\cf5\i # Run through all entries.}\par
+        {\cf8\b for} name, email {\cf12\b in} {\cf8 self}{\cf4 .}data{\cf4 .}items():\par
+            {\cf5\i # Search in both names and email addresses using fnmatch.}\par
+            {\cf8\b if} fnmatch{\cf4 .}fnmatch(name, search_str):\par
+                names{\cf4 .}add(name)\par
+            {\cf8\b if} fnmatch{\cf4 .}fnmatch(email, search_str):\par
+                names{\cf4 .}add(name)\par
+\par
+        {\cf5\i # Convert the set to a list and return.}\par
+        {\cf8 self}{\cf4 .}data_search_results {\cf4 =} {\cf8 list}(names)\par
+\par
+    {\cf8\b def} {\cf19 n_search_results}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the number of results of the last search.\par
+\par
+        :return: Number of result of the last search.\par
+        """}\par
+        {\cf8\b return} {\cf8 len}({\cf8 self}{\cf4 .}data_search_results)\par
+\par
+    {\cf8\b def} {\cf19 search_results}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return a list of names matching the last search.\par
+\par
+        :return: List of names matching the last search.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}data_search_results\par
+}

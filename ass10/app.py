@@ -190,8 +190,6 @@ class App:
             # Select item if it there is only one.
             if self.data.n_search_results() == 1:
                 self.selected = self.data.search_results()[0]
-            else:
-                print('Use a more specific search string.')
         else:
             print('No entries')
 
@@ -205,6 +203,10 @@ class App:
             self.selected = None
             # Do a search.
             self.search()
+            # Can not select between mutliple results.
+            if self.data.n_search_results() > 1:
+                print('Use a more specific search string.')
+
             # If none is selected print the result of the search.
             if self.selected is None:
                 self.printSearch()

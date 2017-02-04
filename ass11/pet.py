@@ -10,11 +10,21 @@ Version: 1.0 (2017-03-01)
 
 Program to organise name and email addresses.
 """
+
+
 class Pet:
     """
     Pet class, holds the name, type, and age of a pet.
     """
+
     def __init__(self, name='', animal_type=None, age=0):
+        """
+        Constructor.
+
+        :param name: The pets name.
+        :param animal_type: The type of pet.
+        :param age: The age of the pet. Default is 0.
+        """
         self.__name = name
         self.__animal_type = animal_type
         self.__age = age
@@ -24,7 +34,7 @@ class Pet:
         Set the name of the pet.
         :param name: The name
         """
-        self.name = name
+        self.__name = name
 
     def set_animal_type(self, type):
         """
@@ -67,4 +77,12 @@ class Pet:
         return self.__age
 
     def __str__(self):
-        return('Name: {}\nType: {}\nAge: {}'.format(self.__name, self.__animal_type, self.__age))
+        """
+        Return a string representation of the pet.
+
+        :return: The string.
+        """
+        return (
+            'Name:\t{}\nType:\t{}\nAge:\t{}'.format(self.__name,
+                                                    self.__animal_type,
+                                                    self.__age))

@@ -1,0 +1,89 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 1 "Pet Class"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-03-01)\par
+\par
+Program to organise name and email addresses.\par
+"""}\par
+\par
+\par
+{\cf8\b class} {\cf19\b Pet}:\par
+    {\cf2\i """\par
+    Pet class, holds the name, type, and age of a pet.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, name{\cf4 =}{\cf2 '}{\cf2 '}, animal_type{\cf4 =}{\cf8 None}, age{\cf4 =}{\cf4 0}):\par
+        {\cf2\i """\par
+        Constructor.\par
+\par
+        :param name: The pets name.\par
+        :param animal_type: The type of pet.\par
+        :param age: The age of the pet. Default is 0.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__name {\cf4 =} name\par
+        {\cf8 self}{\cf4 .}__animal_type {\cf4 =} animal_type\par
+        {\cf8 self}{\cf4 .}__age {\cf4 =} age\par
+\par
+    {\cf8\b def} {\cf19 set_name}({\cf8 self}, name):\par
+        {\cf2\i """\par
+        Set the name of the pet.\par
+        :param name: The name\par
+        """}\par
+        {\cf8 self}{\cf4 .}__name {\cf4 =} name\par
+\par
+    {\cf8\b def} {\cf19 set_animal_type}({\cf8 self}, {\cf8 type}):\par
+        {\cf2\i """\par
+        Set the type of the pet.\par
+\par
+        :param type: The type of pet.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__animal_type {\cf4 =} {\cf8 type}\par
+\par
+    {\cf8\b def} {\cf19 set_age}({\cf8 self}, age):\par
+        {\cf2\i """\par
+        Set the age of the pet.\par
+\par
+        :param age: Age og the pet.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__age {\cf4 =} age\par
+\par
+    {\cf8\b def} {\cf19 get_name}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the name of the pet.\par
+\par
+        :return: The name of the pet.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__name\par
+\par
+    {\cf8\b def} {\cf19 get_type}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the type of the pet.\par
+\par
+        :return: The type of the pet.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__animal_type\par
+\par
+    {\cf8\b def} {\cf19 get_age}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the age of the animal.\par
+\par
+        :return: The age of the pet.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__age\par
+\par
+    {\cf8\b def} {\cf19 __str__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return a string representation of the pet.\par
+\par
+        :return: The string.\par
+        """}\par
+        {\cf8\b return} (\par
+            {\cf2 '}{\cf2 Name:}{\cf10\b \\t}{\cf2 \{\}}{\cf10\b \\n}{\cf2 Type:}{\cf10\b \\t}{\cf2 \{\}}{\cf10\b \\n}{\cf2 Age:}{\cf10\b \\t}{\cf2 \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}__name,\par
+                                                    {\cf8 self}{\cf4 .}__animal_type,\par
+                                                    {\cf8 self}{\cf4 .}__age))\par
+}

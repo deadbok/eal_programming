@@ -1,0 +1,23 @@
+@startuml
+
+skinparam monochrome true
+
+skinparam classAttributeIconSize 0
+
+
+class Pet {
+    -__name
+    -__animal_type
+    -__age
+
+    -__init__(name, animal_type, age)
+    +set_name(name)
+    +set_animal_type(type)
+    +set_age(age)
+    +get_name()
+    +def get_type():
+    + get_age()
+    -__str__()
+}
+
+@enduml

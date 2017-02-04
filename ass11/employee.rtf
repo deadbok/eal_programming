@@ -1,0 +1,97 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 4 "Employee Class"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-03-01)\par
+\par
+Class that encapsulates the properties of an employe.\par
+"""}\par
+\par
+\par
+{\cf8\b class} {\cf19\b Employee}:\par
+    {\cf2\i """\par
+    Employee class.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, name{\cf4 =}{\cf2 '}{\cf2 John Doe}{\cf2 '}, {\cf8 id}{\cf4 =}{\cf2 '}{\cf2 '}, department{\cf4 =}{\cf2 '}{\cf2 '}, title{\cf4 =}{\cf2 '}{\cf2 '}):\par
+        {\cf2\i """\par
+        Constructor.\par
+\par
+        :param name: The name of the employee. Defaults to 'John Doe'.\par
+        :param id: The ID number of the employee.\par
+        :param department: The department that the employee is working in.\par
+        :param title: The job title of the employee.\par
+        """}\par
+        {\cf5\i # Set to the values passed to the constructor.}\par
+        {\cf8 self}{\cf4 .}__name {\cf4 =} name\par
+        {\cf8 self}{\cf4 .}__id {\cf4 =} {\cf8 id}\par
+        {\cf8 self}{\cf4 .}__department {\cf4 =} department\par
+        {\cf8 self}{\cf4 .}__title {\cf4 =} title\par
+\par
+    {\cf8\b def} {\cf19 get_name}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the name.\par
+\par
+        :return: The name\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__name\par
+\par
+    {\cf8\b def} {\cf19 get_id}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the id.\par
+\par
+        :return: The id\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__id\par
+\par
+    {\cf8\b def} {\cf19 get_department}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the department.\par
+\par
+        :return: The department\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__department\par
+\par
+    {\cf8\b def} {\cf19 get_title}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the title.\par
+\par
+        :return: The title\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__title\par
+\par
+    {\cf8\b def} {\cf19 set_name}({\cf8 self}, name):\par
+        {\cf2\i """\par
+        Set the name.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__name {\cf4 =} name\par
+\par
+    {\cf8\b def} {\cf19 set_id}({\cf8 self}, {\cf8 id}):\par
+        {\cf2\i """\par
+        Set the id.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__id {\cf4 =} {\cf8 id}\par
+\par
+    {\cf8\b def} {\cf19 set_department}({\cf8 self}, department):\par
+        {\cf2\i """\par
+        Set the department.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__department {\cf4 =} department\par
+\par
+    {\cf8\b def} {\cf19 set_title}({\cf8 self}, title):\par
+        {\cf2\i """\par
+        Set the title.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__title {\cf4 =} title\par
+\par
+    {\cf8\b def} {\cf19 __str__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return a string with the value of the year model and make.\par
+        :return:\par
+        """}\par
+        {\cf8\b return} ({\cf2 '}{\cf2 Employee}{\cf2 '})\par
+}

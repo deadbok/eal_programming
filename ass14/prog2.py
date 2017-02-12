@@ -10,7 +10,7 @@ Version: 1.0 (2017-02-12)
 
 Program that tests the ShiftSupervisor class
 """
-from ass12.shiftsupervisor import ShiftSupervisor
+from ass14.shiftsupervisor import ShiftSupervisor
 
 
 def main():

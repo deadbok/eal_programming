@@ -10,7 +10,7 @@ Version: 1.0 (2017-02-12)
 
 Class that encapsulates the properties of a customer.
 """
-from ass12.person import Person
+from ass14.person import Person
 
 
 class Customer(Person):

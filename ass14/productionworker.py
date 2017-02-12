@@ -10,7 +10,7 @@ Version: 1.0 (2017-02-12)
 
 Class that encapsulates the properties of a production worker.
 """
-from ass12.employee import Employee
+from ass14.employee import Employee
 
 
 class ProductionWorker(Employee):

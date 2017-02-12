@@ -10,7 +10,7 @@ Version: 1.0 (2017-02-12)
 
 Program that uses the Customer class.
 """
-from ass12.customer import Customer
+from ass14.customer import Customer
 
 def main():
     """

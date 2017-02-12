@@ -1,0 +1,32 @@
+@startuml
+
+skinparam monochrome true
+
+skinparam classAttributeIconSize 0
+
+Employee <-- ShiftSupervisor
+
+class Employee {
+    -__name
+    -__number
+
+    -__init__(name, number)
+    +get_name()
+    +get_number()
+    +set_name(name)
+    +set_number(number)
+    -__str__()
+}
+
+class ShiftSupervisor {
+    -__annual_pay
+    -__annual_bonus
+
+    -__init__(name, number, annual_pay, annual_bonus):
+    +get_annual_pay()
+    +get_annual_bonus():
+    +set_annual_pay(pay)
+    +set_annual_bonus(bonus)
+    -__str__()
+}
+@enduml

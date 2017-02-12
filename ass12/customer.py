@@ -68,11 +68,17 @@ class Customer(Person):
         """
         self.__number = number
 
-    def set_receive_mail(self, mail):
+    def set_receive_mail(self):
         """
-        Set whether or not the customer receives mail.
+        Set the customer to receive mail.
         """
-        self.__mail = mail
+        self.__mail = True
+
+    def set_receive_no_mail(self):
+        """
+        Set the customer to not receive mail.
+        """
+        self.__mail = False
 
     def __str__(self):
         """
@@ -80,9 +86,9 @@ class Customer(Person):
 
         :return: string
         """
-        return('Name:\t\t{}\n'.format(self.get_name()) +
+        return('Name:\t\t\t{}\n'.format(self.get_name()) +
                'Address:\t\t{}\n'.format(self.get_address()) +
-               'Phone:\t\t{}\n'.format(self.get_phone()) +
-               'Number:\t\t{}\n'.format(self.get_number()) +
-               'Is on the mailing list:\t{}'.format(self.get_receive_mail_str())
+               'Phone:\t\t\t{}\n'.format(self.get_phone()) +
+               'Number:\t\t\t{}\n'.format(self.get_number()) +
+               'Mailing list:\t{}'.format(self.get_receive_mail_str())
                )

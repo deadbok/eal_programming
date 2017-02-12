@@ -75,5 +75,5 @@ class Person:
         :return:
         """
         return('Name:\t\t{}\n'.format(self.__name) +
-               'Address:\t\t{}\n'.format(self.__address) +
+               'Address:\t{}\n'.format(self.__address) +
                'Phone:\t\t{}\n'.format(self.__phone))

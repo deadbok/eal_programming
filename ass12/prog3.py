@@ -8,7 +8,7 @@ Name: Program 3 "Person and Customer Classes"
 Author: Martin Bo Kristensen Grønholdt.
 Version: 1.0 (2017-02-12)
 
-Program that uses a class to hold the personal information of a few people.
+Program that uses the Customer class.
 """
 from ass12.customer import Customer
 
@@ -19,8 +19,20 @@ def main():
     # Create a list of people.
     new_cus = Customer()
 
+    #Create a customer.
+    new_cus.set_name('Hans Hansen')
+    new_cus.set_address('Hans Hansensvej 555, 8210 Aarhus V')
+    new_cus.set_phone('1231456')
+    new_cus.set_number(500)
+    new_cus.set_receive_mail()
+
+    #Print.
     print(new_cus)
 
+    print('\nRemoving customer form mailing list\n')
+
+    new_cus.set_receive_no_mail()
+    print(new_cus)
 
 # Run this when invoked directly
 if __name__ == '__main__':

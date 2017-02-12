@@ -1,0 +1,95 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 3 "Personal Information Class"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-02-12)\par
+\par
+Class that encapsulates the properties of a customer.\par
+"""}\par
+{\cf8\b from} {\cf19\b ass12.person} {\cf8\b import} Person\par
+\par
+\par
+{\cf8\b class} {\cf19\b Customer}(Person):\par
+    {\cf2\i """\par
+    Customer class.\par
+    """}\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, name{\cf4 =}{\cf2 '}{\cf2 John Doe}{\cf2 '}, address{\cf4 =}{\cf2 '}{\cf2 '}, phone{\cf4 =}{\cf2 '}{\cf2 '}, number{\cf4 =}{\cf4 0},\par
+                 mail{\cf4 =}{\cf8 False}):\par
+        {\cf2\i """\par
+        Constuctor.\par
+\par
+        :param name: The name of the customer. Default is 'John Doe'.\par
+        :param address: The address of the customer.\par
+        :param phone: The phone number of the customer.\par
+        :param number: The customer number.\par
+        :param mail: True is the customer is on the mailing list.\par
+        """}\par
+        {\cf5\i # Call the parent constructor.}\par
+        Person{\cf4 .}{\cf19 __init__}({\cf8 self}, name, address, phone)\par
+        {\cf5\i # Set to the values passed to the constructor.}\par
+        {\cf8 self}{\cf4 .}__number {\cf4 =} number\par
+        {\cf8 self}{\cf4 .}__mail {\cf4 =} mail\par
+\par
+    {\cf8\b def} {\cf19 get_number}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the customer number.\par
+\par
+        :return: The scustomer number.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__number\par
+\par
+    {\cf8\b def} {\cf19 get_receive_mail}({\cf8 self}):\par
+        {\cf2\i """\par
+        True if the customer is on the mailing list.\par
+\par
+        :return: The mailing list status.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__mail\par
+\par
+    {\cf8\b def} {\cf19 get_receive_mail_str}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the customer the mailing list status. 'yes' if the customer\par
+        receives mail, 'no' otherwise.\par
+\par
+        :return: The mailing list status.\par
+        """}\par
+        ret {\cf4 =} {\cf8 False}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}__mail:\par
+            ret {\cf4 =} {\cf8 True}\par
+        {\cf8\b return} ret\par
+\par
+    {\cf8\b def} {\cf19 set_number}({\cf8 self}, number):\par
+        {\cf2\i """\par
+        Set customer number.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__number {\cf4 =} number\par
+\par
+    {\cf8\b def} {\cf19 set_receive_mail}({\cf8 self}):\par
+        {\cf2\i """\par
+        Set the customer to receive mail.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__mail {\cf4 =} {\cf8 True}\par
+\par
+    {\cf8\b def} {\cf19 set_receive_no_mail}({\cf8 self}):\par
+        {\cf2\i """\par
+        Set the customer to not receive mail.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__mail {\cf4 =} {\cf8 False}\par
+\par
+    {\cf8\b def} {\cf19 __str__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return a string that is directly usable when printing the entry.\par
+\par
+        :return: string\par
+        """}\par
+        {\cf8\b return}({\cf2 '}{\cf2 Name:}{\cf10\b \\t}{\cf10\b \\t}{\cf10\b \\t}{\cf2 \{\}}{\cf10\b \\n}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}get_name()) {\cf4 +}\par
+               {\cf2 '}{\cf2 Address:}{\cf10\b \\t}{\cf10\b \\t}{\cf2 \{\}}{\cf10\b \\n}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}get_address()) {\cf4 +}\par
+               {\cf2 '}{\cf2 Phone:}{\cf10\b \\t}{\cf10\b \\t}{\cf10\b \\t}{\cf2 \{\}}{\cf10\b \\n}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}get_phone()) {\cf4 +}\par
+               {\cf2 '}{\cf2 Number:}{\cf10\b \\t}{\cf10\b \\t}{\cf10\b \\t}{\cf2 \{\}}{\cf10\b \\n}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}get_number()) {\cf4 +}\par
+               {\cf2 '}{\cf2 Mailing list:}{\cf10\b \\t}{\cf2 \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}get_receive_mail_str())\par
+               )\par
+}

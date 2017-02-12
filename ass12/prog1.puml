@@ -1,0 +1,35 @@
+@startuml
+
+skinparam monochrome true
+
+skinparam classAttributeIconSize 0
+
+Employee <-- ProductionWorker
+
+class Employee {
+    -__name
+    -__number
+
+    -__init__(name, number)
+    +get_name()
+    +get_number()
+    +set_name(name)
+    +set_number(number)
+    -__str__()
+}
+
+class ProductionWorker {
+    +DAY = 1
+    +NIGHT = 2
+    -__shift
+    -__hourly_pay
+
+    -__init__(name, number, shift, hourly_pay):
+    +get_shift()
+    +get_shift_str()
+    +get_hourly_pay()
+    +set_shift(shift)
+    +set_hourly_pay(hourly_pay)
+    -__str__()
+}
+@enduml

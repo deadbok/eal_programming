@@ -8,7 +8,7 @@ Name: Program 2 "ShiftSupervisor Class"
 Author: Martin Bo Kristensen Grønholdt.
 Version: 1.0 (2017-02-12)
 
-Program that drives a car.
+Program that tests the ShiftSupervisor class
 """
 from ass12.shiftsupervisor import ShiftSupervisor
 
@@ -20,11 +20,12 @@ def main():
     # Instantiate the ShiftSupervisor class.
     my_ss = ShiftSupervisor(name='Hans Hansen')
 
+    #Set the values.
     my_ss.set_number(1)
     my_ss.set_annual_bonus(50000)
     my_ss.set_annual_pay(500000)
 
-    # Print the static car data.
+    # Print the data.
     print(str(my_ss))
 
 # Run this when invoked directly

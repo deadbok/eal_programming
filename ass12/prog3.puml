@@ -1,0 +1,37 @@
+@startuml
+
+skinparam monochrome true
+
+skinparam classAttributeIconSize 0
+
+Person <-- Customer
+
+class Person {
+    -__name
+    -__address
+    -__phone
+
+    -__init__(name, address, phone)
+    +get_name()
+    +get_address()
+    +get_phone()
+    +set_name(name)
+    +set_address(address)
+    +set_phone(phone)
+    +__str__()
+}
+
+class Customer {
+    -__number
+    -__mail
+
+    -__init__(name, address, phone, number, mail)
+    +get_number()
+    +get_receive_mail():
+    +get_receive_mail_str():
+    +set_number(number):
+    +set_receive_mail():
+    +set_receive_no_mail():
+    -__str__(self):
+}
+@enduml

@@ -76,23 +76,45 @@ class RetailItem:
         """
         self.__price = price
 
-    def add_item(self):
+    def add_item(self, description = None):
         """
         Helper function to add a new item to the inventory.
+        If a description is supplied, the item description must match this
+        for the item to get added.
 
-        :return: Number of items.
+        :param description: Item description.
+        :return: True if added.
         """
-        self.__inventory += 1
-        return self.__inventory
+        ret = False
+        if description is None:
+            self.__inventory += 1
+            ret = True
+        else:
+            if description == self.get_description():
+                self.__inventory += 1
+                ret = True
 
-    def remove_item(self):
+        return ret
+
+    def remove_item(self, description = None):
         """
         Helper function to remove an item.
+        If a description is supplied, the item description must match this
+        for the item to get removed.
 
-        :return: Number of items.
+        :param description: Item description.
+        :return: True if removed.
         """
-        self.__inventory -= 1
-        return self.__inventory
+        ret = False
+        if description is None:
+            self.__inventory -= 1
+            ret = True
+        else:
+            if description == self.get_description():
+                self.__inventory -= 1
+                ret = True
+
+        return ret
 
     def __str__(self):
         """
@@ -100,7 +122,6 @@ class RetailItem:
 
         :return: string
         """
-        return('Description:\t{}\n'.format(self.get_description()) +
-               'Inventory:\t\t{}\n'.format(self.get_inventory()) +
-               'Price:\t\t\t{}\n'.format(self.get_price())
+        return('{:20}\t'.format(self.get_description()) +
+               '{:8.2f}\t'.format(self.get_price())
                )

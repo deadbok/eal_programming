@@ -1,0 +1,72 @@
+The ______________ programming practice is centered on creating functions that are separate from the data that they work on.
+modular
+procedural
+functional
+object-oriented
+2
+The ______________ programming practice is centered on creating objects.
+object-centric
+objective
+procedural
+object-oriented
+4
+A(n) ______________ is a component of a class that references data.
+method
+instance
+data attribute
+module
+3
+An object is a(n) ______________.
+blueprint
+b. cookie cutter
+variable
+instance
+4
+By doing this you can hide a class’s attribute from code outside the class.
+avoid using the self parameter to create the attribute
+begin the attribute’s name with two underscores
+begin the name of the attribute with private__
+begin the name of the attribute with the @ symbol
+2
+A(n) ______________ method gets the value of a data attribute but does not change it.
+retriever
+constructor
+mutator
+accessor
+4
+A(n) ______________ method stores a value in a data attribute or changes its value in some other way.
+modifier
+constructor
+mutator
+accessor
+3
+The ______________ method is automatically called when an object is created.
+__init__
+init
+__str__
+__object__
+1
+If a class has a method named __str__, which of these is a way to call the method?
+you call it like any other method: object.__str__()
+by passing an instance of the class to the built in str function
+the method is automatically called when the object is created
+by passing an instance of the class to the built-in state function
+2
+A set of standard diagrams for graphically depicting object-oriented systems is provided by ______________.
+the Unified Modeling Language
+flowcharts
+pseudocode
+the Object Hierarchy System
+1
+In one approach to identifying the classes in a problem, the programmer identifies the ______________ in a description of the problem domain.
+verbs
+adjectives
+adverbs
+nouns
+4
+In one approach to identifying a class’s data attributes and methods, the programmer identifies the class’s ______________.
+responsibilities
+name
+synonyms
+nouns
+1

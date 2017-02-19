@@ -4,12 +4,13 @@
 # script is called directly, and that this file uses utf-8 encoding,
 # because of the country specific letter in my surname.
 """
-Name: Program 1 "Employee and ProductionWorker Classes"
+Name: Program 7 "Cash Register"
 Author: Martin Bo Kristensen Grønholdt.
-Version: 1.0 (2017-02-12)
+Version: 1.0 (2017-02-19)
 
 Class that simulates a cash register.
 """
+
 
 class CashRegister:
     """
@@ -20,7 +21,6 @@ class CashRegister:
         """
         Constructor.
         """
-
         # List holding the items selected for purchase.
         self.__cart = list()
 
@@ -44,7 +44,6 @@ class CashRegister:
         if not found:
             self.__cart.append(new_item)
 
-
     def get_total(self):
         """
         Get the total price of the items in the cart.
@@ -55,7 +54,7 @@ class CashRegister:
         for item in self.__cart:
             ret += item.get_price() * item.get_inventory()
 
-        return(ret)
+        return (ret)
 
     def show_items(self):
         """

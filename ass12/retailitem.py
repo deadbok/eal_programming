@@ -4,17 +4,19 @@
 # script is called directly, and that this file uses utf-8 encoding,
 # because of the country specific letter in my surname.
 """
-Name: Program 3 "Personal Information Class"
+Name: Program  5 "RetailItem Class"
 Author: Martin Bo Kristensen Grønholdt.
 Version: 1.0 (2017-02-19)
 
 Class that holds data about an item in a retail store.
 """
 
+
 class RetailItem:
     """
     RetailItem class.
     """
+
     def __init__(self, description='None', inventory=0, price=0):
         """
         Initialise the retail item.
@@ -26,7 +28,6 @@ class RetailItem:
         self.__description = description
         self.__inventory = inventory
         self.__price = price
-
 
     def get_description(self):
         """
@@ -76,7 +77,7 @@ class RetailItem:
         """
         self.__price = price
 
-    def add_item(self, description = None):
+    def add_item(self, description=None):
         """
         Helper function to add a new item to the inventory.
         If a description is supplied, the item description must match this
@@ -96,7 +97,7 @@ class RetailItem:
 
         return ret
 
-    def remove_item(self, description = None):
+    def remove_item(self, description=None):
         """
         Helper function to remove an item.
         If a description is supplied, the item description must match this
@@ -122,6 +123,6 @@ class RetailItem:
 
         :return: string
         """
-        return('{:20}\t'.format(self.get_description()) +
-               '{:8.2f}\t'.format(self.get_price())
-               )
+        return ('{:20}\t'.format(self.get_description()) +
+                '{:8.2f}\t'.format(self.get_price())
+                )

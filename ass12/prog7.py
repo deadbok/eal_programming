@@ -25,7 +25,7 @@ class App:
     SHOW = 3
     CLEAR = 4
 
-    def __init__(self, items = []):
+    def __init__(self, items=[]):
         """
         Create the application class.
 
@@ -76,7 +76,6 @@ class App:
             print('\nSelected: ')
             self.printEntry(self.selected, False)
 
-
     def select_op(self):
         """
         Present a menu and validate the user selection.
@@ -100,33 +99,36 @@ class App:
             # because of this.
             self.select_op()
 
-
     def buy(self):
         """
         Add user selected items to the cart..
         """
-
+        # Variable for the selected item.
         selected = 1
+        # Keep running the menu until 0 is selected
         while selected:
             print('Select an item to add it to the cart.\n')
 
+            # Print a list of the items
             i = 0
             for i in range(len(self.__sale_items)):
                 print('{:2.0f}: {}'.format(i + 1, self.__sale_items[i]))
 
             try:
+                # Get the item selection from the user
                 selected = int(input('\nInput item to add (0 to stop): '))
 
+                # Handle, quit, wrong item, and adding.
                 if selected == 0:
                     print('\n*Leaving item selection.*\n')
                 elif len(self.__sale_items) < (selected):
                     print('\n*Non existing item selected.*\n')
                 else:
-                    self.__register.purchase_item(self.__sale_items[selected - 1])
+                    self.__register.purchase_item(
+                        self.__sale_items[selected - 1])
 
             except ValueError:
                 print('\n*Please use only numbers.*\n')
-
 
     def purchase(self):
         """
@@ -169,6 +171,7 @@ def main():
     """
     Program main entry point.
     """
+    # These are the items for sale.
     items = list()
     items.append(RetailItem('BC547 npn transistor', 1, 1.05))
     items.append(RetailItem('BC557 pnp transistor', 1, 1.15))
@@ -177,8 +180,9 @@ def main():
     items.append(RetailItem('10uF 16V capacitor', 1, 0.50))
     items.append(RetailItem('5mm red LED', 1, 1.00))
 
-
+    # Create an application instance using the items.
     app = App(items)
+    # Run it.
     app.run()
 
 

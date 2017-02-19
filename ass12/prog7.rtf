@@ -1,0 +1,192 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 7 "Cash Register"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-02-19)\par
+\par
+Program that simulates a cash register with built in inventory keeping.\par
+"""}\par
+{\cf8\b from} {\cf19\b ass12.retailitem} {\cf8\b import} RetailItem\par
+{\cf8\b from} {\cf19\b ass12.cashregister} {\cf8\b import} CashRegister\par
+\par
+\par
+{\cf8\b class} {\cf19\b App}:\par
+    {\cf2\i """\par
+    This class takes care of the overall control and ui of the application.\par
+    """}\par
+    {\cf5\i # The key assignments for the menu.}\par
+    QUIT {\cf4 =} {\cf4 0}\par
+    BUY {\cf4 =} {\cf4 1}\par
+    PURCHASE {\cf4 =} {\cf4 2}\par
+    SHOW {\cf4 =} {\cf4 3}\par
+    CLEAR {\cf4 =} {\cf4 4}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, items{\cf4 =}[]):\par
+        {\cf2\i """\par
+        Create the application class.\par
+\par
+        ;param items: List of RetailItems for sale.\par
+        """}\par
+        {\cf5\i # List of menu items, their numbers, and methods.}\par
+        {\cf8 self}{\cf4 .}menu_items {\cf4 =} [\par
+            ({\cf8 self}{\cf4 .}QUIT, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}QUIT, {\cf2 '}{\cf2 Quit}{\cf2 '}), {\cf8 None}),\par
+            ({\cf8 self}{\cf4 .}BUY, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}BUY, {\cf2 '}{\cf2 Add items to the cart}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}buy),\par
+            ({\cf8 self}{\cf4 .}PURCHASE, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}PURCHASE,\par
+                                             {\cf2 '}{\cf2 Purchase items in the cart}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}purchase),\par
+            ({\cf8 self}{\cf4 .}SHOW, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}SHOW,\par
+                                         {\cf2 '}{\cf2 Show all items in the cart}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}show),\par
+            ({\cf8 self}{\cf4 .}CLEAR, {\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}CLEAR, {\cf2 '}{\cf2 Clear the cart}{\cf2 '}),\par
+             {\cf8 self}{\cf4 .}clear)\par
+        ]\par
+\par
+        {\cf5\i # Items for sale}\par
+        {\cf8 self}{\cf4 .}__sale_items {\cf4 =} items\par
+\par
+        {\cf5\i # Cash register}\par
+        {\cf8 self}{\cf4 .}__register {\cf4 =} CashRegister()\par
+\par
+        {\cf5\i # Currently no entry is selected.}\par
+        {\cf8 self}{\cf4 .}selected {\cf4 =} {\cf8 None}\par
+        {\cf8 self}{\cf4 .}op {\cf4 =} {\cf4 -}{\cf4 1}\par
+\par
+    {\cf8\b def} {\cf19 menu}({\cf8 self}):\par
+        {\cf2\i """\par
+        Print the main menu.\par
+        """}\par
+        {\cf5\i # Print header and selection name.}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Main menu}{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}selected {\cf12\b is} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf2  (no entry selected):}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf8\b print}({\cf2 '}{\cf2  (\{\} selected): }{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}selected))\par
+\par
+        {\cf5\i # Print menu entries.}\par
+        {\cf8\b for} entry {\cf12\b in} {\cf8 self}{\cf4 .}menu_items:\par
+            {\cf8\b print}(entry[{\cf4 1}])\par
+\par
+        {\cf5\i # Print the data of the selected entry.}\par
+        {\cf8\b if} {\cf8 self}{\cf4 .}selected {\cf12\b is} {\cf12\b not} {\cf8 None}:\par
+            {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Selected: }{\cf2 '})\par
+            {\cf8 self}{\cf4 .}printEntry({\cf8 self}{\cf4 .}selected, {\cf8 False})\par
+\par
+    {\cf8\b def} {\cf19 select_op}({\cf8 self}):\par
+        {\cf2\i """\par
+        Present a menu and validate the user selection.\par
+        """}\par
+        {\cf5\i # Show the menu.}\par
+        {\cf8 self}{\cf4 .}menu()\par
+        {\cf5\i # Get the user choice.}\par
+        choice {\cf4 =} {\cf8 input}({\cf2 '}{\cf10\b \\n}{\cf2 Select operation: }{\cf2 '})\par
+        {\cf5\i # Blank line.}\par
+        {\cf8\b print}({\cf2 '}{\cf2 '})\par
+\par
+        {\cf5\i # Validate the user input.}\par
+        {\cf8\b try}:\par
+            {\cf8 self}{\cf4 .}op {\cf4 =} {\cf8 int}(choice)\par
+            {\cf5\i # Check if the choice is within range.}\par
+            {\cf8\b if} ({\cf8 self}{\cf4 .}op {\cf4 <} {\cf4 0}) {\cf12\b or} ({\cf8 self}{\cf4 .}op {\cf4 >} {\cf8 len}({\cf8 self}{\cf4 .}menu_items)):\par
+                {\cf8\b raise} {\cf24\b ValueError}\par
+        {\cf8\b except} {\cf24\b ValueError}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 Wrong input, please try again}{\cf2 '})\par
+            {\cf5\i # Call recursively, program dies if you do enough wrong choices,}\par
+            {\cf5\i # because of this.}\par
+            {\cf8 self}{\cf4 .}select_op()\par
+\par
+    {\cf8\b def} {\cf19 buy}({\cf8 self}):\par
+        {\cf2\i """\par
+        Add user selected items to the cart..\par
+        """}\par
+        {\cf5\i # Variable for the selected item.}\par
+        selected {\cf4 =} {\cf4 1}\par
+        {\cf5\i # Keep running the menu until 0 is selected}\par
+        {\cf8\b while} selected:\par
+            {\cf8\b print}({\cf2 '}{\cf2 Select an item to add it to the cart.}{\cf10\b \\n}{\cf2 '})\par
+\par
+            {\cf5\i # Print a list of the items}\par
+            i {\cf4 =} {\cf4 0}\par
+            {\cf8\b for} i {\cf12\b in} {\cf8 range}({\cf8 len}({\cf8 self}{\cf4 .}__sale_items)):\par
+                {\cf8\b print}({\cf2 '}{\cf2 \{:2.0f\}: \{\}}{\cf2 '}{\cf4 .}format(i {\cf4 +} {\cf4 1}, {\cf8 self}{\cf4 .}__sale_items[i]))\par
+\par
+            {\cf8\b try}:\par
+                {\cf5\i # Get the item selection from the user}\par
+                selected {\cf4 =} {\cf8 int}({\cf8 input}({\cf2 '}{\cf10\b \\n}{\cf2 Input item to add (0 to stop): }{\cf2 '}))\par
+\par
+                {\cf5\i # Handle, quit, wrong item, and adding.}\par
+                {\cf8\b if} selected {\cf4 ==} {\cf4 0}:\par
+                    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 *Leaving item selection.*}{\cf10\b \\n}{\cf2 '})\par
+                {\cf8\b elif} {\cf8 len}({\cf8 self}{\cf4 .}__sale_items) {\cf4 <} (selected):\par
+                    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 *Non existing item selected.*}{\cf10\b \\n}{\cf2 '})\par
+                {\cf8\b else}:\par
+                    {\cf8 self}{\cf4 .}__register{\cf4 .}purchase_item(\par
+                        {\cf8 self}{\cf4 .}__sale_items[selected {\cf4 -} {\cf4 1}])\par
+\par
+            {\cf8\b except} {\cf24\b ValueError}:\par
+                {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 *Please use only numbers.*}{\cf10\b \\n}{\cf2 '})\par
+\par
+    {\cf8\b def} {\cf19 purchase}({\cf8 self}):\par
+        {\cf2\i """\par
+        Edit an entry.\par
+        """}\par
+        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Thank you for your purchase.}{\cf10\b \\n}{\cf2 '})\par
+        {\cf8 self}{\cf4 .}__register{\cf4 .}clear()\par
+\par
+    {\cf8\b def} {\cf19 show}({\cf8 self}):\par
+        {\cf2\i """\par
+        Show all entries in the cart.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__register{\cf4 .}show_items()\par
+\par
+    {\cf8\b def} {\cf19 clear}({\cf8 self}):\par
+        {\cf2\i """\par
+        Clear the cart.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__register{\cf4 .}clear()\par
+\par
+    {\cf8\b def} {\cf19 run}({\cf8 self}):\par
+        {\cf2\i """\par
+        Run the application.\par
+\par
+        """}\par
+        {\cf5\i # Let the user select an operation.}\par
+        {\cf8 self}{\cf4 .}select_op()\par
+\par
+        {\cf5\i # Run until quit is selected.}\par
+        {\cf8\b while} {\cf8 self}{\cf4 .}op {\cf4 !=} {\cf4 0}:\par
+            {\cf5\i # Run the selected operation.}\par
+            {\cf8 self}{\cf4 .}menu_items[{\cf8 self}{\cf4 .}op][{\cf4 2}]()\par
+            {\cf5\i # Let the user select an operation.}\par
+            {\cf8 self}{\cf4 .}select_op()\par
+\par
+        {\cf8\b print}({\cf2 '}{\cf2 Bye.}{\cf2 '})\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i """\par
+    Program main entry point.\par
+    """}\par
+    {\cf5\i # These are the items for sale.}\par
+    items {\cf4 =} {\cf8 list}()\par
+    items{\cf4 .}append(RetailItem({\cf2 '}{\cf2 BC547 npn transistor}{\cf2 '}, {\cf4 1}, {\cf4 1.05}))\par
+    items{\cf4 .}append(RetailItem({\cf2 '}{\cf2 BC557 pnp transistor}{\cf2 '}, {\cf4 1}, {\cf4 1.15}))\par
+    items{\cf4 .}append(RetailItem({\cf2 '}{\cf2 10kOhm 1/4W resistor}{\cf2 '}, {\cf4 1}, {\cf4 0.25}))\par
+    items{\cf4 .}append(RetailItem({\cf2 '}{\cf2 1kOhm 1/4W resistor}{\cf2 '}, {\cf4 1}, {\cf4 0.25}))\par
+    items{\cf4 .}append(RetailItem({\cf2 '}{\cf2 10uF 16V capacitor}{\cf2 '}, {\cf4 1}, {\cf4 0.50}))\par
+    items{\cf4 .}append(RetailItem({\cf2 '}{\cf2 5mm red LED}{\cf2 '}, {\cf4 1}, {\cf4 1.00}))\par
+\par
+    {\cf5\i # Create an application instance using the items.}\par
+    app {\cf4 =} App(items)\par
+    {\cf5\i # Run it.}\par
+    app{\cf4 .}run()\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} {\cf7 __name__} {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

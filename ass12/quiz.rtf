@@ -1,0 +1,122 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 8 "Trivia Game"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-02-19)\par
+\par
+Class that handles the general quiz logic.\par
+"""}\par
+{\cf8\b import} {\cf19\b random}\par
+\par
+{\cf8\b from} {\cf19\b ass12.questions} {\cf8\b import} Questions\par
+\par
+\par
+{\cf8\b class} {\cf19\b Quiz}:\par
+    {\cf2\i """\par
+    Quiz class.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, players, data_file_path):\par
+        {\cf2\i """\par
+        Constructor.\par
+\par
+        :param players: Number of players.\par
+        :param data_file_path: Text file to read the questions and answers from.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__questions {\cf4 =} Questions(data_file_path)\par
+        {\cf8 self}{\cf4 .}__players {\cf4 =} players\par
+        {\cf8 self}{\cf4 .}__answers {\cf4 =} {\cf8 list}()\par
+\par
+    {\cf8\b def} {\cf19 run}({\cf8 self}):\par
+        {\cf2\i """\par
+        Run a the quiz.\par
+        """}\par
+        n_questions {\cf4 =} {\cf8 len}({\cf8 self}{\cf4 .}__questions{\cf4 .}get_questions())\par
+\par
+        {\cf8\b for} player {\cf12\b in} {\cf8 range}({\cf8 self}{\cf4 .}__players):\par
+            {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Questions for player \{\}}{\cf2 '}{\cf4 .}format(player {\cf4 +} {\cf4 1}))\par
+            {\cf8\b print}({\cf2 '}{\cf2 ----------------------}{\cf10\b \\n}{\cf10\b \\n}{\cf2 '})\par
+\par
+            n_answered {\cf4 =} {\cf8 list}()\par
+            i {\cf4 =} {\cf4 0}\par
+            {\cf8\b for} i {\cf12\b in} {\cf8 range}({\cf4 5}):\par
+                {\cf8\b print}({\cf2 '}{\cf2 Question \{\}:}{\cf2 '}{\cf4 .}format(i {\cf4 +} {\cf4 1}))\par
+                {\cf8\b print}({\cf2 '}{\cf2 -----------}{\cf10\b \\n}{\cf2 '})\par
+                number {\cf4 =} random{\cf4 .}randrange({\cf4 0}, n_questions)\par
+                {\cf5\i # If question is answered find a new one.}\par
+                {\cf5\i # If question choices are exhausted this will go into an}\par
+                {\cf5\i # endless loop.}\par
+                {\cf8\b while} number {\cf12\b in} [a[{\cf4 0}] {\cf8\b for} a {\cf12\b in} n_answered]:\par
+                    number {\cf4 =} random{\cf4 .}randrange({\cf4 0}, n_questions)\par
+\par
+                {\cf5\i # Print question.}\par
+                current_question {\cf4 =} {\cf8 self}{\cf4 .}__questions{\cf4 .}get_question(number)\par
+                {\cf8\b print}(current_question{\cf4 .}get_text())\par
+                {\cf5\i # Print answers.}\par
+                {\cf8\b for} j {\cf12\b in} {\cf8 range}({\cf4 4}):\par
+                    {\cf8\b print}({\cf2 '}{\cf2  \{\}: \{\}}{\cf2 '}{\cf4 .}format(j {\cf4 +} {\cf4 1},\par
+                                           current_question{\cf4 .}get_answers(j {\cf4 +} {\cf4 1})))\par
+\par
+                {\cf5\i # Get the user answer.}\par
+                u_answer {\cf4 =} {\cf4 0}\par
+                {\cf8\b while} {\cf12\b not} u_answer:\par
+                    {\cf8\b try}:\par
+                        u_answer {\cf4 =} {\cf8 int}(\par
+                            {\cf8 input}({\cf2 '}{\cf10\b \\n}{\cf2 Enter the number of the correct answer: }{\cf2 '}))\par
+                        {\cf8\b if} (u_answer {\cf4 <} {\cf4 1}) {\cf12\b or} (u_answer {\cf4 >} {\cf4 4}):\par
+                            {\cf8\b raise} {\cf24\b ValueError}\par
+                    {\cf8\b except} {\cf24\b ValueError}:\par
+                        {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 *Please use only numbers 1, 2, 3, and 4.*}{\cf10\b \\n}{\cf2 '})\par
+                        u_answer {\cf4 =} {\cf4 0}\par
+\par
+                {\cf5\i # Add to answered questions.}\par
+                n_answered{\cf4 .}append((number, u_answer))\par
+\par
+                {\cf8\b print}()\par
+\par
+            {\cf5\i # Save the players answers.}\par
+            {\cf8 self}{\cf4 .}__answers{\cf4 .}append(n_answered)\par
+\par
+    {\cf8\b def} {\cf19 print_results}({\cf8 self}):\par
+        {\cf2\i """\par
+        Print the results of a game.\par
+        """}\par
+        {\cf5\i # For all players}\par
+        {\cf8\b for} player {\cf12\b in} {\cf8 range}({\cf8 self}{\cf4 .}__players):\par
+            {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Results for player \{\}}{\cf2 '}{\cf4 .}format(player {\cf4 +} {\cf4 1}))\par
+            {\cf8\b print}({\cf2 '}{\cf2 ----------------------}{\cf10\b \\n}{\cf10\b \\n}{\cf2 '})\par
+\par
+            {\cf5\i # All answers.}\par
+            i {\cf4 =} {\cf4 1}\par
+            correct {\cf4 =} {\cf4 0}\par
+            {\cf8\b for} answer {\cf12\b in} {\cf8 self}{\cf4 .}__answers[player]:\par
+                {\cf8\b print}({\cf2 '}{\cf2 Question \{\}:}{\cf2 '}{\cf4 .}format(i))\par
+                {\cf8\b print}({\cf2 '}{\cf2 ------------}{\cf10\b \\n}{\cf2 '})\par
+                {\cf5\i # {\u191}Que?}\par
+                que {\cf4 =} {\cf8 self}{\cf4 .}__questions{\cf4 .}get_question(answer[{\cf4 0}])\par
+                {\cf5\i # Print question, answer, and correct answer.}\par
+                {\cf8\b print}(que{\cf4 .}get_text())\par
+                {\cf8\b print}({\cf2 '}{\cf2 Answer: }{\cf2 '} {\cf4 +}\par
+                      format(que{\cf4 .}get_answers(answer[{\cf4 1}])))\par
+                {\cf8\b print}({\cf2 '}{\cf2 Correct answer: }{\cf2 '} {\cf4 +}\par
+                      format(que{\cf4 .}get_answers(que{\cf4 .}get_answer())))\par
+                {\cf8\b if} que{\cf4 .}get_answer() {\cf4 ==} answer[{\cf4 1}]:\par
+                    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Answer is correct.}{\cf2 '})\par
+                    correct {\cf4 +}{\cf4 =} {\cf4 1}\par
+                {\cf8\b else}:\par
+                    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Answer is wrong.}{\cf2 '})\par
+\par
+                {\cf5\i # Next question.}\par
+                i {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+                {\cf8\b print}()\par
+\par
+        {\cf5\i # Print final scores for all players.}\par
+        {\cf8\b for} player {\cf12\b in} {\cf8 range}({\cf8 self}{\cf4 .}__players):\par
+            {\cf8\b print}({\cf2 '}{\cf2 Player \{\}: \{\} answer(s) of 5 correct.}{\cf2 '}{\cf4 .}format(player {\cf4 +} {\cf4 1},\par
+                                                                 correct))\par
+}

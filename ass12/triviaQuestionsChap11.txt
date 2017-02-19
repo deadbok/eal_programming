@@ -22,9 +22,9 @@ b. cookie cutter
 variable
 instance
 4
-By doing this you can hide a class’s attribute from code outside the class.
+By doing this you can hide a classÂ’s attribute from code outside the class.
 avoid using the self parameter to create the attribute
-begin the attribute’s name with two underscores
+begin the attributeÂ’s name with two underscores
 begin the name of the attribute with private__
 begin the name of the attribute with the @ symbol
 2
@@ -64,7 +64,7 @@ adjectives
 adverbs
 nouns
 4
-In one approach to identifying a class’s data attributes and methods, the programmer identifies the class’s ______________.
+In one approach to identifying a classÂ’s data attributes and methods, the programmer identifies the classÂ’s ______________.
 responsibilities
 name
 synonyms

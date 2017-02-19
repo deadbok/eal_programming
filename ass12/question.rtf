@@ -1,0 +1,91 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program 8 "Trivia Game"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-02-19)\par
+\par
+Class that encapsulates q trivia question.\par
+"""}\par
+\par
+\par
+{\cf8\b class} {\cf19\b Question}:\par
+    {\cf2\i """\par
+    Class that holds personal information.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, text{\cf4 =}{\cf2 '}{\cf2 None}{\cf2 '}, answers{\cf4 =}[], answer{\cf4 =}{\cf4 0}):\par
+        {\cf2\i """\par
+        Constructor.\par
+\par
+        :param text: The question.\par
+        :param answers: A list of answer strings.\par
+        :param answer: Number of the correct answer.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__text {\cf4 =} text\par
+        {\cf8 self}{\cf4 .}__answers {\cf4 =} answers\par
+        {\cf8 self}{\cf4 .}__answer {\cf4 =} {\cf4 1}\par
+\par
+    {\cf8\b def} {\cf19 get_text}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the question.\par
+\par
+        :return: The question.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__text\par
+\par
+    {\cf8\b def} {\cf19 get_answers}({\cf8 self}, number {\cf4 =} {\cf8 None}):\par
+        {\cf2\i """\par
+        Get the answers.\par
+\par
+        :param number: If set only, return the specific question.\par
+        :return: List of answers.\par
+        """}\par
+        ret {\cf4 =} {\cf8 self}{\cf4 .}__answers\par
+\par
+        {\cf8\b if} (number {\cf4 >} {\cf4 0}) {\cf12\b and} (number {\cf4 <} {\cf4 5}):\par
+            ret {\cf4 =} {\cf8 self}{\cf4 .}__answers[number {\cf4 -} {\cf4 1}]\par
+\par
+        {\cf8\b return} ret\par
+\par
+    {\cf8\b def} {\cf19 get_answer}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the number of the correct answer.\par
+\par
+        :return: The number of the correct answer.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__answer\par
+\par
+    {\cf8\b def} {\cf19 set_text}({\cf8 self}, text):\par
+        {\cf2\i """\par
+        Set the question.\par
+\par
+        :param text: String with the question.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__text {\cf4 =} text\par
+\par
+    {\cf8\b def} {\cf19 set_answers}({\cf8 self}, answers):\par
+        {\cf2\i """\par
+        Set the possible answers.\par
+\par
+        :param answers: List of answers.\par
+        """}\par
+        {\cf8\b if} {\cf8 len}(answers) {\cf4 ==} {\cf4 4}:\par
+            {\cf8 self}{\cf4 .}__answers {\cf4 =} answers\par
+        {\cf8\b else}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 Error: Exactly 4 answers are required}{\cf2 '})\par
+\par
+    {\cf8\b def} {\cf19 set_answer}({\cf8 self}, answer):\par
+        {\cf2\i """\par
+        Set the number of the correct answer.\par
+\par
+        :param answer: The number of the correct answer.\par
+        """}\par
+        {\cf8\b if} (answer {\cf4 >} {\cf4 0}) {\cf12\b and} (answer {\cf4 <} {\cf4 5}):\par
+            {\cf8 self}{\cf4 .}__answer {\cf4 =} answer\par
+        {\cf8\b else}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 Answer is out of range.}{\cf2 '})\par
+}

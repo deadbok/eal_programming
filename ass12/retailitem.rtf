@@ -1,0 +1,129 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program  5 "RetailItem Class"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-02-19)\par
+\par
+Class that holds data about an item in a retail store.\par
+"""}\par
+\par
+\par
+{\cf8\b class} {\cf19\b RetailItem}:\par
+    {\cf2\i """\par
+    RetailItem class.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}, description{\cf4 =}{\cf2 '}{\cf2 None}{\cf2 '}, inventory{\cf4 =}{\cf4 0}, price{\cf4 =}{\cf4 0}):\par
+        {\cf2\i """\par
+        Initialise the retail item.\par
+\par
+        :param description: The description of the item.\par
+        :param inventory: The number of items in the inventory-\par
+        :param price: The price of the item.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__description {\cf4 =} description\par
+        {\cf8 self}{\cf4 .}__inventory {\cf4 =} inventory\par
+        {\cf8 self}{\cf4 .}__price {\cf4 =} price\par
+\par
+    {\cf8\b def} {\cf19 get_description}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the item desciption.\par
+\par
+        :return: String with item description.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__description\par
+\par
+    {\cf8\b def} {\cf19 get_inventory}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the number of items in the inventory.\par
+\par
+        :return: The number of items.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__inventory\par
+\par
+    {\cf8\b def} {\cf19 get_price}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get the price of the item.\par
+\par
+        :return: The price of the item.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}__price\par
+\par
+    {\cf8\b def} {\cf19 set_description}({\cf8 self}, description):\par
+        {\cf2\i """\par
+        Set the item description.\par
+\par
+        :param description: The item description.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__description {\cf4 =} description\par
+\par
+    {\cf8\b def} {\cf19 set_inventory}({\cf8 self}, inventory):\par
+        {\cf2\i """\par
+        Set the number of items in the inventory.\par
+\par
+        :param inventory: The number of items.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__inventory {\cf4 =} inventory\par
+\par
+    {\cf8\b def} {\cf19 set_price}({\cf8 self}, price):\par
+        {\cf2\i """\par
+        Set the price of the item.\par
+\par
+        :param price: The proce of the item.\par
+        """}\par
+        {\cf8 self}{\cf4 .}__price {\cf4 =} price\par
+\par
+    {\cf8\b def} {\cf19 add_item}({\cf8 self}, description{\cf4 =}{\cf8 None}):\par
+        {\cf2\i """\par
+        Helper function to add a new item to the inventory.\par
+        If a description is supplied, the item description must match this\par
+        for the item to get added.\par
+\par
+        :param description: Item description.\par
+        :return: True if added.\par
+        """}\par
+        ret {\cf4 =} {\cf8 False}\par
+        {\cf8\b if} description {\cf12\b is} {\cf8 None}:\par
+            {\cf8 self}{\cf4 .}__inventory {\cf4 +}{\cf4 =} {\cf4 1}\par
+            ret {\cf4 =} {\cf8 True}\par
+        {\cf8\b else}:\par
+            {\cf8\b if} description {\cf4 ==} {\cf8 self}{\cf4 .}get_description():\par
+                {\cf8 self}{\cf4 .}__inventory {\cf4 +}{\cf4 =} {\cf4 1}\par
+                ret {\cf4 =} {\cf8 True}\par
+\par
+        {\cf8\b return} ret\par
+\par
+    {\cf8\b def} {\cf19 remove_item}({\cf8 self}, description{\cf4 =}{\cf8 None}):\par
+        {\cf2\i """\par
+        Helper function to remove an item.\par
+        If a description is supplied, the item description must match this\par
+        for the item to get removed.\par
+\par
+        :param description: Item description.\par
+        :return: True if removed.\par
+        """}\par
+        ret {\cf4 =} {\cf8 False}\par
+        {\cf8\b if} description {\cf12\b is} {\cf8 None}:\par
+            {\cf8 self}{\cf4 .}__inventory {\cf4 -}{\cf4 =} {\cf4 1}\par
+            ret {\cf4 =} {\cf8 True}\par
+        {\cf8\b else}:\par
+            {\cf8\b if} description {\cf4 ==} {\cf8 self}{\cf4 .}get_description():\par
+                {\cf8 self}{\cf4 .}__inventory {\cf4 -}{\cf4 =} {\cf4 1}\par
+                ret {\cf4 =} {\cf8 True}\par
+\par
+        {\cf8\b return} ret\par
+\par
+    {\cf8\b def} {\cf19 __str__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return a string that is directly usable when printing the entry.\par
+\par
+        :return: string\par
+        """}\par
+        {\cf8\b return} ({\cf2 '}{\cf2 \{:20\}}{\cf10\b \\t}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}get_description()) {\cf4 +}\par
+                {\cf2 '}{\cf2 \{:8.2f\}}{\cf10\b \\t}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}get_price())\par
+                )\par
+}

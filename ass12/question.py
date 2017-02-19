@@ -10,11 +10,14 @@ Version: 1.0 (2017-02-19)
 
 Class that encapsulates q trivia question.
 """
+
+
 class Question:
     """
     Class that holds personal information.
     """
-    def __init__(self, text = 'None', answers= [], answer = 0):
+
+    def __init__(self, text='None', answers=[], answer=0):
         """
         Constructor.
 
@@ -26,7 +29,6 @@ class Question:
         self.__answers = answers
         self.__answer = 1
 
-
     def get_text(self):
         """
         Get the question.
@@ -35,13 +37,19 @@ class Question:
         """
         return self.__text
 
-    def get_answers(self):
+    def get_answers(self, number = None):
         """
         Get the answers.
 
+        :param number: If set only, return the specific question.
         :return: List of answers.
         """
-        return self.__answers
+        ret = self.__answers
+
+        if (number > 0) and (number < 5):
+            ret = self.__answers[number - 1]
+
+        return ret
 
     def get_answer(self):
         """

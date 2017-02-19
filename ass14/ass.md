@@ -1,5 +1,5 @@
 # Programming Exercises #
-## Assignment 12 Inheritance ##
+## Assignment 14 Inheritance ##
 
 This assignment will train Python: Inheritance, classes, objects - instances,
 and subjects from the previous chapters. In the text book

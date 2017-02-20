@@ -1,0 +1,11 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class Questions{
+    -__questions
+    -__init__()
+    +get_question()
+    +get_questions()
+}
+@enduml

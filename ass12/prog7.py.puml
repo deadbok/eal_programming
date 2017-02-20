@@ -1,0 +1,20 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class App{
+    +menu_items
+    -__sale_items
+    -__register
+    +selected
+    +op
+    -__init__()
+    +menu()
+    +select_op()
+    +buy()
+    +purchase()
+    +show()
+    +clear()
+    +run()
+}
+@enduml

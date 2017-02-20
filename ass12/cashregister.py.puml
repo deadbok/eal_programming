@@ -1,0 +1,13 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class CashRegister{
+    -__cart
+    -__init__()
+    +purchase_item()
+    +get_total()
+    +show_items()
+    +clear()
+}
+@enduml

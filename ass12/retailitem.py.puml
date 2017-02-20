@@ -1,0 +1,20 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class RetailItem{
+    -__description
+    -__inventory
+    -__price
+    -__init__()
+    +get_description()
+    +get_inventory()
+    +get_price()
+    +set_description()
+    +set_inventory()
+    +set_price()
+    +add_item()
+    +remove_item()
+    -__str__()
+}
+@enduml

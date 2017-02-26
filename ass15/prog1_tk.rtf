@@ -1,0 +1,73 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red0\green160\blue0;\red186\green33\blue33;\red255\green0\blue0;\red0\green128\blue0;\red0\green68\blue221;\red170\green34\blue255;\red187\green102\blue34;\red160\green0\blue0;\red0\green0\blue128;\red187\green187\blue187;\red187\green102\blue136;\red136\green0\blue0;\red64\green128\blue128;\red153\green153\blue153;\red102\green102\blue102;\red125\green144\blue41;\red128\green0\blue128;\red25\green23\blue124;\red160\green160\blue0;\red0\green0\blue255;\red176\green0\blue64;\red136\green136\blue136;\red188\green122\blue0;\red210\green65\blue58;}\f0 {\cf13\i #!/usr/bin/env python3}\par
+{\cf13\i # -*- coding: utf-8 -*-}\par
+{\cf13\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf13\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf13\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: Program  5 "RetailItem Class"\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-02-19)\par
+\par
+Program for entering details in to a ProductionWorker class.\par
+"""}\par
+{\cf4\b import} {\cf20\b tkinter}\par
+{\cf4\b from} {\cf20\b tkinter} {\cf4\b import} StringVar\par
+\par
+\par
+{\cf4\b class} {\cf20\b MyGUI}:\par
+    {\cf4\b def} {\cf20 __init__}({\cf4 self}, parent):\par
+        {\cf2\i """\par
+        Constructor.\par
+        Creates the UI components and layout.\par
+\par
+        :param parent: The parant widget.\par
+        """}\par
+        {\cf13\i # Create the main window widget.}\par
+        {\cf4 self}{\cf15 .}parent {\cf15 =} parent\par
+\par
+        {\cf13\i # Create a StringVar used to modify the label text.}\par
+        {\cf4 self}{\cf15 .}info_str {\cf15 =} StringVar()\par
+\par
+        {\cf13\i # Create a Label widget}\par
+        {\cf4 self}{\cf15 .}info_label {\cf15 =} tkinter{\cf15 .}Label({\cf4 self}{\cf15 .}parent,\par
+                                        textvariable{\cf15 =}{\cf4 self}{\cf15 .}info_str,\par
+                                        height{\cf15 =}{\cf15 3})\par
+        {\cf13\i # Place the label at the top of the grid layout}\par
+        {\cf4 self}{\cf15 .}info_label{\cf15 .}grid(row{\cf15 =}{\cf15 0}, column{\cf15 =}{\cf15 0}, columnspan{\cf15 =}{\cf15 3}, padx{\cf15 =}{\cf15 2}, pady{\cf15 =}{\cf15 2})\par
+\par
+        {\cf13\i # Create the buttons.}\par
+        {\cf4 self}{\cf15 .}info_button {\cf15 =} tkinter{\cf15 .}Button({\cf4 self}{\cf15 .}parent,\par
+                                          text{\cf15 =}{\cf2 '}{\cf2 Show info}{\cf2 '},\par
+                                          command{\cf15 =}{\cf4 self}{\cf15 .}add_data)\par
+        {\cf4 self}{\cf15 .}quit_button {\cf15 =} tkinter{\cf15 .}Button({\cf4 self}{\cf15 .}parent,\par
+                                          text{\cf15 =}{\cf2 '}{\cf2 Quit}{\cf2 '},\par
+                                          command{\cf15 =}{\cf4 self}{\cf15 .}parent{\cf15 .}destroy)\par
+\par
+        {\cf13\i # Add the buttons to the second row of the layout grid.}\par
+        {\cf4 self}{\cf15 .}info_button{\cf15 .}grid(row{\cf15 =}{\cf15 1}, column{\cf15 =}{\cf15 0}, padx{\cf15 =}{\cf15 5}, pady{\cf15 =}{\cf15 5})\par
+        {\cf4 self}{\cf15 .}quit_button{\cf15 .}grid(row{\cf15 =}{\cf15 1}, column{\cf15 =}{\cf15 2}, padx{\cf15 =}{\cf15 5}, pady{\cf15 =}{\cf15 5})\par
+\par
+    {\cf4\b def} {\cf20 add_data}({\cf4 self}):\par
+        {\cf2\i """\par
+        Event handler to add data to the label when the info button is pressed.\par
+        """}\par
+        {\cf4 self}{\cf15 .}info_str{\cf15 .}set({\cf2 '}{\cf2 Steven Marcus}{\cf7\b \\n}{\cf2 '} {\cf15 +}\par
+                          {\cf2 '}{\cf2 274 Baily Drive}{\cf7\b \\n}{\cf2 '} {\cf15 +}\par
+                          {\cf2 '}{\cf2 Waynesville, NC 27999}{\cf2 '})\par
+\par
+\par
+{\cf4\b def} {\cf20 main}():\par
+    {\cf2\i """\par
+    Main function, instantiates TK and the GUI class.\par
+    """}\par
+    root {\cf15 =} tkinter{\cf15 .}Tk()\par
+    {\cf13\i # Create an instance of the MyGUI class.}\par
+    my_gui {\cf15 =} MyGUI(root)\par
+    {\cf13\i # Enter the tkinter main loop}\par
+    tkinter{\cf15 .}mainloop()\par
+\par
+\par
+{\cf13\i # Run this when invoked directly}\par
+{\cf4\b if} __name__ {\cf15 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

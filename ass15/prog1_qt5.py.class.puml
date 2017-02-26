@@ -1,0 +1,10 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class Prog1UI{
+    +address_label
+    -__init__()
+    +infoClicked()
+}
+@enduml

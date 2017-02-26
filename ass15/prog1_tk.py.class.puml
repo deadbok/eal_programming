@@ -1,0 +1,14 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class MyGUI{
+    +parent
+    +info_str
+    +info_label
+    +info_button
+    +quit_button
+    -__init__()
+    +add_data()
+}
+@enduml

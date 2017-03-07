@@ -1,0 +1,17 @@
+#
+# Deploy Juniper SRX test device in VirtualBox
+#
+Vagrant.configure(2) do |config|
+  config.vm.box = "juniper/ffp-12.1X47-D15.4-packetmode"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 1024
+    vb.cpus = 2
+    vb.gui = true
+  end
+
+  config.vm.define "vsrx" do |vsrx|
+    vsrx.vm.host_name = "vsrx"
+    vsrx.vm.network "forwarded_port", guest: 22, host: 22222
+  end
+end

@@ -1,0 +1,8 @@
+@startuml
+
+!include UI.class.puml
+!include VSRX.class.puml
+
+UI --|> VSRX
+
+@enduml

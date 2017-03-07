@@ -47,7 +47,7 @@ device using paramiko.
 
     def getOutput(self, wait_interval = 0.1, wait_period = 1):
         """
-        Empty the paramiko in buffer.
+        Empty the paramiko in buffer return the contents.
         """
         ret = ''
         current_wait = 0
@@ -74,8 +74,9 @@ device using paramiko.
                     done = True
         return(ret)
 
-    def connect(self, ip, port='2222', username='root', password='TestTest'):
-        self.client.connect(ip, port=port, username=username, password=password)
+    def connect(self, ip, port='22', username='root', password='TestTest'):
+        self.client.connect(ip, port=port, username=username,
+                            password=password, timeout=10)
         self.startCLI()
 
     def showConfiguration(self):

@@ -16,6 +16,7 @@ from paramiko.ssh_exception import AuthenticationException, \
 
 from vjuniper import VJuniper
 
+
 class MainWindow(QWidget):
     """
     Class encapsulates the main window.
@@ -101,7 +102,7 @@ class MainWindow(QWidget):
         # Set the window content text
         mb.setText(msg)
         # Show the message box.
-        mb.exec ()
+        mb.exec()
 
     def getConfigClicked(self):
         """
@@ -143,14 +144,15 @@ class MainWindow(QWidget):
         if not ok:
             return
 
-        #Everything has checked out so far, lets talk to the juniper device.
+        # Everything has checked out so far, lets talk to the juniper device.
         try:
             # Connect to the juniper device.
-            self.__vjuniper.connect(ip, port, username=username, password=password)
+            self.__vjuniper.connect(ip, port, username=username,
+                                    password=password)
             # Run "show configuration" on the Juniper device and return the
             # output.
             config = self.__vjuniper.showConfiguration()
-        #Handling of various communication errors.
+        # Handling of various communication errors.
         except AuthenticationException:
             self.error('Could not authenticate with the router')
             return

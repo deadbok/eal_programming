@@ -1,6 +1,6 @@
-{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red170\green34\blue255;\red187\green102\blue136;\red0\green128\blue0;\red64\green128\blue128;\red25\green23\blue124;\red136\green0\blue0;\red187\green102\blue34;\red255\green0\blue0;\red176\green0\blue64;\red0\green68\blue221;\red0\green0\blue255;\red102\green102\blue102;\red153\green153\blue153;\red160\green160\blue0;\red210\green65\blue58;\red0\green160\blue0;\red125\green144\blue41;\red0\green0\blue128;\red186\green33\blue33;\red188\green122\blue0;\red160\green0\blue0;\red136\green136\blue136;\red128\green0\blue128;\red187\green187\blue187;}\f0 {\cf4\i #!/usr/bin/env python3}\par
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red186\green33\blue33;\red0\green0\blue255;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red153\green153\blue153;\red0\green128\blue0;\red210\green65\blue58;\red136\green0\blue0;\red170\green34\blue255;\red125\green144\blue41;\red0\green0\blue128;\red0\green160\blue0;\red136\green136\blue136;\red255\green0\blue0;\red176\green0\blue64;\red187\green102\blue136;\red128\green0\blue128;\red0\green68\blue221;\red188\green122\blue0;\red187\green187\blue187;\red187\green102\blue34;\red160\green0\blue0;}\f0 {\cf4\i #!/usr/bin/env python3}\par
 {\cf4\i # -*- coding: utf-8 -*-}\par
-{\cf19\i """\par
+{\cf1\i """\par
 Name: Junpier configuration snatcher\par
 Author: Martin Bo Kristensen Gr{\u248}nholdt, Rickie Ljungberg, Kasper Soelberg.\par
 Version: 1.0 (2017-03-09)\par
@@ -8,25 +8,25 @@ Version: 1.0 (2017-03-09)\par
 Program with a nice GUI to get the configuration from a Juniper device.\par
 """}\par
 \par
-{\cf3\b import} {\cf11\b sys}\par
+{\cf8\b import} {\cf2\b sys}\par
 \par
-{\cf3\b from} {\cf11\b PyQt5.QtWidgets} {\cf3\b import} QApplication\par
-{\cf3\b from} {\cf11\b mainwindow} {\cf3\b import} MainWindow\par
+{\cf8\b from} {\cf2\b PyQt5.QtWidgets} {\cf8\b import} QApplication\par
+{\cf8\b from} {\cf2\b mainwindow} {\cf8\b import} MainWindow\par
 \par
 \par
-{\cf3\b def} {\cf11 main}():\par
-    {\cf19\i """\par
+{\cf8\b def} {\cf2 main}():\par
+    {\cf1\i """\par
     Main program\par
     """}\par
     {\cf4\i # Instantiate the QT application class}\par
-    app {\cf12 =} QApplication(sys{\cf12 .}argv)\par
+    app {\cf3 =} QApplication(sys{\cf3 .}argv)\par
     {\cf4\i # Create out window}\par
-    ui {\cf12 =} MainWindow()\par
+    ui {\cf3 =} MainWindow()\par
     {\cf4\i # Exit when done.}\par
-    sys{\cf12 .}exit(app{\cf12 .}exec_())\par
+    sys{\cf3 .}exit(app{\cf3 .}exec_())\par
 \par
 \par
 {\cf4\i # Run this when invoked directly}\par
-{\cf3\b if} __name__ {\cf12 ==} {\cf19 '}{\cf19 __main__}{\cf19 '}:\par
+{\cf8\b if} __name__ {\cf3 ==} {\cf1 '}{\cf1 __main__}{\cf1 '}:\par
     main()\par
 }

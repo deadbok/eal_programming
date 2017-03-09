@@ -15,7 +15,7 @@ class VJuniper():
     Class that encapsulates the finer details of communicating with a Junpier
     device using paramiko.
     """
-    #Constant used to tell that the Juniper device is in operational mode.
+    # Constant used to tell that the Juniper device is in operational mode.
     OPERATIONAL = 0
     # Constant used to tell that the Juniper device is in configuration mode.
     CONFIGURATION = 1
@@ -31,12 +31,12 @@ class VJuniper():
         # Used to keep track of the mode that the Juniper device is in.
         self.__mode = None
 
-        #Create the paramiko SSH client object.
+        # Create the paramiko SSH client object.
         self.__client = paramiko.SSHClient()
         # Allow unknown hosts to be added to the host keys
         self.__client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    def __getOutput(self, wait_interval = 0.1, wait_period = 1):
+    def __getOutput(self, wait_interval=0.1, wait_period=1):
         """
         Empty the paramiko in buffer and return the contents.
 
@@ -76,7 +76,7 @@ class VJuniper():
                 # Reset the wait period.
                 current_wait = 0
             else:
-                #No new output, wait some more.
+                # No new output, wait some more.
                 time.sleep(wait_interval)
                 current_wait += wait_interval
 
@@ -96,7 +96,7 @@ class VJuniper():
                 if ret.endswith('# '):
                     done = True
         # Return the output.
-        return(ret)
+        return (ret)
 
     def startCLI(self):
         """
@@ -114,7 +114,6 @@ class VJuniper():
 
         # Empty the paramiko input buffer, and discard the data.
         self.__getOutput()
-
 
     def connect(self, ip, port='22', username='root', password='TestTest'):
         """
@@ -138,8 +137,8 @@ class VJuniper():
 
         :return: The Juniper device configuration.
         """
-        #Start of with an empty return value,
-        ret = ['','','']
+        # Start of with an empty return value,
+        ret = ['', '', '']
         # Check that we have a connection.
         if self.__channel is not None:
             # Send the show configuration command.
@@ -151,7 +150,7 @@ class VJuniper():
         # Return the list as a string, but remove the first and last line,
         # which is the command that we ran, at the top line, and the prompt at
         # the last line.
-        return('\n'.join(ret[1:-1]))
+        return ('\n'.join(ret[1:-1]))
 
     def close(self):
         """
@@ -162,5 +161,3 @@ class VJuniper():
             self.__channel.send('exit')
         # Close the connection.
         self.__channel.close()
-
-

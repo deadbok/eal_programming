@@ -1,27 +1,20 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# The above lines tell the shell to use python as interpreter when the
-# script is called directly, and that this file uses utf-8 encoding,
-# because of the country specific letter in my surname.
 """
 Name: Junpier configuration snatcher
-Author: Martin Bo Kristensen Grønholdt.
-Version: 1.0 (2017-03-07)
+Author: Martin Bo Kristensen Grønholdt, Rickie Ljungberg, Kasper Soelberg.
+Version: 1.0 (2017-03-09)
 
-Main windows
+Main window.
 """
 
-import sys
 import socket
-
+import sys
 from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout, QApplication, \
     QLabel, QLineEdit, QPlainTextEdit, QInputDialog, QMessageBox
-
 from paramiko.ssh_exception import AuthenticationException, \
     BadHostKeyException
 
-from vsrx import VSRX
-
+from vjuniper import VJuniper
 
 class MainWindow(QWidget):
     """
@@ -41,15 +34,17 @@ class MainWindow(QWidget):
         config_label = QLabel('Configuration:')
 
         # Create the IP and file name edits.
-        self.ip_edit = QLineEdit()
+        self.__ip_edit = QLineEdit()
         # self.ip_edit.setInputMask('000.000.000.000')
-        self.ip_edit.setPlaceholderText('127.0.0.1:22')
-        self.file_name_edit = QLineEdit()
-        self.file_name_edit.setPlaceholderText(
+        self.__ip_edit.setPlaceholderText('127.0.0.1:22')
+        self.__file_name_edit = QLineEdit()
+        self.__file_name_edit.setPlaceholderText(
             'Leave empty to only view the config')
 
         # Create the configuration file view.
-        self.config_edit = QPlainTextEdit()
+        self.__config_edit = QPlainTextEdit()
+        # Do not allow editing the configuration.
+        self.__config_edit.setReadOnly(True)
 
         # Create the buttons
         get_button = QPushButton("Get configuration")
@@ -69,14 +64,14 @@ class MainWindow(QWidget):
         grid.addWidget(file_name_label, 0, 2, 1, 1)
 
         # Place the edit fields on the next line.
-        grid.addWidget(self.ip_edit, 1, 0, 1, 2)
-        grid.addWidget(self.file_name_edit, 1, 2, 1, 4)
+        grid.addWidget(self.__ip_edit, 1, 0, 1, 2)
+        grid.addWidget(self.__file_name_edit, 1, 2, 1, 4)
 
         # Place the configuration view label on the next line.
         grid.addWidget(config_label, 2, 0)
 
         # Place the configuration view.
-        grid.addWidget(self.config_edit, 3, 0, 1, 6)
+        grid.addWidget(self.__config_edit, 3, 0, 1, 6)
 
         # Place the buttons at the second row, with some cells between them for
         # spacing.
@@ -92,7 +87,7 @@ class MainWindow(QWidget):
         self.show()
 
         # Create the VSRX instance used to talk to the Juniper device.
-        self.vsrx = VSRX()
+        self.__vjuniper = VJuniper()
 
     def error(self, msg):
         """
@@ -106,7 +101,7 @@ class MainWindow(QWidget):
         # Set the window content text
         mb.setText(msg)
         # Show the message box.
-        mb.exec()
+        mb.exec ()
 
     def getConfigClicked(self):
         """
@@ -114,7 +109,7 @@ class MainWindow(QWidget):
         """
         try:
             # Get the contents of the IP edit field.
-            ip = self.ip_edit.text()
+            ip = self.__ip_edit.text()
             # Split in port number and IP if : is in the input.
             if ':' in ip:
                 # Isolate the port.
@@ -148,9 +143,14 @@ class MainWindow(QWidget):
         if not ok:
             return
 
+        #Everything has checked out so far, lets talk to the juniper device.
         try:
-            self.vsrx.connect(ip, port, username=username, password=password)
-            config = self.vsrx.showConfiguration()
+            # Connect to the juniper device.
+            self.__vjuniper.connect(ip, port, username=username, password=password)
+            # Run "show configuration" on the Juniper device and return the
+            # output.
+            config = self.__vjuniper.showConfiguration()
+        #Handling of various communication errors.
         except AuthenticationException:
             self.error('Could not authenticate with the router')
             return
@@ -161,10 +161,12 @@ class MainWindow(QWidget):
             self.error('Connection error or time out')
             return
 
-        self.config_edit.setPlainText(config)
+        # Put the configuration file in the edit component in the GUI.
+        self.__config_edit.setPlainText(config)
 
+        # Save the configurtion to a file, if a file name was entered.
         try:
-            file_name = self.file_name_edit.text()
+            file_name = self.__file_name_edit.text()
             if file_name != '':
                 with open(file_name, 'w') as config_file:
                     config_file.write(config)

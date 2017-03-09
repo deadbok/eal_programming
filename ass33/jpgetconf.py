@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# The above lines tell the shell to use python as interpreter when the
-# script is called directly, and that this file uses utf-8 encoding,
-# because of the country specific letter in my surname.
 """
-Name: Program  5 "RetailItem Class"
-Author: Martin Bo Kristensen Grønholdt.
-Version: 1.0 (2017-02-19)
+Name: Junpier configuration snatcher
+Author: Martin Bo Kristensen Grønholdt, Rickie Ljungberg, Kasper Soelberg.
+Version: 1.0 (2017-03-09)
 
-Program for entering details in to a ProductionWorker class.
+Program with a nice GUI to get the configuration from a Juniper device.
 """
 
 import sys
 
 from PyQt5.QtWidgets import QApplication
-from ass33 import mainwindow
+from mainwindow import MainWindow
 
 
 def main():
@@ -24,7 +21,7 @@ def main():
     # Instantiate the QT application class
     app = QApplication(sys.argv)
     # Create out window
-    ui = mainwindow.MainWindow()
+    ui = MainWindow()
     # Exit when done.
     sys.exit(app.exec_())
 

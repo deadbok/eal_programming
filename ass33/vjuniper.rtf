@@ -1,0 +1,165 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red186\green33\blue33;\red0\green128\blue0;\red0\green0\blue255;\red160\green160\blue0;\red25\green23\blue124;\red64\green128\blue128;\red255\green0\blue0;\red0\green68\blue221;\red102\green102\blue102;\red0\green0\blue128;\red176\green0\blue64;\red160\green0\blue0;\red187\green102\blue136;\red136\green136\blue136;\red187\green187\blue187;\red170\green34\blue255;\red187\green102\blue34;\red188\green122\blue0;\red0\green160\blue0;\red136\green0\blue0;\red128\green0\blue128;\red210\green65\blue58;\red125\green144\blue41;\red153\green153\blue153;}\f0 {\cf1\i """\par
+Name: Junpier configuration snatcher\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt, Rickie Ljungberg, Kasper Soelberg.\par
+Version: 1.0 (2017-03-09)\par
+\par
+Class that encapsulates the finer details of communicating with a Junpier\par
+device using paramiko.\par
+"""}\par
+\par
+{\cf2\b import} {\cf3\b sys}{\cf9 ,} {\cf3\b paramiko}{\cf9 ,} {\cf3\b time}\par
+\par
+\par
+{\cf2\b class} {\cf3\b VJuniper}():\par
+    {\cf1\i """\par
+    Class that encapsulates the finer details of communicating with a Junpier\par
+    device using paramiko.\par
+    """}\par
+    {\cf6\i #Constant used to tell that the Juniper device is in operational mode.}\par
+    OPERATIONAL {\cf9 =} {\cf9 0}\par
+    {\cf6\i # Constant used to tell that the Juniper device is in configuration mode.}\par
+    CONFIGURATION {\cf9 =} {\cf9 1}\par
+    {\cf6\i # Constant used to tell that the Juniper device is in shall mode.}\par
+    SHELL {\cf9 =} {\cf9 2}\par
+\par
+    {\cf2\b def} {\cf3 __init__}({\cf2 self}):\par
+        {\cf1\i """\par
+        Constructor..\par
+        """}\par
+        {\cf6\i # Used for the channel that is opened using paramiko.}\par
+        {\cf2 self}{\cf9 .}__channel {\cf9 =} {\cf2 None}\par
+        {\cf6\i # Used to keep track of the mode that the Juniper device is in.}\par
+        {\cf2 self}{\cf9 .}__mode {\cf9 =} {\cf2 None}\par
+\par
+        {\cf6\i #Create the paramiko SSH client object.}\par
+        {\cf2 self}{\cf9 .}__client {\cf9 =} paramiko{\cf9 .}SSHClient()\par
+        {\cf6\i # Allow unknown hosts to be added to the host keys}\par
+        {\cf2 self}{\cf9 .}__client{\cf9 .}set_missing_host_key_policy(paramiko{\cf9 .}AutoAddPolicy())\par
+\par
+    {\cf2\b def} {\cf3 __getOutput}({\cf2 self}, wait_interval {\cf9 =} {\cf9 0.1}, wait_period {\cf9 =} {\cf9 1}):\par
+        {\cf1\i """\par
+        Empty the paramiko in buffer and return the contents.\par
+\par
+        :param wait_interval: The interval beetween checking for new output.\par
+        :param wait_period: The maximum amount of time that this method is\par
+                            allowed to wait for output.\par
+        :return: The output of the Juniper device as a string.\par
+        """}\par
+        {\cf6\i # Start of with an empty return value.}\par
+        ret {\cf9 =} {\cf1 '}{\cf1 '}\par
+        {\cf6\i # We haven't done any waiting yet.}\par
+        current_wait {\cf9 =} {\cf9 0}\par
+        {\cf6\i # We are not done.}\par
+        done {\cf9 =} {\cf2 False}\par
+\par
+        {\cf6\i # Instead of waiting blindly crossing our fingers that it it is enough,}\par
+        {\cf6\i # this code block tries to be smarter.}\par
+        {\cf6\i # It uses the fact that whenever the Juniper device is done running a}\par
+        {\cf6\i # command, it will show a prompt. The prompt is different in each mode}\par
+        {\cf6\i # which is why we keep track of the mode in other places. This will}\par
+        {\cf6\i # loop until the maximum amount of time allowed, has passed, checking}\par
+        {\cf6\i # at wait_interval periods for the prompt at the end of the output.}\par
+        {\cf6\i #}\par
+        {\cf6\i # To things will break this:}\par
+        {\cf6\i #  * Always run commands using no-more to make sure that the Juniper}\par
+        {\cf6\i #    device will not wait for a keypress that will never happen.}\par
+        {\cf6\i # * There is a possiblity that the end of the ouput from the router}\par
+        {\cf6\i #   could be the start of a comment, a hashtag followed by a space,}\par
+        {\cf6\i #   which is handled as a prompt in configuration mode. To fix this}\par
+        {\cf6\i #   a regular expression including the user@hostname part would be}\par
+        {\cf6\i #   better.}\par
+        {\cf2\b while} {\cf16\b not} done:\par
+            {\cf6\i # Is there any new output?}\par
+            {\cf2\b if} {\cf2 self}{\cf9 .}__channel{\cf9 .}recv_ready():\par
+                {\cf6\i # Add it to our return variable.}\par
+                ret {\cf9 +}{\cf9 =} {\cf2 self}{\cf9 .}__channel{\cf9 .}recv({\cf9 10000}){\cf9 .}decode()\par
+                {\cf6\i # Reset the wait period.}\par
+                current_wait {\cf9 =} {\cf9 0}\par
+            {\cf2\b else}:\par
+                {\cf6\i #No new output, wait some more.}\par
+                time{\cf9 .}sleep(wait_interval)\par
+                current_wait {\cf9 +}{\cf9 =} wait_interval\par
+\par
+            {\cf6\i # Have we reached the time out?}\par
+            {\cf2\b if} current_wait {\cf9 ==} wait_period:\par
+                done {\cf9 =} {\cf2 True}\par
+\par
+            {\cf6\i # Check for a prompt which indicates the end of the output, and}\par
+            {\cf6\i # get out if we find one..}\par
+            {\cf2\b if} {\cf2 self}{\cf9 .}__mode {\cf9 ==} {\cf2 self}{\cf9 .}SHELL:\par
+                {\cf2\b if} ret{\cf9 .}endswith({\cf1 '}{\cf1 %}{\cf1  }{\cf1 '}):\par
+                    done {\cf9 =} {\cf2 True}\par
+            {\cf2\b elif} {\cf2 self}{\cf9 .}__mode {\cf9 ==} {\cf2 self}{\cf9 .}OPERATIONAL:\par
+                {\cf2\b if} ret{\cf9 .}endswith({\cf1 '}{\cf1 > }{\cf1 '}):\par
+                    done {\cf9 =} {\cf2 True}\par
+            {\cf2\b elif} {\cf2 self}{\cf9 .}__mode {\cf9 ==} {\cf2 self}{\cf9 .}CONFIGURATION:\par
+                {\cf2\b if} ret{\cf9 .}endswith({\cf1 '}{\cf1 # }{\cf1 '}):\par
+                    done {\cf9 =} {\cf2 True}\par
+        {\cf6\i # Return the output.}\par
+        {\cf2\b return}(ret)\par
+\par
+    {\cf2\b def} {\cf3 startCLI}({\cf2 self}):\par
+        {\cf1\i """\par
+        Start the CLI on the Juniper device, entering operational mode.\par
+        """}\par
+        {\cf6\i # Invoke a shell on the Juniper device.}\par
+        {\cf2 self}{\cf9 .}__channel {\cf9 =} {\cf2 self}{\cf9 .}__client{\cf9 .}invoke_shell()\par
+        {\cf6\i # The Juniper device is now in shell mode.}\par
+        {\cf2 self}{\cf9 .}__mode {\cf9 =} {\cf2 self}{\cf9 .}SHELL\par
+\par
+        {\cf6\i # Enter the cli.}\par
+        {\cf2 self}{\cf9 .}__channel{\cf9 .}send({\cf1 '}{\cf1 cli}{\cf17\b \\n}{\cf1 '})\par
+        {\cf6\i # We are now in operational mode}\par
+        {\cf2 self}{\cf9 .}__mode {\cf9 =} {\cf2 self}{\cf9 .}OPERATIONAL\par
+\par
+        {\cf6\i # Empty the paramiko input buffer, and discard the data.}\par
+        {\cf2 self}{\cf9 .}__getOutput()\par
+\par
+\par
+    {\cf2\b def} {\cf3 connect}({\cf2 self}, ip, port{\cf9 =}{\cf1 '}{\cf1 22}{\cf1 '}, username{\cf9 =}{\cf1 '}{\cf1 root}{\cf1 '}, password{\cf9 =}{\cf1 '}{\cf1 TestTest}{\cf1 '}):\par
+        {\cf1\i """\par
+        Connect to a Junpier device using paramiko SSH, and start the cli.\par
+\par
+        :param ip: IP address of the Juniper device.\par
+        :param port: The port that SSH is listening on.\par
+        :param username: The user name used to log in to the Juniper device,\par
+        :param password: The password used to log in to the Juniper device,\par
+        """}\par
+        {\cf6\i # Use paramiko to connect.}\par
+        {\cf2 self}{\cf9 .}__client{\cf9 .}connect(ip, port{\cf9 =}port, username{\cf9 =}username,\par
+                              password{\cf9 =}password, timeout{\cf9 =}{\cf9 10})\par
+        {\cf6\i # Start the cli.}\par
+        {\cf2 self}{\cf9 .}startCLI()\par
+\par
+    {\cf2\b def} {\cf3 showConfiguration}({\cf2 self}):\par
+        {\cf1\i """\par
+        Run the show configuration command on the Juniper device and return\par
+        the output.\par
+\par
+        :return: The Juniper device configuration.\par
+        """}\par
+        {\cf6\i #Start of with an empty return value,}\par
+        ret {\cf9 =} [{\cf1 '}{\cf1 '},{\cf1 '}{\cf1 '},{\cf1 '}{\cf1 '}]\par
+        {\cf6\i # Check that we have a connection.}\par
+        {\cf2\b if} {\cf2 self}{\cf9 .}__channel {\cf16\b is} {\cf16\b not} {\cf2 None}:\par
+            {\cf6\i # Send the show configuration command.}\par
+            {\cf2 self}{\cf9 .}__channel{\cf9 .}send({\cf1 '}{\cf1 show configuration | no-more}{\cf17\b \\n}{\cf1 '})\par
+            {\cf6\i # Get the output from the Juniper device, make a list by splitting}\par
+            {\cf6\i # the string at each new line..}\par
+            ret {\cf9 =} {\cf2 self}{\cf9 .}__getOutput(){\cf9 .}split({\cf1 '}{\cf17\b \\n}{\cf1 '})\par
+\par
+        {\cf6\i # Return the list as a string, but remove the first and last line,}\par
+        {\cf6\i # which is the command that we ran, at the top line, and the prompt at}\par
+        {\cf6\i # the last line.}\par
+        {\cf2\b return}({\cf1 '}{\cf17\b \\n}{\cf1 '}{\cf9 .}join(ret[{\cf9 1}:{\cf9 -}{\cf9 1}]))\par
+\par
+    {\cf2\b def} {\cf3 close}({\cf2 self}):\par
+        {\cf1\i """\par
+        Close the connection to the Juniper device.\par
+        """}\par
+        {\cf6\i # If the channel is open, exit the cli for good measure.}\par
+        {\cf2\b if} {\cf2 self}{\cf9 .}__channel {\cf16\b is} {\cf16\b not} {\cf2 None}:\par
+            {\cf2 self}{\cf9 .}__channel{\cf9 .}send({\cf1 '}{\cf1 exit}{\cf1 '})\par
+        {\cf6\i # Close the connection.}\par
+        {\cf2 self}{\cf9 .}__channel{\cf9 .}close()\par
+}

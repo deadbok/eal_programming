@@ -1,0 +1,14 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class MainWindow{
+    -__ip_edit
+    -__file_name_edit
+    -__config_edit
+    -__vjuniper
+    -__init__()
+    +error()
+    +getConfigClicked()
+}
+@enduml

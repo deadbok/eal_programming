@@ -1,0 +1,40 @@
+@startuml
+
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+
+!include mainwindow.py.class.puml
+!include vjuniper.py.class.puml
+
+class QWidget
+class QLabel
+class QLineEdit
+class QPlainTextEdit
+class QPushButton
+class QGridLayout
+class QMessageBox
+class QInputDialog
+class AuthenticationException
+class BadHostKeyException
+
+MainWindow --|> QWidget
+MainWindow --|> QLabel
+MainWindow --|> QLineEdit
+MainWindow --|> QPlainTextEdit
+MainWindow --|> QPushButton
+MainWindow --|> QGridLayout
+MainWindow --|> QMessageBox
+MainWindow --|> QInputDialog
+MainWindow --|> VJuniper
+MainWindow --|> AuthenticationException
+MainWindow --|> BadHostKeyException
+
+class SSHClient
+class Channel
+
+VJuniper --|> SSHClient
+VJuniper --|> Channel
+
+
+@enduml

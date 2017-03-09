@@ -7,7 +7,8 @@ Class that encapsulates the finer details of communicating with a Junpier
 device using paramiko.
 """
 
-import sys, paramiko, time
+import paramiko
+import time
 
 
 class VJuniper():
@@ -52,22 +53,22 @@ class VJuniper():
         # We are not done.
         done = False
 
-        # Instead of waiting blindly crossing our fingers that it it is enough,
-        # this code block tries to be smarter.
+        # Instead of waiting blindly hoping that it it is enough this code
+        # block tries to be smarter.
         # It uses the fact that whenever the Juniper device is done running a
         # command, it will show a prompt. The prompt is different in each mode
         # which is why we keep track of the mode in other places. This will
         # loop until the maximum amount of time allowed, has passed, checking
         # at wait_interval periods for the prompt at the end of the output.
         #
-        # To things will break this:
+        # At least two things will break this:
         #  * Always run commands using no-more to make sure that the Juniper
         #    device will not wait for a keypress that will never happen.
-        # * There is a possiblity that the end of the ouput from the router
-        #   could be the start of a comment, a hashtag followed by a space,
-        #   which is handled as a prompt in configuration mode. To fix this
-        #   a regular expression including the user@hostname part would be
-        #   better.
+        #  * There is a possibility that the end of the output from the router
+        #    could be the start of a comment, a hashtag followed by a space,
+        #    which is handled as a prompt in configuration mode. To fix this
+        #    a regular expression including the user@hostname part would be
+        #    better.
         while not done:
             # Is there any new output?
             if self.__channel.recv_ready():

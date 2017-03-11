@@ -2,6 +2,7 @@
 
 skinparam monochrome true
 skinparam classAttributeIconSize 0
+skinparam linetype ortho
 scale 2
 
 !include mainwindow.py.class.puml
@@ -18,23 +19,22 @@ class QInputDialog
 class AuthenticationException
 class BadHostKeyException
 
-MainWindow --|> QWidget
-MainWindow --|> QLabel
-MainWindow --|> QLineEdit
-MainWindow --|> QPlainTextEdit
-MainWindow --|> QPushButton
-MainWindow --|> QGridLayout
-MainWindow --|> QMessageBox
-MainWindow --|> QInputDialog
-MainWindow --|> VJuniper
-MainWindow --|> AuthenticationException
-MainWindow --|> BadHostKeyException
+MainWindow "1" -- "1" QWidget
+MainWindow "1" -- "3" QLabel
+MainWindow "1" -- "2" QLineEdit
+MainWindow "1" -- "1" QPlainTextEdit
+MainWindow "1 " -- "2  " QPushButton
+MainWindow "1" -- "1" QGridLayout
+MainWindow "1" -- "1" QMessageBox
+MainWindow "1" -- "2" QInputDialog
+MainWindow "1" -- "1" VJuniper
+MainWindow "1" -- "1" AuthenticationException
+MainWindow "1" -- "1" BadHostKeyException
 
 class SSHClient
 class Channel
 
-VJuniper --|> SSHClient
-VJuniper --|> Channel
-
+VJuniper "1" -- "1  " SSHClient
+VJuniper "1  " -- "1" Channel
 
 @enduml

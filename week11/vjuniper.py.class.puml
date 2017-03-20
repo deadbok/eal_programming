@@ -1,0 +1,17 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class VJuniper{
+    -__channel
+    -__mode
+    -__client
+    -__init__()
+    -__getOutput()
+    +startCLI()
+    +connect()
+    +showConfiguration()
+    +getLogs()
+    +close()
+}
+@enduml

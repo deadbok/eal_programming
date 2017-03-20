@@ -1,0 +1,28 @@
+@startuml
+
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+scale 2
+
+!include mainwindow.py.class.puml
+!include vjuniper.py.class.puml
+!include vjuniper_logfilter.py.class.puml
+!include database.py.class.puml
+
+class AuthenticationException
+class BadHostKeyException
+
+MainWindow "1" -- "1" VJuniper
+MainWindow "  1" -- "1" VJuniperLogFilter
+MainWindow "1 " -- "1 " Database
+MainWindow "1  " -- "1" AuthenticationException
+MainWindow "1" -- "1" BadHostKeyException
+
+class SSHClient
+class Channel
+
+VJuniper "1" -- "1  " SSHClient
+VJuniper "1  " -- "1" Channel
+
+@enduml

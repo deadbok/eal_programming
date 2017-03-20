@@ -1,0 +1,37 @@
+@startuml
+title Juniper log grabber
+skinparam monochrome true
+skinparam backgroundcolor transparent
+skinparam linetype ortho
+
+start
+:Initialise;
+repeat
+    :Apply filtering;
+    :Apply sorting;
+    :Get log records from the database;
+    :Render GUI;
+    :Check UI input events;
+    if (Get logs button pressed?) then (yes)
+      :Download the log files
+      from the Juniper device;
+      :Parse, sort, and filter
+      the log files;
+      :Update the database with
+      the log records;
+    else (no)
+    endif
+
+    if (Sort event) then (yes)
+        :Save new sort paramerters;
+    else (no)
+    endif
+
+    if (Filter event) then (yes)
+        :Save new filter paramerters;
+    else (no)
+    endif
+repeat while (Program not closing)
+stop
+
+@enduml

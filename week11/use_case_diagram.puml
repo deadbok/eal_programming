@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+skinparam monochrome true
+skinparam backgroundcolor transparent
+skinparam packageStyle rectangle
+actor User
+rectangle "Juniper log grabber" {
+  User -- (Get logs)
+  User -- (Browse log records)
+}
+@enduml

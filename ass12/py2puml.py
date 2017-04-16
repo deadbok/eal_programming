@@ -17,7 +17,7 @@
 # History:
 #
 # Version 0.1.3
-# * Change output file name to add ".class.puml" to the original file name.
+# * Change output file name to add ".classes.puml" to the original file name.
 # Version 0.1.2
 #  * Exception handling.
 #
@@ -91,8 +91,8 @@ if __name__ == '__main__':
     parser.add_argument('py_file', type=argparse.FileType('r'))
     args = parser.parse_args()
 
-    # Output file name is input file +'.class.puml'
-    puml_file_name = args.py_file.name + '.class.puml'
+    # Output file name is input file +'.classes.puml'
+    puml_file_name = args.py_file.name + '.classes.puml'
 
     try:
         with open(puml_file_name, 'w') as puml_file:

@@ -1,0 +1,126 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red160\green0\blue0;\red0\green0\blue128;\red186\green33\blue33;\red102\green102\blue102;\red0\green128\blue0;\red136\green0\blue0;\red25\green23\blue124;\red187\green102\blue136;\red170\green34\blue255;\red0\green0\blue255;\red255\green0\blue0;\red160\green160\blue0;\red210\green65\blue58;\red64\green128\blue128;\red188\green122\blue0;\red0\green160\blue0;\red187\green187\blue187;\red128\green0\blue128;\red125\green144\blue41;\red153\green153\blue153;\red176\green0\blue64;\red0\green68\blue221;\red187\green102\blue34;\red136\green136\blue136;}\f0 {\cf14\i #!/usr/bin/env python3}\par
+{\cf14\i # -*- coding: utf-8 -*-}\par
+{\cf14\i # --------------------------------------------------------------------------------}\par
+{\cf14\i # "THE BEER-WARE LICENSE" (Revision 42):}\par
+{\cf14\i # <martin.groenholdt@gmail.com> wrote this file. As long as you retain this notice}\par
+{\cf14\i # you can do whatever you want with this stuff. If we meet some day, and you think}\par
+{\cf14\i # this stuff is worth it, you can buy me a beer in return. Martin B. K. Gr{\u248}nholdt}\par
+{\cf14\i # --------------------------------------------------------------------------------}\par
+{\cf14\i # Program to parse Python classes and write their info to PlantUML files}\par
+{\cf14\i # (see http://plantuml.com/) that can be used to generate UML files and GraphViz}\par
+{\cf14\i # renderings of classes.}\par
+{\cf14\i #}\par
+{\cf14\i # Missing:}\par
+{\cf14\i #  * Inheritance parsing}\par
+{\cf14\i #  * Does not like end='' in print.}\par
+{\cf14\i #}\par
+{\cf14\i # History:}\par
+{\cf14\i #}\par
+{\cf14\i # Version 0.1.3}\par
+{\cf14\i # * Change output file name to add ".classes.puml" to the original file name.}\par
+{\cf14\i # Version 0.1.2}\par
+{\cf14\i #  * Exception handling.}\par
+{\cf14\i #}\par
+{\cf14\i # Version 0.1.1}\par
+{\cf14\i #  * Comments.}\par
+{\cf14\i #}\par
+{\cf14\i # Version 0.1.0}\par
+{\cf14\i #  * First working version.}\par
+\par
+{\cf5\b import} {\cf10\b argparse}\par
+{\cf5\b import} {\cf10\b ast}\par
+\par
+__version__ {\cf4 =} {\cf3 '}{\cf3 0.1.3}{\cf3 '}\par
+\par
+{\cf5\b class} {\cf10\b ClassParser}(ast{\cf4 .}NodeVisitor):\par
+    {\cf3\i """\par
+    Class to parse the stuff we're interested in from a class.\par
+\par
+     * Methods and their visibility.\par
+     * Members created in __init__ and their visibility.\par
+    """}\par
+    {\cf14\i # List to put the class data.}\par
+    puml_classes {\cf4 =} {\cf5 list}()\par
+\par
+    {\cf5\b def} {\cf10 visit_ClassDef}({\cf5 self}, node):\par
+        {\cf3\i """\par
+        Class visitor that parses the info we want, when encountering a class definition.\par
+\par
+        :param node: The node of the class.\par
+        """}\par
+        {\cf14\i #Dictionary containing the interesting parts of the classes structure}\par
+        puml_class {\cf4 =} {\cf5 dict}()\par
+        puml_class[{\cf3 '}{\cf3 name}{\cf3 '}] {\cf4 =} node{\cf4 .}name\par
+        puml_class[{\cf3 '}{\cf3 members}{\cf3 '}] {\cf4 =} {\cf5 list}()\par
+        puml_class[{\cf3 '}{\cf3 methods}{\cf3 '}] {\cf4 =} {\cf5 list}()\par
+\par
+        {\cf14\i #Run through all children of the class definition.}\par
+        {\cf5\b for} child {\cf9\b in} node{\cf4 .}body:\par
+            {\cf14\i # If we have a function definition, store it.}\par
+            {\cf5\b if} {\cf5 isinstance}(child, ast{\cf4 .}FunctionDef):\par
+                {\cf14\i # Check if it is "private".}\par
+                {\cf5\b if} child{\cf4 .}name{\cf4 .}startswith({\cf3 '}{\cf3 __}{\cf3 '}):\par
+                    puml_class[{\cf3 '}{\cf3 methods}{\cf3 '}]{\cf4 .}append({\cf3 '}{\cf3 -}{\cf3 '} {\cf4 +} child{\cf4 .}name)\par
+                {\cf5\b else}:\par
+                    puml_class[{\cf3 '}{\cf3 methods}{\cf3 '}]{\cf4 .}append({\cf3 '}{\cf3 +}{\cf3 '} {\cf4 +} child{\cf4 .}name)\par
+\par
+                {\cf14\i # Check if this s the constructor.}\par
+                {\cf5\b if} child{\cf4 .}name {\cf4 ==} {\cf3 '}{\cf3 __init__}{\cf3 '}:\par
+                    {\cf14\i # Find all assignment expressions in the constructor.}\par
+                    {\cf5\b for} code {\cf9\b in} child{\cf4 .}body:\par
+                        {\cf5\b if} {\cf5 isinstance}(code, ast{\cf4 .}Assign):\par
+                            {\cf14\i # Find attributes since we want "self." + "something"}\par
+                            {\cf5\b for} target {\cf9\b in} code{\cf4 .}targets:\par
+                                {\cf5\b if} {\cf5 isinstance}(target, ast{\cf4 .}Attribute):\par
+                                    {\cf14\i # If the value is a name and its id is self.}\par
+                                    {\cf5\b if} {\cf5 isinstance}(target{\cf4 .}value, ast{\cf4 .}Name):\par
+                                        {\cf5\b if} target{\cf4 .}value{\cf4 .}id {\cf4 ==} {\cf3 '}{\cf3 self}{\cf3 '}:\par
+                                            {\cf14\i # Check if it is "private".}\par
+                                            {\cf5\b if} target{\cf4 .}attr{\cf4 .}startswith({\cf3 '}{\cf3 __}{\cf3 '}):\par
+                                                puml_class[{\cf3 '}{\cf3 members}{\cf3 '}]{\cf4 .}append({\cf3 '}{\cf3 -}{\cf3 '} {\cf4 +} target{\cf4 .}attr)\par
+                                            {\cf5\b else}:\par
+                                                puml_class[{\cf3 '}{\cf3 members}{\cf3 '}]{\cf4 .}append({\cf3 '}{\cf3 +}{\cf3 '} {\cf4 +} target{\cf4 .}attr)\par
+\par
+        {\cf14\i # Save the class.}\par
+        {\cf5 self}{\cf4 .}puml_classes{\cf4 .}append(puml_class)\par
+\par
+\par
+{\cf5\b if} __name__ {\cf4 ==} {\cf3 '}{\cf3 __main__}{\cf3 '}:\par
+    {\cf14\i # Takes a python file as a parameter.}\par
+    parser {\cf4 =} argparse{\cf4 .}ArgumentParser(prog{\cf4 =}{\cf3 '}{\cf3 py2puml}{\cf3 '})\par
+    parser{\cf4 .}add_argument({\cf3 '}{\cf3 py_file}{\cf3 '}, {\cf5 type}{\cf4 =}argparse{\cf4 .}FileType({\cf3 '}{\cf3 r}{\cf3 '}))\par
+    args {\cf4 =} parser{\cf4 .}parse_args()\par
+\par
+    {\cf14\i # Output file name is input file +'.classes.puml'}\par
+    puml_file_name {\cf4 =} args{\cf4 .}py_file{\cf4 .}name {\cf4 +} {\cf3 '}{\cf3 .class.puml}{\cf3 '}\par
+\par
+    {\cf5\b try}:\par
+        {\cf5\b with} {\cf5 open}(puml_file_name, {\cf3 '}{\cf3 w}{\cf3 '}) {\cf5\b as} puml_file:\par
+            {\cf14\i # Write the beginnings of the PlantUML file.}\par
+            puml_file{\cf4 .}write({\cf3 '}{\cf3 @startuml}{\cf23\b \\n}{\cf3 skinparam monochrome true}{\cf23\b \\n}{\cf3 skinparam classAttributeIconSize 0}{\cf23\b \\n}{\cf3 scale 2}{\cf23\b \\n}{\cf3 '})\par
+\par
+            {\cf14\i # Use AST to parse the file.}\par
+            tree {\cf4 =} ast{\cf4 .}parse(args{\cf4 .}py_file{\cf4 .}read())\par
+            class_writer {\cf4 =} ClassParser()\par
+            class_writer{\cf4 .}visit(tree)\par
+\par
+            {\cf14\i # Write the resulting classes in PlantUML format.}\par
+            {\cf5\b for} puml_class {\cf9\b in} class_writer{\cf4 .}puml_classes:\par
+                puml_file{\cf4 .}write({\cf3 '}{\cf3 class }{\cf3 '} {\cf4 +} puml_class[{\cf3 '}{\cf3 name}{\cf3 '}] {\cf4 +} {\cf3 '}{\cf3 \{}{\cf23\b \\n}{\cf3 '})\par
+\par
+                {\cf5\b for} member {\cf9\b in} puml_class[{\cf3 '}{\cf3 members}{\cf3 '}]:\par
+                    puml_file{\cf4 .}write({\cf3 '}{\cf3     }{\cf3 '} {\cf4 +} member {\cf4 +} {\cf3 '}{\cf23\b \\n}{\cf3 '})\par
+\par
+                {\cf5\b for} method {\cf9\b in} puml_class[{\cf3 '}{\cf3 methods}{\cf3 '}]:\par
+                    puml_file{\cf4 .}write({\cf3 '}{\cf3     }{\cf3 '} {\cf4 +} method {\cf4 +} {\cf3 '}{\cf3 ()}{\cf23\b \\n}{\cf3 '})\par
+\par
+                puml_file{\cf4 .}write({\cf3 '}{\cf3 \}}{\cf23\b \\n}{\cf3 '})\par
+\par
+            {\cf14\i # End the PlantUML files.}\par
+            puml_file{\cf4 .}write({\cf3 '}{\cf3 @enduml}{\cf3 '})\par
+    {\cf5\b except} {\cf13\b IOError}:\par
+        {\cf5\b print}({\cf3 '}{\cf3 I/O error.}{\cf3 '})\par
+    {\cf5\b except} {\cf13\b SyntaxError} {\cf5\b as} see:\par
+        {\cf5\b print}({\cf3 '}{\cf3 Syntax error in }{\cf3 '}, end{\cf4 =}{\cf3 '}{\cf3 '})\par
+        {\cf5\b print}( args{\cf4 .}py_file{\cf4 .}name {\cf4 +} {\cf3 '}{\cf3 :}{\cf3 '} {\cf4 +} {\cf5 str}(see{\cf4 .}lineno) {\cf4 +} {\cf3 '}{\cf3 :}{\cf3 '} {\cf4 +} {\cf5 str}(see{\cf4 .}offset) {\cf4 +} {\cf3 '}{\cf3 : }{\cf3 '} {\cf4 +} see{\cf4 .}text)\par
+}

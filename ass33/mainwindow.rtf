@@ -1,5 +1,5 @@
-{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red102\green102\blue102;\red25\green23\blue124;\red0\green160\blue0;\red153\green153\blue153;\red64\green128\blue128;\red255\green0\blue0;\red0\green128\blue0;\red186\green33\blue33;\red210\green65\blue58;\red0\green0\blue255;\red188\green122\blue0;\red160\green0\blue0;\red176\green0\blue64;\red187\green102\blue136;\red170\green34\blue255;\red136\green0\blue0;\red136\green136\blue136;\red0\green0\blue128;\red125\green144\blue41;\red0\green68\blue221;\red160\green160\blue0;\red187\green102\blue34;\red128\green0\blue128;\red187\green187\blue187;}\f0 {\cf5\i # -*- coding: utf-8 -*-}\par
-{\cf8\i """\par
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green0\blue0;\red0\green128\blue0;\red125\green144\blue41;\red102\green102\blue102;\red176\green0\blue64;\red187\green102\blue136;\red0\green0\blue128;\red210\green65\blue58;\red128\green0\blue128;\red255\green0\blue0;\red0\green160\blue0;\red160\green0\blue0;\red187\green187\blue187;\red64\green128\blue128;\red0\green0\blue255;\red25\green23\blue124;\red188\green122\blue0;\red187\green102\blue34;\red160\green160\blue0;\red186\green33\blue33;\red136\green136\blue136;\red170\green34\blue255;\red0\green68\blue221;\red153\green153\blue153;}\f0 {\cf14\i # -*- coding: utf-8 -*-}\par
+{\cf20\i """\par
 Name: Junpier configuration snatcher\par
 Author: Martin Bo Kristensen Gr{\u248}nholdt, Rickie Ljungberg, Kasper Soelberg.\par
 Version: 1.0 (2017-03-09)\par
@@ -7,171 +7,171 @@ Version: 1.0 (2017-03-09)\par
 Main window.\par
 """}\par
 \par
-{\cf7\b import} {\cf10\b socket}\par
-{\cf7\b import} {\cf10\b sys}\par
-{\cf7\b from} {\cf10\b PyQt5.QtWidgets} {\cf7\b import} QWidget, QPushButton, QGridLayout, QApplication, \\\par
+{\cf2\b import} {\cf15\b socket}\par
+{\cf2\b import} {\cf15\b sys}\par
+{\cf2\b from} {\cf15\b PyQt5.QtWidgets} {\cf2\b import} QWidget, QPushButton, QGridLayout, QApplication, \\\par
     QLabel, QLineEdit, QPlainTextEdit, QInputDialog, QMessageBox\par
-{\cf7\b from} {\cf10\b paramiko.ssh_exception} {\cf7\b import} AuthenticationException, \\\par
+{\cf2\b from} {\cf15\b paramiko.ssh_exception} {\cf2\b import} AuthenticationException, \\\par
     BadHostKeyException\par
 \par
-{\cf7\b from} {\cf10\b vjuniper} {\cf7\b import} VJuniper\par
+{\cf2\b from} {\cf15\b vjuniper} {\cf2\b import} VJuniper\par
 \par
 \par
-{\cf7\b class} {\cf10\b MainWindow}(QWidget):\par
-    {\cf8\i """\par
+{\cf2\b class} {\cf15\b MainWindow}(QWidget):\par
+    {\cf20\i """\par
     Class encapsulates the main window.\par
     """}\par
 \par
-    {\cf7\b def} {\cf10 __init__}({\cf7 self}):\par
-        {\cf8\i """\par
+    {\cf2\b def} {\cf15 __init__}({\cf2 self}):\par
+        {\cf20\i """\par
         Constructor, creates the UI.\par
         """}\par
-        {\cf5\i # Call the parent constructor.}\par
-        {\cf7 super}(){\cf1 .}__init__()\par
+        {\cf14\i # Call the parent constructor.}\par
+        {\cf2 super}(){\cf4 .}__init__()\par
 \par
-        {\cf5\i # Create the labels.}\par
-        ip_label {\cf1 =} QLabel({\cf8 '}{\cf8 Juniper IP address:}{\cf8 '})\par
-        file_name_label {\cf1 =} QLabel({\cf8 '}{\cf8 Configuration file name:}{\cf8 '})\par
-        config_label {\cf1 =} QLabel({\cf8 '}{\cf8 Configuration:}{\cf8 '})\par
+        {\cf14\i # Create the labels.}\par
+        ip_label {\cf4 =} QLabel({\cf20 '}{\cf20 Juniper IP address:}{\cf20 '})\par
+        file_name_label {\cf4 =} QLabel({\cf20 '}{\cf20 Configuration file name:}{\cf20 '})\par
+        config_label {\cf4 =} QLabel({\cf20 '}{\cf20 Configuration:}{\cf20 '})\par
 \par
-        {\cf5\i # Create the IP and file name edits.}\par
-        {\cf7 self}{\cf1 .}__ip_edit {\cf1 =} QLineEdit()\par
-        {\cf5\i # self.ip_edit.setInputMask('000.000.000.000')}\par
-        {\cf7 self}{\cf1 .}__ip_edit{\cf1 .}setPlaceholderText({\cf8 '}{\cf8 127.0.0.1:22}{\cf8 '})\par
-        {\cf7 self}{\cf1 .}__file_name_edit {\cf1 =} QLineEdit()\par
-        {\cf7 self}{\cf1 .}__file_name_edit{\cf1 .}setPlaceholderText(\par
-            {\cf8 '}{\cf8 Leave empty to only view the config}{\cf8 '})\par
+        {\cf14\i # Create the IP and file name edits.}\par
+        {\cf2 self}{\cf4 .}__ip_edit {\cf4 =} QLineEdit()\par
+        {\cf14\i # self.ip_edit.setInputMask('000.000.000.000')}\par
+        {\cf2 self}{\cf4 .}__ip_edit{\cf4 .}setPlaceholderText({\cf20 '}{\cf20 127.0.0.1:22}{\cf20 '})\par
+        {\cf2 self}{\cf4 .}__file_name_edit {\cf4 =} QLineEdit()\par
+        {\cf2 self}{\cf4 .}__file_name_edit{\cf4 .}setPlaceholderText(\par
+            {\cf20 '}{\cf20 Leave empty to only view the config}{\cf20 '})\par
 \par
-        {\cf5\i # Create the configuration file view.}\par
-        {\cf7 self}{\cf1 .}__config_edit {\cf1 =} QPlainTextEdit()\par
-        {\cf5\i # Do not allow editing the configuration.}\par
-        {\cf7 self}{\cf1 .}__config_edit{\cf1 .}setReadOnly({\cf7 True})\par
+        {\cf14\i # Create the configuration file view.}\par
+        {\cf2 self}{\cf4 .}__config_edit {\cf4 =} QPlainTextEdit()\par
+        {\cf14\i # Do not allow editing the configuration.}\par
+        {\cf2 self}{\cf4 .}__config_edit{\cf4 .}setReadOnly({\cf2 True})\par
 \par
-        {\cf5\i # Create the buttons}\par
-        get_button {\cf1 =} QPushButton({\cf8 "}{\cf8 Get configuration}{\cf8 "})\par
-        {\cf5\i # Connect the get config button to the handler.}\par
-        get_button{\cf1 .}clicked{\cf1 .}connect({\cf7 self}{\cf1 .}getConfigClicked)\par
+        {\cf14\i # Create the buttons}\par
+        get_button {\cf4 =} QPushButton({\cf20 "}{\cf20 Get configuration}{\cf20 "})\par
+        {\cf14\i # Connect the get config button to the handler.}\par
+        get_button{\cf4 .}clicked{\cf4 .}connect({\cf2 self}{\cf4 .}getConfigClicked)\par
 \par
-        quit_button {\cf1 =} QPushButton({\cf8 "}{\cf8 Quit}{\cf8 "})\par
-        {\cf5\i # Close the window on clicking "Quit"}\par
-        quit_button{\cf1 .}clicked{\cf1 .}connect({\cf7 self}{\cf1 .}close)\par
+        quit_button {\cf4 =} QPushButton({\cf20 "}{\cf20 Quit}{\cf20 "})\par
+        {\cf14\i # Close the window on clicking "Quit"}\par
+        quit_button{\cf4 .}clicked{\cf4 .}connect({\cf2 self}{\cf4 .}close)\par
 \par
-        {\cf5\i # Create a grid layout}\par
-        grid {\cf1 =} QGridLayout()\par
-        grid{\cf1 .}setSpacing({\cf1 10})\par
+        {\cf14\i # Create a grid layout}\par
+        grid {\cf4 =} QGridLayout()\par
+        grid{\cf4 .}setSpacing({\cf4 10})\par
 \par
-        {\cf5\i # Place the labels in the top row.}\par
-        grid{\cf1 .}addWidget(ip_label, {\cf1 0}, {\cf1 0}, {\cf1 1}, {\cf1 1})\par
-        grid{\cf1 .}addWidget(file_name_label, {\cf1 0}, {\cf1 2}, {\cf1 1}, {\cf1 1})\par
+        {\cf14\i # Place the labels in the top row.}\par
+        grid{\cf4 .}addWidget(ip_label, {\cf4 0}, {\cf4 0}, {\cf4 1}, {\cf4 1})\par
+        grid{\cf4 .}addWidget(file_name_label, {\cf4 0}, {\cf4 2}, {\cf4 1}, {\cf4 1})\par
 \par
-        {\cf5\i # Place the edit fields on the next line.}\par
-        grid{\cf1 .}addWidget({\cf7 self}{\cf1 .}__ip_edit, {\cf1 1}, {\cf1 0}, {\cf1 1}, {\cf1 2})\par
-        grid{\cf1 .}addWidget({\cf7 self}{\cf1 .}__file_name_edit, {\cf1 1}, {\cf1 2}, {\cf1 1}, {\cf1 4})\par
+        {\cf14\i # Place the edit fields on the next line.}\par
+        grid{\cf4 .}addWidget({\cf2 self}{\cf4 .}__ip_edit, {\cf4 1}, {\cf4 0}, {\cf4 1}, {\cf4 2})\par
+        grid{\cf4 .}addWidget({\cf2 self}{\cf4 .}__file_name_edit, {\cf4 1}, {\cf4 2}, {\cf4 1}, {\cf4 4})\par
 \par
-        {\cf5\i # Place the configuration view label on the next line.}\par
-        grid{\cf1 .}addWidget(config_label, {\cf1 2}, {\cf1 0})\par
+        {\cf14\i # Place the configuration view label on the next line.}\par
+        grid{\cf4 .}addWidget(config_label, {\cf4 2}, {\cf4 0})\par
 \par
-        {\cf5\i # Place the configuration view.}\par
-        grid{\cf1 .}addWidget({\cf7 self}{\cf1 .}__config_edit, {\cf1 3}, {\cf1 0}, {\cf1 1}, {\cf1 6})\par
+        {\cf14\i # Place the configuration view.}\par
+        grid{\cf4 .}addWidget({\cf2 self}{\cf4 .}__config_edit, {\cf4 3}, {\cf4 0}, {\cf4 1}, {\cf4 6})\par
 \par
-        {\cf5\i # Place the buttons at the second row, with some cells between them for}\par
-        {\cf5\i # spacing.}\par
-        grid{\cf1 .}addWidget(get_button, {\cf1 4}, {\cf1 3})\par
-        grid{\cf1 .}addWidget(quit_button, {\cf1 4}, {\cf1 5})\par
+        {\cf14\i # Place the buttons at the second row, with some cells between them for}\par
+        {\cf14\i # spacing.}\par
+        grid{\cf4 .}addWidget(get_button, {\cf4 4}, {\cf4 3})\par
+        grid{\cf4 .}addWidget(quit_button, {\cf4 4}, {\cf4 5})\par
 \par
-        {\cf5\i # Set the layout of this widget}\par
-        {\cf7 self}{\cf1 .}setLayout(grid)\par
+        {\cf14\i # Set the layout of this widget}\par
+        {\cf2 self}{\cf4 .}setLayout(grid)\par
 \par
-        {\cf5\i # Set title}\par
-        {\cf7 self}{\cf1 .}setWindowTitle({\cf8 '}{\cf8 Juniper configuration snatcher}{\cf8 '})\par
-        {\cf5\i # Show window}\par
-        {\cf7 self}{\cf1 .}show()\par
+        {\cf14\i # Set title}\par
+        {\cf2 self}{\cf4 .}setWindowTitle({\cf20 '}{\cf20 Juniper configuration snatcher}{\cf20 '})\par
+        {\cf14\i # Show window}\par
+        {\cf2 self}{\cf4 .}show()\par
 \par
-        {\cf5\i # Create the VSRX instance used to talk to the Juniper device.}\par
-        {\cf7 self}{\cf1 .}__vjuniper {\cf1 =} VJuniper()\par
+        {\cf14\i # Create the VSRX instance used to talk to the Juniper device.}\par
+        {\cf2 self}{\cf4 .}__vjuniper {\cf4 =} VJuniper()\par
 \par
-    {\cf7\b def} {\cf10 error}({\cf7 self}, msg):\par
-        {\cf8\i """\par
+    {\cf2\b def} {\cf15 error}({\cf2 self}, msg):\par
+        {\cf20\i """\par
         Open a message box for errors.\par
         :param msg: The error message.\par
         """}\par
-        {\cf5\i # Create an instance.}\par
-        mb {\cf1 =} QMessageBox()\par
-        {\cf5\i # Set the window title.}\par
-        mb{\cf1 .}setWindowTitle({\cf8 '}{\cf8 Error}{\cf8 '})\par
-        {\cf5\i # Set the window content text}\par
-        mb{\cf1 .}setText(msg)\par
-        {\cf5\i # Show the message box.}\par
-        mb{\cf1 .}{\cf7\b exec}()\par
+        {\cf14\i # Create an instance.}\par
+        mb {\cf4 =} QMessageBox()\par
+        {\cf14\i # Set the window title.}\par
+        mb{\cf4 .}setWindowTitle({\cf20 '}{\cf20 Error}{\cf20 '})\par
+        {\cf14\i # Set the window content text}\par
+        mb{\cf4 .}setText(msg)\par
+        {\cf14\i # Show the message box.}\par
+        mb{\cf4 .}{\cf2\b exec}()\par
 \par
-    {\cf7\b def} {\cf10 getConfigClicked}({\cf7 self}):\par
-        {\cf8\i """\par
+    {\cf2\b def} {\cf15 getConfigClicked}({\cf2 self}):\par
+        {\cf20\i """\par
         Handler that is called when the get config button is clicked\par
         """}\par
-        {\cf7\b try}:\par
-            {\cf5\i # Get the contents of the IP edit field.}\par
-            ip {\cf1 =} {\cf7 self}{\cf1 .}__ip_edit{\cf1 .}text()\par
-            {\cf5\i # Split in port number and IP if : is in the input.}\par
-            {\cf7\b if} {\cf8 '}{\cf8 :}{\cf8 '} {\cf15\b in} ip:\par
-                {\cf5\i # Isolate the port.}\par
-                port {\cf1 =} {\cf7 int}(ip{\cf1 .}split({\cf8 '}{\cf8 :}{\cf8 '})[{\cf1 1}])\par
-                {\cf5\i # Isolate the IP address}\par
-                ip {\cf1 =} ip{\cf1 .}split({\cf8 '}{\cf8 :}{\cf8 '})[{\cf1 0}]\par
-            {\cf7\b else}:\par
-                port {\cf1 =} {\cf1 22}\par
+        {\cf2\b try}:\par
+            {\cf14\i # Get the contents of the IP edit field.}\par
+            ip {\cf4 =} {\cf2 self}{\cf4 .}__ip_edit{\cf4 .}text()\par
+            {\cf14\i # Split in port number and IP if : is in the input.}\par
+            {\cf2\b if} {\cf20 '}{\cf20 :}{\cf20 '} {\cf22\b in} ip:\par
+                {\cf14\i # Isolate the port.}\par
+                port {\cf4 =} {\cf2 int}(ip{\cf4 .}split({\cf20 '}{\cf20 :}{\cf20 '})[{\cf4 1}])\par
+                {\cf14\i # Isolate the IP address}\par
+                ip {\cf4 =} ip{\cf4 .}split({\cf20 '}{\cf20 :}{\cf20 '})[{\cf4 0}]\par
+            {\cf2\b else}:\par
+                port {\cf4 =} {\cf4 22}\par
 \par
-            {\cf5\i # Default value if the edit field is empty.}\par
-            {\cf7\b if} ip {\cf1 ==} {\cf8 '}{\cf8 '}:\par
-                ip {\cf1 =} {\cf8 '}{\cf8 127.0.0.1}{\cf8 '}\par
+            {\cf14\i # Default value if the edit field is empty.}\par
+            {\cf2\b if} ip {\cf4 ==} {\cf20 '}{\cf20 '}:\par
+                ip {\cf4 =} {\cf20 '}{\cf20 127.0.0.1}{\cf20 '}\par
 \par
-        {\cf5\i # Handle wrong data.}\par
-        {\cf7\b except} {\cf9\b ValueError}:\par
-            {\cf7 self}{\cf1 .}error({\cf8 '}{\cf8 Error in IP address}{\cf8 '})\par
-            {\cf7\b return}\par
+        {\cf14\i # Handle wrong data.}\par
+        {\cf2\b except} {\cf8\b ValueError}:\par
+            {\cf2 self}{\cf4 .}error({\cf20 '}{\cf20 Error in IP address}{\cf20 '})\par
+            {\cf2\b return}\par
 \par
-        {\cf5\i # Show a dialog to get the login user.}\par
-        username, ok {\cf1 =} QInputDialog{\cf1 .}getText({\cf7 self}, {\cf8 '}{\cf8 Enter user name}{\cf8 '},\par
-                                            {\cf8 '}{\cf8 Enter user name:}{\cf8 '})\par
-        {\cf5\i # Get out if the user pressed cancel.}\par
-        {\cf7\b if} {\cf15\b not} ok:\par
-            {\cf7\b return}\par
+        {\cf14\i # Show a dialog to get the login user.}\par
+        username, ok {\cf4 =} QInputDialog{\cf4 .}getText({\cf2 self}, {\cf20 '}{\cf20 Enter user name}{\cf20 '},\par
+                                            {\cf20 '}{\cf20 Enter user name:}{\cf20 '})\par
+        {\cf14\i # Get out if the user pressed cancel.}\par
+        {\cf2\b if} {\cf22\b not} ok:\par
+            {\cf2\b return}\par
 \par
-        {\cf5\i # Show dialog to get the login password.}\par
-        password, ok {\cf1 =} QInputDialog{\cf1 .}getText({\cf7 self}, {\cf8 '}{\cf8 Enter password}{\cf8 '},\par
-                                            {\cf8 '}{\cf8 Enter passwod:}{\cf8 '},\par
-                                            QLineEdit{\cf1 .}Password)\par
-        {\cf5\i # Get out if the user pressed cancel.}\par
-        {\cf7\b if} {\cf15\b not} ok:\par
-            {\cf7\b return}\par
+        {\cf14\i # Show dialog to get the login password.}\par
+        password, ok {\cf4 =} QInputDialog{\cf4 .}getText({\cf2 self}, {\cf20 '}{\cf20 Enter password}{\cf20 '},\par
+                                            {\cf20 '}{\cf20 Enter passwod:}{\cf20 '},\par
+                                            QLineEdit{\cf4 .}Password)\par
+        {\cf14\i # Get out if the user pressed cancel.}\par
+        {\cf2\b if} {\cf22\b not} ok:\par
+            {\cf2\b return}\par
 \par
-        {\cf5\i # Everything has checked out so far, lets talk to the juniper device.}\par
-        {\cf7\b try}:\par
-            {\cf5\i # Connect to the juniper device.}\par
-            {\cf7 self}{\cf1 .}__vjuniper{\cf1 .}connect(ip, port, username{\cf1 =}username,\par
-                                    password{\cf1 =}password)\par
-            {\cf5\i # Run "show configuration" on the Juniper device and return the}\par
-            {\cf5\i # output.}\par
-            config {\cf1 =} {\cf7 self}{\cf1 .}__vjuniper{\cf1 .}showConfiguration()\par
-        {\cf5\i # Handling of various communication errors.}\par
-        {\cf7\b except} AuthenticationException:\par
-            {\cf7 self}{\cf1 .}error({\cf8 '}{\cf8 Could not authenticate with the router}{\cf8 '})\par
-            {\cf7\b return}\par
-        {\cf7\b except}  BadHostKeyException:\par
-            {\cf7 self}{\cf1 .}error({\cf8 '}{\cf8 The IP address entered was invalid}{\cf8 '})\par
-            {\cf7\b return}\par
-        {\cf7\b except} socket{\cf1 .}error:\par
-            {\cf7 self}{\cf1 .}error({\cf8 '}{\cf8 Connection error or time out}{\cf8 '})\par
-            {\cf7\b return}\par
+        {\cf14\i # Everything has checked out so far, lets talk to the juniper device.}\par
+        {\cf2\b try}:\par
+            {\cf14\i # Connect to the juniper device.}\par
+            {\cf2 self}{\cf4 .}__vjuniper{\cf4 .}connect(ip, port, username{\cf4 =}username,\par
+                                    password{\cf4 =}password)\par
+            {\cf14\i # Run "show configuration" on the Juniper device and return the}\par
+            {\cf14\i # output.}\par
+            config {\cf4 =} {\cf2 self}{\cf4 .}__vjuniper{\cf4 .}showConfiguration()\par
+        {\cf14\i # Handling of various communication errors.}\par
+        {\cf2\b except} AuthenticationException:\par
+            {\cf2 self}{\cf4 .}error({\cf20 '}{\cf20 Could not authenticate with the router}{\cf20 '})\par
+            {\cf2\b return}\par
+        {\cf2\b except}  BadHostKeyException:\par
+            {\cf2 self}{\cf4 .}error({\cf20 '}{\cf20 The IP address entered was invalid}{\cf20 '})\par
+            {\cf2\b return}\par
+        {\cf2\b except} socket{\cf4 .}error:\par
+            {\cf2 self}{\cf4 .}error({\cf20 '}{\cf20 Connection error or time out}{\cf20 '})\par
+            {\cf2\b return}\par
 \par
-        {\cf5\i # Put the configuration file in the edit component in the GUI.}\par
-        {\cf7 self}{\cf1 .}__config_edit{\cf1 .}setPlainText(config)\par
+        {\cf14\i # Put the configuration file in the edit component in the GUI.}\par
+        {\cf2 self}{\cf4 .}__config_edit{\cf4 .}setPlainText(config)\par
 \par
-        {\cf5\i # Save the configurtion to a file, if a file name was entered.}\par
-        {\cf7\b try}:\par
-            file_name {\cf1 =} {\cf7 self}{\cf1 .}__file_name_edit{\cf1 .}text()\par
-            {\cf7\b if} file_name {\cf1 !=} {\cf8 '}{\cf8 '}:\par
-                {\cf7\b with} {\cf7 open}(file_name, {\cf8 '}{\cf8 w}{\cf8 '}) {\cf7\b as} config_file:\par
-                    config_file{\cf1 .}write(config)\par
-        {\cf7\b except} {\cf9\b IOError}:\par
-            {\cf7 self}{\cf1 .}error({\cf8 '}{\cf8 Could not save the configuration file}{\cf8 '})\par
+        {\cf14\i # Save the configurtion to a file, if a file name was entered.}\par
+        {\cf2\b try}:\par
+            file_name {\cf4 =} {\cf2 self}{\cf4 .}__file_name_edit{\cf4 .}text()\par
+            {\cf2\b if} file_name {\cf4 !=} {\cf20 '}{\cf20 '}:\par
+                {\cf2\b with} {\cf2 open}(file_name, {\cf20 '}{\cf20 w}{\cf20 '}) {\cf2\b as} config_file:\par
+                    config_file{\cf4 .}write(config)\par
+        {\cf2\b except} {\cf8\b IOError}:\par
+            {\cf2 self}{\cf4 .}error({\cf20 '}{\cf20 Could not save the configuration file}{\cf20 '})\par
 }

@@ -2,4 +2,5 @@
 .idea
 /*.zip
 __pychache__
-
+/*.docx
+.*lock*

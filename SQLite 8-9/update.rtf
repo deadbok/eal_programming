@@ -1,0 +1,66 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf2\i """\par
+Name: SQLite example of updating tables.\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0 (2017-04-22)\par
+"""}\par
+\par
+{\cf5\i # Import the SQLite module}\par
+{\cf8\b import} {\cf19\b sqlite3}\par
+\par
+\par
+{\cf8\b def} {\cf19 printAllEntries}():\par
+    {\cf2\i """\par
+    Print all entries in the database.\par
+    """}\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Current entries in the database:}{\cf2 '})\par
+    {\cf5\i # Select all rows in the customerTable table.}\par
+    cursor{\cf4 .}execute({\cf2 '}{\cf2 SELECT * FROM customerTable}{\cf2 '})\par
+    {\cf5\i # A counter to make things look nice in the output.}\par
+    row_nr {\cf4 =} {\cf4 0}\par
+    {\cf5\i # Run trhough all rows.}\par
+    {\cf8\b for} row {\cf12\b in} cursor{\cf4 .}fetchall():\par
+        {\cf5\i # Next row number.}\par
+        row_nr {\cf4 +}{\cf4 =} {\cf4 1}\par
+        {\cf5\i # Print row number.}\par
+        {\cf8\b print}({\cf2 '}{\cf2 Row \{\}: }{\cf2 '}{\cf4 .}format(row_nr), end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf5\i # Run through all fields in the row.}\par
+        {\cf8\b for} field {\cf12\b in} row:\par
+            {\cf5\i # Print the fields.}\par
+            {\cf8\b print}({\cf2 '}{\cf2 \{\}, }{\cf2 '}{\cf4 .}format(field), end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf5\i # Next line.}\par
+        {\cf8\b print}()\par
+\par
+\par
+{\cf5\i # Start an exception block to catch errors.}\par
+{\cf8\b try}:\par
+    {\cf5\i # Create a connection to a database with the file name 'example.db'. The}\par
+    {\cf5\i # file is created if missing.}\par
+    conn {\cf4 =} sqlite3{\cf4 .}connect({\cf2 '}{\cf2 example.db}{\cf2 '})\par
+\par
+    {\cf5\i # Get a Cursor object to used to perfom SQL commands on the database.}\par
+    cursor {\cf4 =} conn{\cf4 .}cursor()\par
+\par
+    {\cf5\i # Print all entries before changing them.}\par
+    printAllEntries()\par
+\par
+    {\cf5\i #Update the second and third fields address information.}\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf2 Updating data in the database...}{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+    {\cf5\i # Yes we can have crummy chip references.}\par
+    cursor{\cf4 .}execute({\cf2 '}{\cf2 UPDATE customerTable SET address = ? WHERE idCust = ?}{\cf2 '},\par
+                   ({\cf2 '}{\cf2 Opampstreet 741}{\cf2 '}, {\cf4 2}))\par
+\par
+    cursor{\cf4 .}execute({\cf2 '}{\cf2 UPDATE customerTable SET address = ? WHERE idCust = ?}{\cf2 '},\par
+                   ({\cf2 '}{\cf2 Timerstreet 555}{\cf2 '}, {\cf4 3}))\par
+    {\cf5\i # Commit the data to the database.}\par
+    conn{\cf4 .}commit()\par
+    {\cf8\b print}({\cf2 '}{\cf2 done}{\cf2 '})\par
+\par
+    {\cf5\i # Print all entries again to show the changes.}\par
+    printAllEntries()\par
+\par
+\par
+{\cf8\b except} sqlite3{\cf4 .}Error {\cf8\b as} sql_error:\par
+    {\cf8\b print}({\cf2 '}{\cf10\b \\n}{\cf10\b \\n}{\cf2 An database error occurred!}{\cf2 '})\par
+    {\cf8\b print}({\cf2 '}{\cf2 Error is: }{\cf2 '} {\cf4 +} {\cf8 str}(sql_error))\par
+}

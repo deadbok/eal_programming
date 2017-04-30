@@ -28,7 +28,6 @@ class Add(MethodView):
         '''
         Handle submission of a new customer.
         '''
-        print(str(request.form['name']))
         name = request.form['name']
         email = request.form['email']
         address = request.form['address']

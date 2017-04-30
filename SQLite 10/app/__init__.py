@@ -1,7 +1,9 @@
-'''
-:since: 13/08/2016
-:author: oblivion
-'''
+# -*- coding: utf-8 -*-
+"""
+Name: Main initialisation of the Flask program.
+Author: Martin Bo Kristensen Grønholdt.
+Version: 1.0.0 (2017-04-30)
+"""
 from flask import Flask
 from app.views import Add
 from app.views import CustomerTable
@@ -14,13 +16,18 @@ CONFIG = APP.config
 
 @APP.teardown_appcontext
 def close_connection(exception):
+    """
+    Function to close the database connaction when the current session closes. 
+    """
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
+# Add the / view.
 APP.add_url_rule('/',
                  view_func=CustomerTable.as_view('table'),
                  methods=['GET'])
+# Add the /add view.
 APP.add_url_rule('/add',
                  view_func=Add.as_view('add'),
                  methods=['GET', 'POST'])

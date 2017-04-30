@@ -21,11 +21,5 @@ class CustomerTable(MethodView):
         '''
         Render the status information.
         '''
-        # Render the template for teh customer table.
-        customers = CustomerDB().getAll()
-        if customers is None:
-            customers = []
-        for customer in customers:
-            for value in customer:
-                print(value)
-        return render_template('table.html', customers=customers)
+        # Render the template for the customer table.
+        return render_template('table.html', customers=CustomerDB().getAll())

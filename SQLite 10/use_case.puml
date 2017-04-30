@@ -1,0 +1,12 @@
+@startuml
+left to right direction
+skinparam monochrome true
+skinparam backgroundcolor transparent
+skinparam packageStyle rectangle
+actor User
+rectangle "SQLite program" {
+  User -- (Insert data into table)
+  (Insert data into table) .> (Input data)
+  User -- (Display all data)
+}
+@enduml

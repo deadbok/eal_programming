@@ -90,7 +90,7 @@ class Employee:
 
     def __str__(self):
         """
-        Return a string with the value of the year model and make.
+        Return a string with the value of the year models and make.
         :return:
         """
         return ('Employee')

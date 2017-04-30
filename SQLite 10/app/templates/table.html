@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block css %}
+.add_customer {
+float: right;
+color: white;
+text-decoration: none;
+}
+.add_customer:hover {
+float: right;
+color: lightgray;
+text-decoration: none;
+}
+{% endblock %}
+{% block title %}Customer database{% endblock %}
+{% block heading %}Customers <a href="{{ url_for('add') }}"
+                                class="add_customer glyphicon glyphicon-plus"></a>{% endblock %}
+{% block content %}
+<table id="customer_table"
+       class="table table-striped table-bordered table-condensed">
+    <thead>
+    <tr id="customer_table_row_header">
+        <th id="customer_table_id_header">ID</th>
+        <th id="customer_table_name_header">Name</th>
+        <th id="customer_table_email_header">Email</th>
+        <th id="customer_table_address_header">Address</th>
+        <th id="customer_table_city_header">City</th>
+    </tr>
+    </thead>
+    <tbody id="customer_table_body" style="overflow: auto;">
+    {% for customer in customers %}
+    <tr id="customer_table_row_{{ customer.idCust }}">
+        <td>{{ customer.idCust }}</td>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.address }}</td>
+        <td>{{ customer.city }}</td>
+    </tr>
+    {% else %}
+    <tr id="customer_table_row_none">
+        <td colspan="5">No customers in the database</td>
+    </tr>
+    {% endfor %}
+    </tr>
+    </tbody>
+</table>
+{% endblock %}

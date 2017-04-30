@@ -21,7 +21,7 @@ class Car:
         """
         Constructor.
 
-        :param year_model: Year of the model. Default is 0.
+        :param year_model: Year of the models. Default is 0.
         :param make: Make of the cat. Default is Trabant.
         """
         # Set to the values passed to the constructor.
@@ -52,8 +52,8 @@ class Car:
 
     def __str__(self):
         """
-        Return a string with the value of the year model and make.
+        Return a string with the value of the year models and make.
         :return:
         """
-        return (' Year model:\t{}\n'.format(self.__year_model) +
+        return (' Year models:\t{}\n'.format(self.__year_model) +
                 ' Make:\t{}\n'.format(self.__make))

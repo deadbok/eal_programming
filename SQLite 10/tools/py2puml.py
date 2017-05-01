@@ -16,8 +16,12 @@
 #
 # History:
 #
+# Version 0.1.4
+# * Output file name is now a parameter.
+#
 # Version 0.1.3
 # * Change output file name to add ".classes.puml" to the original file name.
+#
 # Version 0.1.2
 #  * Exception handling.
 #
@@ -30,7 +34,7 @@
 import argparse
 import ast
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 class ClassParser(ast.NodeVisitor):
     """
@@ -89,35 +93,32 @@ if __name__ == '__main__':
     # Takes a python file as a parameter.
     parser = argparse.ArgumentParser(prog='py2puml')
     parser.add_argument('py_file', type=argparse.FileType('r'))
+    parser.add_argument('puml_file', type=argparse.FileType('w'))
     args = parser.parse_args()
 
-    # Output file name is input file +'.classes.puml'
-    puml_file_name = args.py_file.name + '.class.puml'
-
     try:
-        with open(puml_file_name, 'w') as puml_file:
-            # Write the beginnings of the PlantUML file.
-            puml_file.write('@startuml\nskinparam monochrome true\nskinparam classAttributeIconSize 0\nscale 2\n')
+        # Write the beginnings of the PlantUML file.
+        args.puml_file.write('@startuml\nskinparam monochrome true\nskinparam classAttributeIconSize 0\nscale 2\n')
 
-            # Use AST to parse the file.
-            tree = ast.parse(args.py_file.read())
-            class_writer = ClassParser()
-            class_writer.visit(tree)
+        # Use AST to parse the file.
+        tree = ast.parse(args.py_file.read())
+        class_writer = ClassParser()
+        class_writer.visit(tree)
 
-            # Write the resulting classes in PlantUML format.
-            for puml_class in class_writer.puml_classes:
-                puml_file.write('class ' + puml_class['name'] + '{\n')
+        # Write the resulting classes in PlantUML format.
+        for puml_class in class_writer.puml_classes:
+            args.puml_file.write('class ' + puml_class['name'] + '{\n')
 
-                for member in puml_class['members']:
-                    puml_file.write('    ' + member + '\n')
+            for member in puml_class['members']:
+                args.puml_file.write('    ' + member + '\n')
 
-                for method in puml_class['methods']:
-                    puml_file.write('    ' + method + '()\n')
+            for method in puml_class['methods']:
+                args.puml_file.write('    ' + method + '()\n')
 
-                puml_file.write('}\n')
+        args.puml_file.write('}\n')
 
-            # End the PlantUML files.
-            puml_file.write('@enduml')
+        # End the PlantUML files.
+        args.puml_file.write('@enduml')
     except IOError:
         print('I/O error.')
     except SyntaxError as see:

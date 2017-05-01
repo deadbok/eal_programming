@@ -1,0 +1,115 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf2\i """\par
+Name: Database abastraction code.\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0.0 (2017-04-30)\par
+"""}\par
+{\cf8\b import} {\cf19\b sqlite3}\par
+{\cf8\b from} {\cf19\b flask} {\cf8\b import} g\par
+{\cf8\b from} {\cf19\b flask} {\cf8\b import} current_app\par
+\par
+DATABASE {\cf4 =} {\cf2 '}{\cf2 customers.db}{\cf2 '}\par
+\par
+\par
+{\cf8\b class} {\cf19\b CustomerDB}:\par
+    tableName {\cf4 =} {\cf2 '}{\cf2 customerTable}{\cf2 '}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Contrusctor that creates the database table if not there.\par
+        """}\par
+        {\cf5\i # Get the current tables in the database.}\par
+        db {\cf4 =} {\cf8 self}{\cf4 .}__get_db()\par
+        tables {\cf4 =} db{\cf4 .}execute(\par
+            {\cf2 "}{\cf2 SELECT name FROM sqlite_master WHERE type=}{\cf2 '}{\cf2 table}{\cf2 '}{\cf2 ;}{\cf2 "})\par
+        {\cf5\i # Variable to indicate if the customerTable table exists}\par
+        created {\cf4 =} {\cf8 False}\par
+        {\cf5\i # Run through all table names.}\par
+        {\cf8\b for} table {\cf12\b in} tables:\par
+            {\cf5\i # If customerTable exists, do tell.}\par
+            {\cf8\b if} table[{\cf4 0}] {\cf4 ==} {\cf8 self}{\cf4 .}tableName:\par
+                created {\cf4 =} {\cf8 True}\par
+        {\cf5\i # Create the customerTable, if it is not there}\par
+        {\cf8\b if} {\cf12\b not} created:\par
+            current_app{\cf4 .}logger{\cf4 .}debug({\cf2 "}{\cf2 Creating table.}{\cf2 "})\par
+            db{\cf4 .}execute(\par
+                {\cf2\i """\par
+                CREATE TABLE \{\} (\par
+                  idCust INTEGER PRIMARY KEY,\par
+                  name VARCHAR(100),\par
+                  email VARCHAR(50),\par
+                  address VARCHAR(50),\par
+                  city VARCHAR(30)\par
+                )"""}{\cf4 .}format({\cf8 self}{\cf4 .}tableName)\par
+            )\par
+            db{\cf4 .}commit()\par
+\par
+    {\cf8\b def} {\cf19 __get_db}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get a connection to the database.\par
+        \par
+        :return: Database connection. \par
+        """}\par
+        {\cf5\i # Get an active connection to the database if there is one.}\par
+        db {\cf4 =} {\cf8 getattr}(g, {\cf2 '}{\cf2 _database}{\cf2 '}, {\cf8 None})\par
+        {\cf5\i # Create a new one of no connection was available.}\par
+        {\cf8\b if} db {\cf12\b is} {\cf8 None}:\par
+            db {\cf4 =} g{\cf4 .}_database {\cf4 =} sqlite3{\cf4 .}connect(current_app{\cf4 .}config[{\cf2 '}{\cf2 DATABASE}{\cf2 '}])\par
+\par
+        db{\cf4 .}row_factory {\cf4 =} sqlite3{\cf4 .}Row\par
+\par
+        {\cf8\b return} db\par
+\par
+    {\cf8\b def} {\cf19 add}({\cf8 self}, name{\cf4 =}{\cf2 '}{\cf2 '}, email{\cf4 =}{\cf2 '}{\cf2 '}, address{\cf4 =}{\cf2 '}{\cf2 '}, city{\cf4 =}{\cf2 '}{\cf2 '}):\par
+        {\cf2\i """\par
+        Add a customer to the table\par
+        \par
+        :param name: Customer name.\par
+        :param email: Customer email.\par
+        :param address: Customer address.\par
+        :param city: Customer city.\par
+        :return: \par
+        """}\par
+        {\cf5\i # Do the query to insert the data.}\par
+        {\cf8 self}{\cf4 .}query_db(\par
+            {\cf2 '}{\cf2 INSERT INTO \{\}(name, email, address, city) VALUES(?,?,?,?)}{\cf2 '}{\cf4 .}format(\par
+                {\cf8 self}{\cf4 .}tableName), [name, email, address, city])\par
+\par
+    {\cf8\b def} {\cf19 getAll}({\cf8 self}):\par
+        {\cf2\i """\par
+        Get all customer entries.\par
+        """}\par
+        {\cf8\b return} {\cf8 self}{\cf4 .}query_db({\cf2 '}{\cf2 SELECT * FROM }{\cf2 '} {\cf4 +} {\cf8 self}{\cf4 .}tableName)\par
+\par
+    {\cf8\b def} {\cf19 query_db}({\cf8 self}, query, args{\cf4 =}(), one{\cf4 =}{\cf8 False}):\par
+        {\cf2\i """\par
+        Helper function to do a query on the database.\par
+        \par
+        :param query: The SQL command.\par
+        :param args: The arguments to the SQL.\par
+        :param one: Set to true to return only the fist result.\par
+        :return: \par
+        """}\par
+        {\cf5\i # Default is to empty list.}\par
+        ret {\cf4 =} []\par
+        {\cf5\i # Execute the query.}\par
+        db {\cf4 =} {\cf8 self}{\cf4 .}__get_db()\par
+        cur {\cf4 =} db{\cf4 .}execute(query, args)\par
+        db{\cf4 .}commit()\par
+        {\cf5\i # Get all data.}\par
+        values {\cf4 =} cur{\cf4 .}fetchall()\par
+        {\cf5\i # Close connection}\par
+        cur{\cf4 .}close()\par
+\par
+        {\cf5\i # If there is stuff in the result.}\par
+        {\cf8\b if} values:\par
+            {\cf8\b if} one:\par
+                {\cf5\i # Return the first if thats what we were asked}\par
+                ret {\cf4 =} values[{\cf4 0}]\par
+            {\cf8\b else}:\par
+                {\cf5\i # Return all results}\par
+                ret {\cf4 =} values\par
+\par
+        {\cf5\i # Return the result}\par
+        {\cf8\b return} ret\par
+}

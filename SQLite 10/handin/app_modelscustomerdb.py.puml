@@ -1,0 +1,12 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+class CustomerDB{
+    -__init__()
+    -__get_db()
+    +add()
+    +getAll()
+    +query_db()
+}
+@enduml

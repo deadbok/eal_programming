@@ -8,9 +8,6 @@ Version: 1.0.0 (2017-04-30)\par
 {\cf8\b from} {\cf19\b flask} {\cf8\b import} g\par
 {\cf8\b from} {\cf19\b flask} {\cf8\b import} current_app\par
 \par
-DATABASE {\cf4 =} {\cf2 '}{\cf2 customers.db}{\cf2 '}\par
-\par
-\par
 {\cf8\b class} {\cf19\b CustomerDB}:\par
     tableName {\cf4 =} {\cf2 '}{\cf2 customerTable}{\cf2 '}\par
 \par
@@ -94,7 +91,8 @@ DATABASE {\cf4 =} {\cf2 '}{\cf2 customers.db}{\cf2 '}\par
         ret {\cf4 =} []\par
         {\cf5\i # Execute the query.}\par
         db {\cf4 =} {\cf8 self}{\cf4 .}__get_db()\par
-        cur {\cf4 =} db{\cf4 .}execute(query, args)\par
+        cur {\cf4 =} db{\cf4 .}cursor()\par
+        cur{\cf4 .}execute(query, args)\par
         db{\cf4 .}commit()\par
         {\cf5\i # Get all data.}\par
         values {\cf4 =} cur{\cf4 .}fetchall()\par

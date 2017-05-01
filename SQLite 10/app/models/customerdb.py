@@ -8,9 +8,6 @@ import sqlite3
 from flask import g
 from flask import current_app
 
-DATABASE = 'customers.db'
-
-
 class CustomerDB:
     tableName = 'customerTable'
 
@@ -94,7 +91,8 @@ class CustomerDB:
         ret = []
         # Execute the query.
         db = self.__get_db()
-        cur = db.execute(query, args)
+        cur = db.cursor()
+        cur.execute(query, args)
         db.commit()
         # Get all data.
         values = cur.fetchall()

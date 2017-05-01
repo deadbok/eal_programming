@@ -1,0 +1,39 @@
+@startuml
+
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+scale 2
+
+!include app_views_add.py.puml
+!include app_views_customertable.py.puml
+!include app_models_customerdb.py.puml
+
+namespace flask {
+    class Flask
+    class Request
+    namespace views {
+        class MethodView
+    }
+}
+
+namespace sqlite3 {
+    class Connection
+    class Cursor
+    class Row
+}
+
+flask.Flask "1" -- "0" app.views.Add
+flask.Flask "1" -- "0" app.views.CustomerTable
+
+flask.views.MethodView <- app.views.Add
+flask.Request "0" -- "1" app.views.Add
+app.views.Add "1" -- "0" app.models.CustomerDB
+
+flask.views.MethodView <- app.views.CustomerTable
+app.views.CustomerTable "1" -- "0" app.models.CustomerDB
+sqlite3.Connection "0" -- "1" app.models.CustomerDB
+sqlite3.Row "0" -- "1" app.models.CustomerDB
+sqlite3.Cursor "0" -- "1" app.models.CustomerDB
+
+@enduml

@@ -16,6 +16,14 @@
 {\cf5\i #}\par
 {\cf5\i # History:}\par
 {\cf5\i #}\par
+{\cf5\i # Version 0.1.6}\par
+{\cf5\i # * Functional namspace support}\par
+{\cf5\i #}\par
+{\cf5\i # Version 0.1.5}\par
+{\cf5\i # * Add members from the class definition.}\par
+{\cf5\i # * Do not write empty file.}\par
+{\cf5\i # * Add namespace.}\par
+{\cf5\i #}\par
 {\cf5\i # Version 0.1.4}\par
 {\cf5\i # * Output file name is now a parameter.}\par
 {\cf5\i #}\par
@@ -34,7 +42,7 @@
 {\cf8\b import} {\cf19\b argparse}\par
 {\cf8\b import} {\cf19\b ast}\par
 \par
-__version__ {\cf4 =} {\cf2 '}{\cf2 0.1.4}{\cf2 '}\par
+__version__ {\cf4 =} {\cf2 '}{\cf2 0.1.6}{\cf2 '}\par
 \par
 {\cf8\b class} {\cf19\b ClassParser}(ast{\cf4 .}NodeVisitor):\par
     {\cf2\i """\par
@@ -85,6 +93,17 @@ __version__ {\cf4 =} {\cf2 '}{\cf2 0.1.4}{\cf2 '}\par
                                             {\cf8\b else}:\par
                                                 puml_class[{\cf2 '}{\cf2 members}{\cf2 '}]{\cf4 .}append({\cf2 '}{\cf2 +}{\cf2 '} {\cf4 +} target{\cf4 .}attr)\par
 \par
+            {\cf5\i # Look for assignments at the top level of the class.}\par
+            {\cf8\b if} {\cf8 isinstance}(child, ast{\cf4 .}Assign):\par
+                {\cf8\b for} target {\cf12\b in} child{\cf4 .}targets:\par
+                    {\cf5\i # Get the target member name.}\par
+                    {\cf8\b if} {\cf8 isinstance}(target, ast{\cf4 .}Name):\par
+                        {\cf5\i # Append the member.}\par
+                        {\cf8\b if} target{\cf4 .}id{\cf4 .}startswith({\cf2 '}{\cf2 __}{\cf2 '}):\par
+                            puml_class[{\cf2 '}{\cf2 members}{\cf2 '}]{\cf4 .}append({\cf2 '}{\cf2 -}{\cf2 '} {\cf4 +} target{\cf4 .}id)\par
+                        {\cf8\b else}:\par
+                            puml_class[{\cf2 '}{\cf2 members}{\cf2 '}]{\cf4 .}append({\cf2 '}{\cf2 +}{\cf2 '} {\cf4 +} target{\cf4 .}id)\par
+\par
         {\cf5\i # Save the class.}\par
         {\cf8 self}{\cf4 .}puml_classes{\cf4 .}append(puml_class)\par
 \par
@@ -97,28 +116,57 @@ __version__ {\cf4 =} {\cf2 '}{\cf2 0.1.4}{\cf2 '}\par
     args {\cf4 =} parser{\cf4 .}parse_args()\par
 \par
     {\cf8\b try}:\par
-        {\cf5\i # Write the beginnings of the PlantUML file.}\par
-        args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 @startuml}{\cf10\b \\n}{\cf2 skinparam monochrome true}{\cf10\b \\n}{\cf2 skinparam classAttributeIconSize 0}{\cf10\b \\n}{\cf2 scale 2}{\cf10\b \\n}{\cf2 '})\par
-\par
         {\cf5\i # Use AST to parse the file.}\par
         tree {\cf4 =} ast{\cf4 .}parse(args{\cf4 .}py_file{\cf4 .}read())\par
         class_writer {\cf4 =} ClassParser()\par
         class_writer{\cf4 .}visit(tree)\par
 \par
-        {\cf5\i # Write the resulting classes in PlantUML format.}\par
-        {\cf8\b for} puml_class {\cf12\b in} class_writer{\cf4 .}puml_classes:\par
-            args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 class }{\cf2 '} {\cf4 +} puml_class[{\cf2 '}{\cf2 name}{\cf2 '}] {\cf4 +} {\cf2 '}{\cf2 \{}{\cf10\b \\n}{\cf2 '})\par
+        names {\cf4 =} args{\cf4 .}py_file{\cf4 .}name{\cf4 .}split({\cf2 '}{\cf2 /}{\cf2 '})[{\cf4 0}:{\cf4 -}{\cf4 1}]\par
+        namespace {\cf4 =} []\par
+        {\cf8\b for} name {\cf12\b in} names:\par
+            {\cf8\b if} name {\cf4 !=} {\cf2 '}{\cf2 .}{\cf2 '}:\par
+                namespace{\cf4 .}append(name)\par
 \par
-            {\cf8\b for} member {\cf12\b in} puml_class[{\cf2 '}{\cf2 members}{\cf2 '}]:\par
-                args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2     }{\cf2 '} {\cf4 +} member {\cf4 +} {\cf2 '}{\cf10\b \\n}{\cf2 '})\par
+        {\cf8\b if} {\cf8 len}(class_writer{\cf4 .}puml_classes) {\cf4 >} {\cf4 0}:\par
+            tabs {\cf4 =} {\cf4 0}\par
+            {\cf5\i # Write the beginnings of the PlantUML file.}\par
+            args{\cf4 .}puml_file{\cf4 .}write(\par
+                {\cf2\i '''\{0\}@startuml\par
+                \{0\}skinparam monochrome true\par
+                \{0\}skinparam classAttributeIconSize 0\par
+                \{0\}scale 2\\n'''}{\cf4 .}format({\cf2 '}{\cf10\b \\t}{\cf2 '} {\cf4 *} tabs))\par
 \par
-            {\cf8\b for} method {\cf12\b in} puml_class[{\cf2 '}{\cf2 methods}{\cf2 '}]:\par
-                args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2     }{\cf2 '} {\cf4 +} method {\cf4 +} {\cf2 '}{\cf2 ()}{\cf10\b \\n}{\cf2 '})\par
+            {\cf5\i # Create the namespace}\par
+            {\cf8\b for} name {\cf12\b in} namespace:\par
+                args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 \{\}namespace }{\cf2 '}{\cf4 .}format({\cf2 '}{\cf10\b \\t}{\cf2 '} {\cf4 *} tabs) {\cf4 +} name {\cf4 +} {\cf2 '}{\cf2  \{}{\cf10\b \\n}{\cf2 '})\par
+                tabs {\cf4 +}{\cf4 =} {\cf4 1}\par
 \par
-        args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 \}}{\cf10\b \\n}{\cf2 '})\par
+            {\cf5\i # Write the resulting classes in PlantUML format.}\par
+            {\cf8\b for} puml_class {\cf12\b in} class_writer{\cf4 .}puml_classes:\par
 \par
-        {\cf5\i # End the PlantUML files.}\par
-        args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 @enduml}{\cf2 '})\par
+                args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 \{\}class }{\cf2 '}{\cf4 .}format({\cf2 '}{\cf10\b \\t}{\cf2 '} {\cf4 *} tabs) {\cf4 +} puml_class[{\cf2 '}{\cf2 name}{\cf2 '}] {\cf4 +} {\cf2 '}{\cf2  \{}{\cf10\b \\n}{\cf2 '})\par
+                tabs {\cf4 +}{\cf4 =} {\cf4 1}\par
+\par
+                {\cf8\b for} member {\cf12\b in} puml_class[{\cf2 '}{\cf2 members}{\cf2 '}]:\par
+                    args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 \{\}}{\cf2 '}{\cf4 .}format({\cf2 '}{\cf10\b \\t}{\cf2 '} {\cf4 *} tabs) {\cf4 +} member {\cf4 +} {\cf2 '}{\cf10\b \\n}{\cf2 '})\par
+\par
+                {\cf8\b for} method {\cf12\b in} puml_class[{\cf2 '}{\cf2 methods}{\cf2 '}]:\par
+                    args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 \{\}}{\cf2 '}{\cf4 .}format({\cf2 '}{\cf10\b \\t}{\cf2 '} {\cf4 *} tabs) {\cf4 +} method {\cf4 +} {\cf2 '}{\cf2 ()}{\cf10\b \\n}{\cf2 '})\par
+\par
+            tabs {\cf4 -}{\cf4 =} {\cf4 1}\par
+            args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 \{\}}{\cf2 '}{\cf4 .}format({\cf2 '}{\cf10\b \\t}{\cf2 '} {\cf4 *} tabs) {\cf4 +} {\cf2 '}{\cf2 \}}{\cf10\b \\n}{\cf2 '})\par
+\par
+            {\cf5\i # Close the namespace}\par
+            {\cf8\b for} name {\cf12\b in} namespace:\par
+                tabs {\cf4 -}{\cf4 =} {\cf4 1}\par
+                args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 \{\}}{\cf2 '}{\cf4 .}format({\cf2 '}{\cf10\b \\t}{\cf2 '} {\cf4 *} tabs) {\cf4 +} {\cf2 '}{\cf2 \}}{\cf10\b \\n}{\cf2 '})\par
+\par
+            {\cf5\i # End the PlantUML files.}\par
+            args{\cf4 .}puml_file{\cf4 .}write({\cf2 '}{\cf2 \{\}@enduml}{\cf2 '}{\cf4 .}format({\cf2 '}{\cf10\b \\t}{\cf2 '} {\cf4 *} tabs))\par
+            {\cf8\b print}({\cf2 '}{\cf2 .}{\cf2 '}{\cf4 .}join(namespace) {\cf4 +} {\cf2 '}{\cf2 .}{\cf2 '} {\cf4 +} puml_class[{\cf2 '}{\cf2 name}{\cf2 '}] {\cf4 +} {\cf2 '}{\cf2  }{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+        {\cf8\b else}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 No classes.}{\cf2 '}, end{\cf4 =}{\cf2 '}{\cf2 '})\par
+\par
     {\cf8\b except} {\cf24\b IOError}:\par
         {\cf8\b print}({\cf2 '}{\cf2 I/O error.}{\cf2 '})\par
     {\cf8\b except} {\cf24\b SyntaxError} {\cf8\b as} see:\par

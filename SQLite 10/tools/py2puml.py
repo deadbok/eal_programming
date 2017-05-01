@@ -16,6 +16,14 @@
 #
 # History:
 #
+# Version 0.1.6
+# * Functional namspace support
+#
+# Version 0.1.5
+# * Add members from the class definition.
+# * Do not write empty file.
+# * Add namespace.
+#
 # Version 0.1.4
 # * Output file name is now a parameter.
 #
@@ -34,7 +42,7 @@
 import argparse
 import ast
 
-__version__ = '0.1.4'
+__version__ = '0.1.6'
 
 class ClassParser(ast.NodeVisitor):
     """
@@ -85,6 +93,17 @@ class ClassParser(ast.NodeVisitor):
                                             else:
                                                 puml_class['members'].append('+' + target.attr)
 
+            # Look for assignments at the top level of the class.
+            if isinstance(child, ast.Assign):
+                for target in child.targets:
+                    # Get the target member name.
+                    if isinstance(target, ast.Name):
+                        # Append the member.
+                        if target.id.startswith('__'):
+                            puml_class['members'].append('-' + target.id)
+                        else:
+                            puml_class['members'].append('+' + target.id)
+
         # Save the class.
         self.puml_classes.append(puml_class)
 
@@ -97,28 +116,57 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     try:
-        # Write the beginnings of the PlantUML file.
-        args.puml_file.write('@startuml\nskinparam monochrome true\nskinparam classAttributeIconSize 0\nscale 2\n')
-
         # Use AST to parse the file.
         tree = ast.parse(args.py_file.read())
         class_writer = ClassParser()
         class_writer.visit(tree)
 
-        # Write the resulting classes in PlantUML format.
-        for puml_class in class_writer.puml_classes:
-            args.puml_file.write('class ' + puml_class['name'] + '{\n')
+        names = args.py_file.name.split('/')[0:-1]
+        namespace = []
+        for name in names:
+            if name != '.':
+                namespace.append(name)
 
-            for member in puml_class['members']:
-                args.puml_file.write('    ' + member + '\n')
+        if len(class_writer.puml_classes) > 0:
+            tabs = 0
+            # Write the beginnings of the PlantUML file.
+            args.puml_file.write(
+                '''{0}@startuml
+                {0}skinparam monochrome true
+                {0}skinparam classAttributeIconSize 0
+                {0}scale 2\n'''.format('\t' * tabs))
 
-            for method in puml_class['methods']:
-                args.puml_file.write('    ' + method + '()\n')
+            # Create the namespace
+            for name in namespace:
+                args.puml_file.write('{}namespace '.format('\t' * tabs) + name + ' {\n')
+                tabs += 1
 
-        args.puml_file.write('}\n')
+            # Write the resulting classes in PlantUML format.
+            for puml_class in class_writer.puml_classes:
 
-        # End the PlantUML files.
-        args.puml_file.write('@enduml')
+                args.puml_file.write('{}class '.format('\t' * tabs) + puml_class['name'] + ' {\n')
+                tabs += 1
+
+                for member in puml_class['members']:
+                    args.puml_file.write('{}'.format('\t' * tabs) + member + '\n')
+
+                for method in puml_class['methods']:
+                    args.puml_file.write('{}'.format('\t' * tabs) + method + '()\n')
+
+            tabs -= 1
+            args.puml_file.write('{}'.format('\t' * tabs) + '}\n')
+
+            # Close the namespace
+            for name in namespace:
+                tabs -= 1
+                args.puml_file.write('{}'.format('\t' * tabs) + '}\n')
+
+            # End the PlantUML files.
+            args.puml_file.write('{}@enduml'.format('\t' * tabs))
+            print('.'.join(namespace) + '.' + puml_class['name'] + ' ', end='')
+        else:
+            print('No classes.', end='')
+
     except IOError:
         print('I/O error.')
     except SyntaxError as see:

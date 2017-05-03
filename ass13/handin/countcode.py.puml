@@ -23,7 +23,6 @@ class PyFile {
 	+get_python_lines()
 	+get_total_lines()
 	+get_full_path()
-	+get_full_path()
 	+get_file_name()
 	-__count_lines()
 	-__str__()

@@ -1,0 +1,14 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+
+namespace tools {
+
+	class ClassParser {
+		+puml_classes
+		+visit_ClassDef()
+	}
+
+}
+@enduml

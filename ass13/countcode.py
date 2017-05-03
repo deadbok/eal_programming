@@ -15,6 +15,7 @@ import os
 import fnmatch
 import filecmp
 
+# Program version.
 __VERSION__ = '1.5.0'
 
 
@@ -22,6 +23,7 @@ class PyExcludes:
     """
     Helper class to tell if a certain path is to be excluded from the scan.
     """
+
     def __init__(self, exclude_paths=[]):
         """
         Constructor.
@@ -53,6 +55,7 @@ class PyFile:
     """
     Class for scnning and managing info about a single Python file.
     """
+
     def __init__(self, path=None, exclude_path=None, duplicate_path=None):
         """
         Constructor.
@@ -172,9 +175,9 @@ class PyFile:
 
         if (self.__exclude_path is None):
             ret += ', b:{0},c:{1},p:{2},t{3}'.format(self.__blank_lines,
-                                                      self.__comment_lines,
-                                                      self.__python_lines,
-                                                      self.__total_lines)
+                                                     self.__comment_lines,
+                                                     self.__python_lines,
+                                                     self.__total_lines)
 
         if (self.__exclude_path is not None):
             ret += ', {0}'.format(self.__exclude_path)
@@ -186,6 +189,7 @@ class PyFiles:
     """
     Class for recursively scanning path and managing file info.
     """
+
     def __init__(self, include_paths=['.'], exclude_paths=None):
         """
         Constructor.
@@ -246,7 +250,6 @@ class PyFiles:
         print('\tComment lines: {}'.format(self.__comment_lines))
         print('\tPython code lines: {}'.format(self.__python_lines))
 
-
     def __file_name_is_scanned(self, filename):
         """
         Check if a file name has been seen before.
@@ -273,31 +276,40 @@ class PyFiles:
         """
         # Use os.walk to recursively decent the directory.
         for root, dirnames, filenames in os.walk(path):
-            # Find all .py files in th path.
+            # Find all .py files in the path.
             for filename in fnmatch.filter(filenames, '*.py'):
                 # Assemble the current path.
                 current_path = os.path.join(root, filename)
 
+                # One more file.
                 self.__total_files += 1
 
+                # Get relevant exclude path if any.
                 exclude_path = self.__pyexcludes.exclude_path(current_path)
 
                 # Check for duplicates if not excluded.
                 duplicate_path = None
                 if exclude_path is None:
+                    # Check for duplicate file name.
                     duplicate_path = self.__file_name_is_scanned(filename)
                     if duplicate_path is not None:
+                        # Compare the files.
                         if not filecmp.cmp(duplicate_path, current_path):
+                            # It is not a duplicate.
                             duplicate_path = None
                         else:
+                            # It is a duplicate, up the count.
                             self.__duplicate_files += 1
                 else:
+                    # The file is ecluded, up the count.
                     self.__excluded_files += 1
 
+                # Create the file record, and scan it if needed.
                 pyfile = PyFile(current_path,
                                 exclude_path,
                                 duplicate_path)
                 self.__pyfiles.append(pyfile)
+                # Print a status line for the file.
                 print(pyfile)
 
 
@@ -336,6 +348,7 @@ def main():
     # Parse the command line.
     paths = parse_commandline()
 
+    # Start counting.
     PyFiles(paths[0], paths[1])
 
 

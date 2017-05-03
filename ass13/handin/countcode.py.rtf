@@ -15,18 +15,35 @@ Count the lines of Python code in files in the paths given on the commend line.\
 {\cf8\b import} {\cf19\b fnmatch}\par
 {\cf8\b import} {\cf19\b filecmp}\par
 \par
+{\cf5\i # Program version.}\par
 __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
 \par
 \par
 {\cf8\b class} {\cf19\b PyExcludes}:\par
+    {\cf2\i """\par
+    Helper class to tell if a certain path is to be excluded from the scan.\par
+    """}\par
+\par
     {\cf8\b def} {\cf19 __init__}({\cf8 self}, exclude_paths{\cf4 =}[]):\par
+        {\cf2\i """\par
+        Constructor.\par
+        \par
+        :param exclude_paths: List of exclude paths. \par
+        """}\par
         {\cf8 self}{\cf4 .}__exclude_paths {\cf4 =} exclude_paths\par
 \par
     {\cf8\b def} {\cf19 exclude_path}({\cf8 self}, path):\par
+        {\cf2\i """\par
+        Return relevant exclude path or None.\par
+        \par
+        :param path: Path to match against the exclude paths. \par
+        :return: Matching exclude path or None.\par
+        """}\par
         {\cf5\i # Could have just used return(ex), but my teacher would rather like}\par
         {\cf5\i # only one return path.}\par
         ret {\cf4 =} {\cf8 None}\par
         {\cf8\b for} ex {\cf12\b in} {\cf8 self}{\cf4 .}__exclude_paths:\par
+            {\cf5\i # If path is in the exclude paths stop and return it.}\par
             {\cf8\b if} path{\cf4 .}startswith(ex):\par
                 ret {\cf4 =} ex\par
                 {\cf8\b break}\par
@@ -35,7 +52,18 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
 \par
 \par
 {\cf8\b class} {\cf19\b PyFile}:\par
+    {\cf2\i """\par
+    Class for scnning and managing info about a single Python file.\par
+    """}\par
+\par
     {\cf8\b def} {\cf19 __init__}({\cf8 self}, path{\cf4 =}{\cf8 None}, exclude_path{\cf4 =}{\cf8 None}, duplicate_path{\cf4 =}{\cf8 None}):\par
+        {\cf2\i """\par
+        Constructor.\par
+        \par
+        :param path: Path of the Python file.\par
+        :param exclude_path: Relevant exclude path or None.\par
+        :param duplicate_path: Relevant duplicate path or None.\par
+        """}\par
         {\cf5\i # File has not been scanned.}\par
         {\cf8 self}{\cf4 .}__scanned {\cf4 =} {\cf8 False}\par
         {\cf5\i # Save exclude path.}\par
@@ -54,43 +82,59 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
             {\cf5\i # File is to be counted, set status and scan.}\par
             {\cf8 self}{\cf4 .}__status {\cf4 =} {\cf2 '}{\cf2 c}{\cf2 '}\par
 \par
+        {\cf5\i # Initialise variables for counting.}\par
         {\cf8 self}{\cf4 .}__path {\cf4 =} path\par
         {\cf8 self}{\cf4 .}__blank_lines {\cf4 =} {\cf4 0}\par
         {\cf8 self}{\cf4 .}__comment_lines {\cf4 =} {\cf4 0}\par
         {\cf8 self}{\cf4 .}__python_lines {\cf4 =} {\cf4 0}\par
         {\cf8 self}{\cf4 .}__total_lines {\cf4 =} {\cf4 0}\par
 \par
+        {\cf5\i # Count the code lines.}\par
         {\cf8 self}{\cf4 .}__count_lines()\par
 \par
     {\cf8\b def} {\cf19 get_blank_lines}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the number of blank lines in the file.\par
+        """}\par
         {\cf8\b return} {\cf8 self}{\cf4 .}__blank_lines\par
 \par
     {\cf8\b def} {\cf19 get_comment_lines}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the number of comment lines in the file.\par
+        """}\par
         {\cf8\b return} {\cf8 self}{\cf4 .}__comment_lines\par
 \par
     {\cf8\b def} {\cf19 get_python_lines}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the number of python source lines in the file.\par
+        """}\par
         {\cf8\b return} {\cf8 self}{\cf4 .}__python_lines\par
 \par
     {\cf8\b def} {\cf19 get_total_lines}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the total number of lines in the file.\par
+        """}\par
         {\cf8\b return} {\cf8 self}{\cf4 .}__total_lines\par
 \par
     {\cf8\b def} {\cf19 get_full_path}({\cf8 self}):\par
-        {\cf8\b return} {\cf8 self}{\cf4 .}__path\par
-\par
-    {\cf8\b def} {\cf19 get_full_path}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the full path of the file.\par
+        """}\par
         {\cf8\b return} {\cf8 self}{\cf4 .}__path\par
 \par
     {\cf8\b def} {\cf19 get_file_name}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the file name of the file.\par
+        """}\par
         {\cf8\b return} os{\cf4 .}path{\cf4 .}basename({\cf8 self}{\cf4 .}__path)\par
 \par
     {\cf8\b def} {\cf19 __count_lines}({\cf8 self}):\par
         {\cf2\i """\par
-        Scan a path for Python files.\par
+        Count the lines of a Python file.\par
     \par
         :param path: Path to file to process.\par
-        :return: A tuple with the blank lines, comment lines, python lines,\par
-                 total lines.\par
         """}\par
+        {\cf5\i # Check if the file is excluded or scanned.}\par
         {\cf8\b if} ({\cf8 self}{\cf4 .}__exclude_path {\cf12\b is} {\cf8 None}) {\cf12\b and} ({\cf12\b not} {\cf8 self}{\cf4 .}__scanned):\par
             {\cf5\i # Open the file.}\par
             {\cf8\b with} {\cf8 open}({\cf8 self}{\cf4 .}__path, {\cf2 '}{\cf2 r}{\cf2 '}, encoding{\cf4 =}{\cf2 "}{\cf2 latin-1}{\cf2 "}) {\cf8\b as} python_file:\par
@@ -118,17 +162,22 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
                     {\cf8\b else}:\par
                         {\cf8 self}{\cf4 .}__python_lines {\cf4 +}{\cf4 =} {\cf4 1}\par
 \par
+            {\cf5\i # File is scanned.}\par
             {\cf8 self}{\cf4 .}__scanned {\cf4 =} {\cf8 True}\par
 \par
     {\cf8\b def} {\cf19 __str__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return a nice status line for the file.\par
+        :return: Status string.\par
+        """}\par
         ret {\cf4 =} {\cf2 '}{\cf2 \{0\}}{\cf10\b \\t}{\cf2 \{1\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}__status,\par
                                 {\cf8 self}{\cf4 .}__path)\par
 \par
         {\cf8\b if} ({\cf8 self}{\cf4 .}__exclude_path {\cf12\b is} {\cf8 None}):\par
             ret {\cf4 +}{\cf4 =} {\cf2 '}{\cf2 , b:\{0\},c:\{1\},p:\{2\},t\{3\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}__blank_lines,\par
-                                                      {\cf8 self}{\cf4 .}__comment_lines,\par
-                                                      {\cf8 self}{\cf4 .}__python_lines,\par
-                                                      {\cf8 self}{\cf4 .}__total_lines)\par
+                                                     {\cf8 self}{\cf4 .}__comment_lines,\par
+                                                     {\cf8 self}{\cf4 .}__python_lines,\par
+                                                     {\cf8 self}{\cf4 .}__total_lines)\par
 \par
         {\cf8\b if} ({\cf8 self}{\cf4 .}__exclude_path {\cf12\b is} {\cf12\b not} {\cf8 None}):\par
             ret {\cf4 +}{\cf4 =} {\cf2 '}{\cf2 , \{0\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}__exclude_path)\par
@@ -137,13 +186,26 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
 \par
 \par
 {\cf8\b class} {\cf19\b PyFiles}:\par
+    {\cf2\i """\par
+    Class for recursively scanning path and managing file info.\par
+    """}\par
+\par
     {\cf8\b def} {\cf19 __init__}({\cf8 self}, include_paths{\cf4 =}[{\cf2 '}{\cf2 .}{\cf2 '}], exclude_paths{\cf4 =}{\cf8 None}):\par
+        {\cf2\i """\par
+        Constructor.\par
+        \par
+        :param include_paths: List of path to include when scanning (defaults\par
+                              to '.').\par
+        :param exclude_paths: List of paths to exclude when scanning\par
+                              (defaults to None). \par
+        """}\par
         {\cf5\i # Save paths}\par
         {\cf8 self}{\cf4 .}__include_paths {\cf4 =} include_paths\par
         {\cf8 self}{\cf4 .}__exclude_paths {\cf4 =} exclude_paths\par
 \par
-        {\cf5\i # Array of PyFiles}\par
+        {\cf5\i # Array of PyFiles to keep the file information.}\par
         {\cf8 self}{\cf4 .}__pyfiles {\cf4 =} []\par
+\par
         {\cf5\i # Excluded paths handler.}\par
         {\cf8 self}{\cf4 .}__pyexcludes {\cf4 =} PyExcludes(exclude_paths)\par
 \par
@@ -156,6 +218,7 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
             {\cf8\b for} path {\cf12\b in} {\cf8 self}{\cf4 .}__exclude_paths:\par
                 {\cf8\b print}({\cf2 '}{\cf10\b \\t}{\cf2 \{\}}{\cf2 '}{\cf4 .}format(path))\par
 \par
+        {\cf5\i # Initialise variables used during the counting.}\par
         {\cf8 self}{\cf4 .}__blank_lines {\cf4 =} {\cf4 0}\par
         {\cf8 self}{\cf4 .}__comment_lines {\cf4 =} {\cf4 0}\par
         {\cf8 self}{\cf4 .}__python_lines {\cf4 =} {\cf4 0}\par
@@ -170,6 +233,7 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
         {\cf8\b for} path {\cf12\b in} {\cf8 self}{\cf4 .}__include_paths:\par
             {\cf8 self}{\cf4 .}__scan_in_path(path)\par
 \par
+        {\cf5\i # Sum the number of lines.}\par
         {\cf8\b for} pyfile {\cf12\b in} {\cf8 self}{\cf4 .}__pyfiles:\par
             {\cf8 self}{\cf4 .}__blank_lines {\cf4 +}{\cf4 =} pyfile{\cf4 .}get_blank_lines()\par
             {\cf8 self}{\cf4 .}__comment_lines {\cf4 +}{\cf4 =} pyfile{\cf4 .}get_comment_lines()\par
@@ -186,12 +250,18 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
         {\cf8\b print}({\cf2 '}{\cf10\b \\t}{\cf2 Comment lines: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}__comment_lines))\par
         {\cf8\b print}({\cf2 '}{\cf10\b \\t}{\cf2 Python code lines: \{\}}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}__python_lines))\par
 \par
-\par
     {\cf8\b def} {\cf19 __file_name_is_scanned}({\cf8 self}, filename):\par
-        {\cf5\i # Could have just used return(pyfile.get_full_path()), but my teacher would rather like}\par
-        {\cf5\i # only one return path.}\par
+        {\cf2\i """\par
+        Check if a file name has been seen before.\par
+        \par
+        :param filename: The file name to check. \par
+        :return: Return the full path og the matching file name or None.\par
+        """}\par
+        {\cf5\i # Could have just used return(pyfile.get_full_path()), but my teacher}\par
+        {\cf5\i # would rather like only one return path.}\par
         ret {\cf4 =} {\cf8 None}\par
         {\cf8\b for} pyfile {\cf12\b in} {\cf8 self}{\cf4 .}__pyfiles:\par
+            {\cf5\i # Get out if the file name is known.}\par
             {\cf8\b if} pyfile{\cf4 .}get_file_name() {\cf4 ==} filename:\par
                 ret {\cf4 =} pyfile{\cf4 .}get_full_path()\par
                 {\cf8\b break}\par
@@ -200,41 +270,46 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
 \par
     {\cf8\b def} {\cf19 __scan_in_path}({\cf8 self}, path):\par
         {\cf2\i """\par
-        Scan a path for Python files.\par
+        Scan a path for Python files and count the lines of the relevant ones.\par
 \par
-        :param include_paths: List of path to include when scanning.\par
-        :param exclude_paths: List of paths to exclude when scanning. \par
-        :return: A tuple with the number of total files, duplicate files,\par
-                 excluded files, blank lines, comment lines, python lines,\par
-                 total lines.\par
+        :param path: Path to scan.\par
         """}\par
-        {\cf5\i # Use os.walk to recursivly decent the directory.}\par
+        {\cf5\i # Use os.walk to recursively decent the directory.}\par
         {\cf8\b for} root, dirnames, filenames {\cf12\b in} os{\cf4 .}walk(path):\par
-            {\cf5\i # Find all .py files in th path.}\par
+            {\cf5\i # Find all .py files in the path.}\par
             {\cf8\b for} filename {\cf12\b in} fnmatch{\cf4 .}filter(filenames, {\cf2 '}{\cf2 *.py}{\cf2 '}):\par
                 {\cf5\i # Assemble the current path.}\par
                 current_path {\cf4 =} os{\cf4 .}path{\cf4 .}join(root, filename)\par
 \par
+                {\cf5\i # One more file.}\par
                 {\cf8 self}{\cf4 .}__total_files {\cf4 +}{\cf4 =} {\cf4 1}\par
 \par
+                {\cf5\i # Get relevant exclude path if any.}\par
                 exclude_path {\cf4 =} {\cf8 self}{\cf4 .}__pyexcludes{\cf4 .}exclude_path(current_path)\par
 \par
                 {\cf5\i # Check for duplicates if not excluded.}\par
                 duplicate_path {\cf4 =} {\cf8 None}\par
                 {\cf8\b if} exclude_path {\cf12\b is} {\cf8 None}:\par
+                    {\cf5\i # Check for duplicate file name.}\par
                     duplicate_path {\cf4 =} {\cf8 self}{\cf4 .}__file_name_is_scanned(filename)\par
                     {\cf8\b if} duplicate_path {\cf12\b is} {\cf12\b not} {\cf8 None}:\par
+                        {\cf5\i # Compare the files.}\par
                         {\cf8\b if} {\cf12\b not} filecmp{\cf4 .}cmp(duplicate_path, current_path):\par
+                            {\cf5\i # It is not a duplicate.}\par
                             duplicate_path {\cf4 =} {\cf8 None}\par
                         {\cf8\b else}:\par
+                            {\cf5\i # It is a duplicate, up the count.}\par
                             {\cf8 self}{\cf4 .}__duplicate_files {\cf4 +}{\cf4 =} {\cf4 1}\par
                 {\cf8\b else}:\par
+                    {\cf5\i # The file is ecluded, up the count.}\par
                     {\cf8 self}{\cf4 .}__excluded_files {\cf4 +}{\cf4 =} {\cf4 1}\par
 \par
+                {\cf5\i # Create the file record, and scan it if needed.}\par
                 pyfile {\cf4 =} PyFile(current_path,\par
                                 exclude_path,\par
                                 duplicate_path)\par
                 {\cf8 self}{\cf4 .}__pyfiles{\cf4 .}append(pyfile)\par
+                {\cf5\i # Print a status line for the file.}\par
                 {\cf8\b print}(pyfile)\par
 \par
 \par
@@ -273,10 +348,11 @@ __VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.5.0}{\cf2 '}\par
     {\cf5\i # Parse the command line.}\par
     paths {\cf4 =} parse_commandline()\par
 \par
+    {\cf5\i # Start counting.}\par
     PyFiles(paths[{\cf4 0}], paths[{\cf4 1}])\par
 \par
 \par
 {\cf5\i # Run this when invoked directly}\par
-{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+{\cf8\b if} {\cf7 __name__} {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
     main()\par
 }

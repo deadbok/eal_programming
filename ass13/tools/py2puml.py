@@ -16,8 +16,11 @@
 #
 # History:
 #
+# Version 0.1.7
+# * Fixed bug, when no namespace.
+#
 # Version 0.1.6
-# * Functional namspace support
+# * Functional namespace support
 #
 # Version 0.1.5
 # * Add members from the class definition.
@@ -44,6 +47,7 @@ import ast
 
 __version__ = '0.1.6'
 
+
 class ClassParser(ast.NodeVisitor):
     """
     Class to parse the stuff we're interested in from a class.
@@ -60,13 +64,13 @@ class ClassParser(ast.NodeVisitor):
 
         :param node: The node of the class.
         """
-        #Dictionary containing the interesting parts of the classes structure
+        # Dictionary containing the interesting parts of the classes structure
         puml_class = dict()
         puml_class['name'] = node.name
         puml_class['members'] = list()
         puml_class['methods'] = list()
 
-        #Run through all children of the class definition.
+        # Run through all children of the class definition.
         for child in node.body:
             # If we have a function definition, store it.
             if isinstance(child, ast.FunctionDef):
@@ -89,9 +93,11 @@ class ClassParser(ast.NodeVisitor):
                                         if target.value.id == 'self':
                                             # Check if it is "private".
                                             if target.attr.startswith('__'):
-                                                puml_class['members'].append('-' + target.attr)
+                                                puml_class['members'].append(
+                                                    '-' + target.attr)
                                             else:
-                                                puml_class['members'].append('+' + target.attr)
+                                                puml_class['members'].append(
+                                                    '+' + target.attr)
 
             # Look for assignments at the top level of the class.
             if isinstance(child, ast.Assign):
@@ -121,49 +127,61 @@ if __name__ == '__main__':
         class_writer = ClassParser()
         class_writer.visit(tree)
 
-        names = args.py_file.name.split('/')[0:-1]
+
+        names = args.py_file.name
+        names = names.lstrip('./').split('/')[0:-1]
+
         namespace = []
         for name in names:
-            if name != '.':
-                namespace.append(name)
+            namespace.append(name)
 
         if len(class_writer.puml_classes) > 0:
             tabs = 0
             # Write the beginnings of the PlantUML file.
+            args.puml_file.write('{0}@startuml\n'.format('\t' * tabs))
             args.puml_file.write(
-                '''{0}@startuml
-                {0}skinparam monochrome true
-                {0}skinparam classAttributeIconSize 0
-                {0}scale 2\n'''.format('\t' * tabs))
+                '{0}skinparam monochrome true\n'.format('\t' * tabs))
+            args.puml_file.write(
+                '{0}skinparam classAttributeIconSize 0\n'.format('\t' * tabs))
+            args.puml_file.write('{0}scale 2\n\n'.format('\t' * tabs))
 
             # Create the namespace
-            for name in namespace:
-                args.puml_file.write('{}namespace '.format('\t' * tabs) + name + ' {\n')
-                tabs += 1
+            if len(namespace) > 0:
+                for name in namespace:
+                    args.puml_file.write(
+                        '{}namespace '.format('\t' * tabs) + name + ' {\n\n')
+                    tabs += 1
 
             # Write the resulting classes in PlantUML format.
             for puml_class in class_writer.puml_classes:
 
-                args.puml_file.write('{}class '.format('\t' * tabs) + puml_class['name'] + ' {\n')
+                args.puml_file.write(
+                    '{}class '.format('\t' * tabs) + puml_class[
+                        'name'] + ' {\n')
                 tabs += 1
 
                 for member in puml_class['members']:
-                    args.puml_file.write('{}'.format('\t' * tabs) + member + '\n')
+                    args.puml_file.write(
+                        '{}'.format('\t' * tabs) + member + '\n')
 
                 for method in puml_class['methods']:
-                    args.puml_file.write('{}'.format('\t' * tabs) + method + '()\n')
+                    args.puml_file.write(
+                        '{}'.format('\t' * tabs) + method + '()\n')
 
-            tabs -= 1
-            args.puml_file.write('{}'.format('\t' * tabs) + '}\n')
+                tabs -= 1
+                args.puml_file.write('{}'.format('\t' * tabs) + '}\n\n')
+
 
             # Close the namespace
-            for name in namespace:
-                tabs -= 1
-                args.puml_file.write('{}'.format('\t' * tabs) + '}\n')
+            if len(namespace) > 0:
+                for name in namespace:
+                    tabs -= 1
+                    args.puml_file.write('{}'.format('\t' * tabs) + '}\n')
 
             # End the PlantUML files.
             args.puml_file.write('{}@enduml'.format('\t' * tabs))
-            print('.'.join(namespace) + '.' + puml_class['name'] + ' ', end='')
+            print('.'.join(namespace) + '.' + puml_class['name'] + ' ',
+                      end='')
         else:
             print('No classes.', end='')
 
@@ -171,4 +189,5 @@ if __name__ == '__main__':
         print('I/O error.')
     except SyntaxError as see:
         print('Syntax error in ', end='')
-        print( args.py_file.name + ':' + str(see.lineno) + ':' + str(see.offset) + ': ' + see.text)
+        print(args.py_file.name + ':' + str(see.lineno) + ':' + str(
+            see.offset) + ': ' + see.text)

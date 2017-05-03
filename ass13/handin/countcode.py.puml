@@ -1,0 +1,49 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+
+class PyExcludes {
+	-__exclude_paths
+	-__init__()
+	+exclude_path()
+}
+
+class PyFile {
+	-__scanned
+	-__exclude_path
+	-__path
+	-__blank_lines
+	-__comment_lines
+	-__python_lines
+	-__total_lines
+	-__init__()
+	+get_blank_lines()
+	+get_comment_lines()
+	+get_python_lines()
+	+get_total_lines()
+	+get_full_path()
+	+get_full_path()
+	+get_file_name()
+	-__count_lines()
+	-__str__()
+}
+
+class PyFiles {
+	-__include_paths
+	-__exclude_paths
+	-__pyfiles
+	-__pyexcludes
+	-__blank_lines
+	-__comment_lines
+	-__python_lines
+	-__total_lines
+	-__total_files
+	-__duplicate_files
+	-__excluded_files
+	-__init__()
+	-__file_name_is_scanned()
+	-__scan_in_path()
+}
+
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+scale 2
+
+!include countcode.py.puml
+
+PyFiles "1" - "0" PyExcludes
+PyFile "0" -- "?" PyFiles
+
+
+@enduml

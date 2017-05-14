@@ -1,8 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# The above lines tell the shell to use python as interpreter when the
-# script is called directly, and that this file uses utf-8 encoding,
-# because of the country specific letter in my surname.
+# --------------------------------------------------------------------------------
+# "THE BEER-WARE LICENSE" (Revision 42):
+# <martin.groenholdt@gmail.com> wrote this file. As long as you retain this notice
+# you can do whatever you want with this stuff. If we meet some day, and you think
+# this stuff is worth it, you can buy me a beer in return. Martin B. K. Grønholdt
+# --------------------------------------------------------------------------------
+# Program to convert a database diagram written in a subset of PlantUML to
+# SQLite syntax that will create the actual tables and relations.
+#
+# Version 1.0.0
+#  * First working version.
 """
 Name: dbdia2sql.py
 Author: Martin Bo Kristensen Grønholdt.

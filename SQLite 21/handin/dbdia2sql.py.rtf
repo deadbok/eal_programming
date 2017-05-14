@@ -1,0 +1,366 @@
+{\rtf1\ansi\uc0\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0;}}{\colortbl;\red136\green136\blue136;\red186\green33\blue33;\red0\green68\blue221;\red102\green102\blue102;\red64\green128\blue128;\red160\green160\blue0;\red25\green23\blue124;\red0\green128\blue0;\red187\green102\blue136;\red187\green102\blue34;\red136\green0\blue0;\red170\green34\blue255;\red153\green153\blue153;\red0\green160\blue0;\red160\green0\blue0;\red255\green0\blue0;\red128\green0\blue128;\red176\green0\blue64;\red0\green0\blue255;\red187\green187\blue187;\red188\green122\blue0;\red0\green0\blue128;\red125\green144\blue41;\red210\green65\blue58;}\f0 {\cf5\i #!/usr/bin/env python3}\par
+{\cf5\i # -*- coding: utf-8 -*-}\par
+{\cf5\i # The above lines tell the shell to use python as interpreter when the}\par
+{\cf5\i # script is called directly, and that this file uses utf-8 encoding,}\par
+{\cf5\i # because of the country specific letter in my surname.}\par
+{\cf2\i """\par
+Name: dbdia2sql.py\par
+Author: Martin Bo Kristensen Gr{\u248}nholdt.\par
+Version: 1.0.0 (2017-05-14)\par
+\par
+Convert a database diagram written in a subset of PlantUML to SQLite syntax\par
+that will create the actual tables and relations.\par
+"""}\par
+{\cf8\b import} {\cf19\b argparse}\par
+{\cf8\b import} {\cf19\b re}\par
+\par
+{\cf5\i # Program version.}\par
+__VERSION__ {\cf4 =} {\cf2 '}{\cf2 1.0.0}{\cf2 '}\par
+\par
+\par
+{\cf8\b class} {\cf19\b Table}:\par
+    {\cf2\i """\par
+    Parses a table from PlantUML file.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Constructor.\par
+        """}\par
+        {\cf5\i # No name.}\par
+        {\cf8 self}{\cf4 .}name {\cf4 =} {\cf8 None}\par
+        {\cf5\i # No fields}\par
+        {\cf8 self}{\cf4 .}fields {\cf4 =} \{\}\par
+\par
+    {\cf8\b def} {\cf19 parse}({\cf8 self}, lines):\par
+        {\cf2\i """\par
+        Parse a tables information from the PUML file.\par
+        \par
+        :param lines: The remaining lines of the PUML file. \par
+        """}\par
+        {\cf5\i # Use regular expressions to isolate the table name.}\par
+        exp {\cf4 =} re{\cf4 .}search({\cf2 '}{\cf2 \\}{\cf2 s*table}{\cf2 \\}{\cf2 ((}{\cf2 \\}{\cf2 w+)}{\cf2 '}, lines[{\cf4 0}])\par
+        {\cf8\b if} exp:\par
+            {\cf8 self}{\cf4 .}name {\cf4 =} exp{\cf4 .}group({\cf4 1})\par
+\par
+        {\cf5\i # Go through the rest of the lines.}\par
+        {\cf8\b for} line {\cf12\b in} lines[{\cf4 1}:]:\par
+            {\cf5\i # Isolate all words and the ending '\}'.}\par
+            tokens {\cf4 =} re{\cf4 .}findall({\cf2 r'}{\cf2 [}{\cf2 \\}{\cf2 w}{\cf2 \\}{\cf2 \}]+}{\cf2 '}, line)\par
+            {\cf5\i # If there was anything to isolate.}\par
+            {\cf8\b if} {\cf8 len}(tokens) {\cf4 >} {\cf4 0}:\par
+                {\cf8\b if} tokens[{\cf4 0}] {\cf4 ==} {\cf2 '}{\cf2 primary_key}{\cf2 '}:\par
+                    {\cf5\i # This is a prmiare key, add as such.}\par
+                    {\cf8 self}{\cf4 .}fields[tokens[{\cf4 1}]] {\cf4 =} \{{\cf2 '}{\cf2 name}{\cf2 '}: tokens[{\cf4 1}],\par
+                                              {\cf2 '}{\cf2 primary}{\cf2 '}: {\cf8 True},\par
+                                              {\cf2 '}{\cf2 type}{\cf2 '}: tokens[{\cf4 2}]\}\par
+                {\cf8\b elif} {\cf2 '}{\cf2 \}}{\cf2 '} {\cf12\b not} {\cf12\b in} line:\par
+                    {\cf5\i # This is not a primary key, add it.}\par
+                    {\cf8 self}{\cf4 .}fields[tokens[{\cf4 0}]] {\cf4 =} \{{\cf2 '}{\cf2 name}{\cf2 '}: tokens[{\cf4 0}],\par
+                                              {\cf2 '}{\cf2 primary}{\cf2 '}: {\cf8 False},\par
+                                              {\cf2 '}{\cf2 type}{\cf2 '}: tokens[{\cf4 1}]\}\par
+                {\cf8\b else}:\par
+                    {\cf5\i # Done.}\par
+                    {\cf8\b break}\par
+\par
+    {\cf8\b def} {\cf19 sql}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the SQL command to create the table.\par
+        \par
+        :return: SQL command string. \par
+        """}\par
+        {\cf5\i # List of foreign keys.}\par
+        foreign {\cf4 =} {\cf2 '}{\cf2 '}\par
+        {\cf5\i # SQL to create the table itself}\par
+        ret {\cf4 =} {\cf2 '}{\cf2 CREATE TABLE \{\}(}{\cf10\b \\n}{\cf2 '}{\cf4 .}format({\cf8 self}{\cf4 .}name)\par
+\par
+        {\cf5\i # Loop over the fields.}\par
+        {\cf8\b for} field {\cf12\b in} {\cf8 self}{\cf4 .}fields{\cf4 .}values():\par
+            {\cf5\i # Add the field.}\par
+            ret {\cf4 +}{\cf4 =} {\cf2 '}{\cf2  \{0\} \{1\}}{\cf2 '}{\cf4 .}format(field[{\cf2 '}{\cf2 name}{\cf2 '}], field[{\cf2 '}{\cf2 type}{\cf2 '}])\par
+\par
+            {\cf8\b if} field[{\cf2 '}{\cf2 primary}{\cf2 '}]:\par
+                {\cf5\i # It is a primary key.}\par
+                ret {\cf4 +}{\cf4 =} {\cf2 '}{\cf2  PRIMARY KEY}{\cf2 '}\par
+            ret {\cf4 +}{\cf4 =} {\cf2 '}{\cf2 ,}{\cf10\b \\n}{\cf2 '}\par
+\par
+            {\cf8\b if} {\cf2 '}{\cf2 reference}{\cf2 '} {\cf12\b in} field{\cf4 .}keys():\par
+                {\cf5\i # It references another key in another table, add it to the}\par
+                {\cf5\i # list.}\par
+                foreign {\cf4 +}{\cf4 =} {\cf2 '}{\cf2  FOREIGN KEY (\{0\}) REFERENCES \{1\}(\{2\})}{\cf2 '}{\cf4 .}format(\par
+                    field[{\cf2 '}{\cf2 name}{\cf2 '}], field[{\cf2 '}{\cf2 reference}{\cf2 '}][{\cf2 '}{\cf2 table}{\cf2 '}],\par
+                    field[{\cf2 '}{\cf2 reference}{\cf2 '}][{\cf2 '}{\cf2 field}{\cf2 '}])\par
+                foreign {\cf4 +}{\cf4 =} {\cf2 '}{\cf2 ,}{\cf10\b \\n}{\cf2 '}\par
+\par
+        {\cf5\i # Add all foreign keys to the end.}\par
+        ret {\cf4 +}{\cf4 =} foreign\par
+        {\cf8\b return} ret[{\cf4 0}:{\cf4 -}{\cf4 2}] {\cf4 +} {\cf2 '}{\cf10\b \\n}{\cf2 );}{\cf2 '}\par
+\par
+\par
+{\cf8\b class} {\cf19\b ForeignKey}:\par
+    {\cf2\i """\par
+    Parses a foreign key from PlantUML file.\par
+    """}\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Constructor.\par
+        """}\par
+        {\cf5\i # Tables and fields for the foreign key.}\par
+        {\cf8 self}{\cf4 .}source_table {\cf4 =} {\cf8 None}\par
+        {\cf8 self}{\cf4 .}source_field {\cf4 =} {\cf8 None}\par
+        {\cf8 self}{\cf4 .}target_table {\cf4 =} {\cf8 None}\par
+        {\cf8 self}{\cf4 .}target_field {\cf4 =} {\cf8 None}\par
+\par
+    {\cf8\b def} {\cf19 parse}({\cf8 self}, lines):\par
+        {\cf2\i """\par
+        Parse a foreign key relatinoship.\par
+        \par
+        :param lines: The remaining lines of the PUML file. \par
+        """}\par
+        {\cf5\i # Tokenise by words.}\par
+        tokens {\cf4 =} re{\cf4 .}findall({\cf2 r'}{\cf2 [}{\cf2 \\}{\cf2 w]+}{\cf2 '}, lines[{\cf4 0}])\par
+        {\cf5\i # Get the direction of the reference.}\par
+        {\cf8 dir} {\cf4 =} re{\cf4 .}findall({\cf2 r'}{\cf2 <|>}{\cf2 '}, lines[{\cf4 0}])\par
+\par
+        {\cf5\i # Set the tables and fields according to the direction.}\par
+        {\cf8\b if} ({\cf8 dir}[{\cf4 0}] {\cf4 ==} {\cf2 '}{\cf2 >}{\cf2 '}):\par
+            {\cf8 self}{\cf4 .}source_table {\cf4 =} tokens[{\cf4 0}]\par
+            {\cf8 self}{\cf4 .}source_field {\cf4 =} tokens[{\cf4 1}]\par
+            {\cf8 self}{\cf4 .}target_table {\cf4 =} tokens[{\cf4 3}]\par
+            {\cf8 self}{\cf4 .}target_field {\cf4 =} tokens[{\cf4 2}]\par
+        {\cf8\b elif} ({\cf8 dir}[{\cf4 0}] {\cf4 ==} {\cf2 '}{\cf2 <}{\cf2 '}):\par
+            {\cf8 self}{\cf4 .}source_table {\cf4 =} tokens[{\cf4 3}]\par
+            {\cf8 self}{\cf4 .}source_field {\cf4 =} tokens[{\cf4 2}]\par
+            {\cf8 self}{\cf4 .}target_table {\cf4 =} tokens[{\cf4 0}]\par
+            {\cf8 self}{\cf4 .}target_field {\cf4 =} tokens[{\cf4 1}]\par
+        {\cf8\b else}:\par
+            {\cf8\b print}({\cf2 '}{\cf2 Error parsng foreign key: \{\}}{\cf2 '}{\cf4 .}format(lines[{\cf4 0}]))\par
+\par
+\par
+{\cf8\b def} {\cf19 lineNormalise}(line):\par
+    {\cf2\i """\par
+    Utillity function convert string to a known format by:\par
+     \par
+     * Stripping any whitespaces at the beginning.\par
+     * Converting to lower case.\par
+    \par
+    :param line: The string to process.\par
+    :return: The processed string.\par
+    """}\par
+    {\cf5\i # Strip initial whitespaces and lower case the string.}\par
+    {\cf8\b return} (line{\cf4 .}lstrip(){\cf4 .}lower())\par
+\par
+\par
+{\cf8\b def} {\cf19 isTable}(line):\par
+    {\cf2\i """\par
+    Tell if a PlantUML table definition is starting at this line.\par
+    \par
+    :param line: The line to check. \par
+    :return: True if there is a table definition is starting at this line.\par
+    """}\par
+    {\cf5\i # Make the string easier to parse.}\par
+    line_stripped {\cf4 =} lineNormalise(line)\par
+\par
+    {\cf5\i # Return value.}\par
+    ret {\cf4 =} {\cf8 False}\par
+\par
+    {\cf5\i # If the line starts with the word table, we have a table definition!}\par
+    {\cf8\b if} line_stripped{\cf4 .}startswith({\cf2 '}{\cf2 table}{\cf2 '}):\par
+        ret {\cf4 =} {\cf8 True}\par
+\par
+    {\cf5\i # Tell the horrible truth that this code could not find a table.}\par
+    {\cf8\b return} ret\par
+\par
+\par
+{\cf8\b def} {\cf19 isForeignKey}(line):\par
+    {\cf2\i """\par
+    Tell if a PlantUML foreign key definition is at this line.\par
+\par
+    :param line: The line to check. \par
+    :return: True if there is a foreign key definition is at this line.\par
+    """}\par
+    {\cf5\i # Make the string easier to parse.}\par
+    line_stripped {\cf4 =} lineNormalise(line)\par
+\par
+    {\cf5\i # Return value.}\par
+    ret {\cf4 =} {\cf8 False}\par
+\par
+    {\cf5\i # Split into tokens by space.}\par
+    tokens {\cf4 =} line{\cf4 .}split({\cf2 '}{\cf2  }{\cf2 '})\par
+\par
+    {\cf5\i # Parse the tokens}\par
+    {\cf8\b for} token {\cf12\b in} tokens:\par
+        {\cf5\i # Match direction tokens, these should only appear in foreign key}\par
+        {\cf5\i # lines.}\par
+        {\cf8\b if} ({\cf2 '}{\cf2 <}{\cf2 '} {\cf12\b in} token) {\cf12\b or} ({\cf2 '}{\cf2 >}{\cf2 '} {\cf12\b in} token):\par
+            ret {\cf4 =} {\cf8 True}\par
+            {\cf5\i # Got it, get out.}\par
+            {\cf8\b break}\par
+\par
+    {\cf8\b return} ret\par
+\par
+\par
+{\cf8\b class} {\cf19\b PUMLReader}:\par
+    {\cf2\i """\par
+    Class to read, parse, and convert tables from a PlantUML file into SQL\par
+    commands to create them in the database.\par
+    """}\par
+    keywords {\cf4 =} (\par
+        {\cf2 '}{\cf2 @startuml}{\cf2 '}, {\cf2 '}{\cf2 skinparam}{\cf2 '}, {\cf2 '}{\cf2 scale}{\cf2 '}, {\cf2 '}{\cf2 !}{\cf2 '}, {\cf2 '}{\cf2 hide methods}{\cf2 '},\par
+        {\cf2 '}{\cf2 hide stereotypes}{\cf2 '},\par
+        {\cf2 '}{\cf2 sprite}{\cf2 '}, {\cf2 '}{\cf2 @enduml}{\cf2 '})\par
+\par
+    {\cf8\b def} {\cf19 __init__}({\cf8 self}):\par
+        {\cf2\i """\par
+        Constructor.\par
+        """}\par
+        {\cf5\i # All tables en up here.}\par
+        {\cf8 self}{\cf4 .}tables {\cf4 =} \{\}\par
+\par
+    {\cf8\b def} {\cf19 parse}({\cf8 self}, lines):\par
+        {\cf2\i """\par
+        Parse all lines of a PlantUML file.\par
+        \par
+        :param lines: The lines in the PlantUML file.\par
+        """}\par
+        {\cf5\i # Keep count of the current line number.}\par
+        i {\cf4 =} {\cf4 0}\par
+\par
+        {\cf5\i # Array of foreign keys.}\par
+        fks {\cf4 =} []\par
+\par
+        {\cf5\i # Loop through all lines.}\par
+        {\cf8\b for} i {\cf12\b in} {\cf8 range}({\cf4 0}, {\cf8 len}(lines)):\par
+            {\cf5\i # Used to ok parsing of the line.}\par
+            skip {\cf4 =} {\cf8 False}\par
+\par
+            {\cf5\i # Look for keywords at the beginning of the line.}\par
+            {\cf8\b for} keyword {\cf12\b in} PUMLReader{\cf4 .}keywords:\par
+                {\cf8\b if} lines[i]{\cf4 .}startswith(keyword):\par
+                    {\cf5\i # Found one, do not parse.}\par
+                    skip {\cf4 =} {\cf8 True}\par
+\par
+            {\cf5\i # Only parse lines that has no keywords.}\par
+            {\cf8\b if} {\cf12\b not} skip:\par
+                {\cf8\b if} isTable(lines[i]):\par
+                    {\cf5\i # There was a table at that line, parse it.}\par
+                    table {\cf4 =} Table()\par
+                    table{\cf4 .}parse(lines[i:])\par
+                    {\cf5\i # Add it.}\par
+                    {\cf8 self}{\cf4 .}tables[table{\cf4 .}name] {\cf4 =} table\par
+                {\cf8\b elif} isForeignKey(lines[i]):\par
+                    {\cf5\i # There was a foreign key at that line, parse it.}\par
+                    fk {\cf4 =} ForeignKey()\par
+                    fk{\cf4 .}parse(lines[i:])\par
+                    {\cf5\i # Add it}\par
+                    fks{\cf4 .}append(fk)\par
+\par
+        {\cf5\i # Add all foreign keys to the tables.}\par
+        {\cf8\b for} name, table {\cf12\b in} {\cf8 self}{\cf4 .}tables{\cf4 .}items():\par
+            {\cf8\b for} fk {\cf12\b in} fks:\par
+                {\cf5\i # Find the right table to add the foreign key.}\par
+                {\cf8\b if} fk{\cf4 .}source_table {\cf4 ==} name:\par
+                    table{\cf4 .}fields[fk{\cf4 .}source_field][{\cf2 '}{\cf2 reference}{\cf2 '}] {\cf4 =} \{\par
+                        {\cf2 '}{\cf2 table}{\cf2 '}: fk{\cf4 .}target_table, {\cf2 '}{\cf2 field}{\cf2 '}: fk{\cf4 .}target_field\}\par
+\par
+    {\cf8\b def} {\cf19 sql}({\cf8 self}):\par
+        {\cf2\i """\par
+        Return the SQL command to create the tables.\par
+\par
+        :return: SQL command string. \par
+        """}\par
+        {\cf5\i # Return value.}\par
+        ret {\cf4 =} {\cf2 '}{\cf2 '}\par
+\par
+        {\cf5\i # Variables for figuring out dependencies between tables.}\par
+        done {\cf4 =} []\par
+        dependencies {\cf4 =} \{\}\par
+\par
+        {\cf5\i # Run through all tables.}\par
+        {\cf8\b for} table {\cf12\b in} {\cf8 self}{\cf4 .}tables{\cf4 .}values():\par
+            {\cf5\i # Assume no references.}\par
+            reference {\cf4 =} {\cf8 False}\par
+\par
+            {\cf5\i # Check fields for references.}\par
+            {\cf8\b for} field {\cf12\b in} table{\cf4 .}fields{\cf4 .}values():\par
+                {\cf8\b if} {\cf2 '}{\cf2 reference}{\cf2 '} {\cf12\b in} field{\cf4 .}keys():\par
+                    {\cf5\i # Add the reference to the dependencies of the table.}\par
+                    {\cf8\b if} table{\cf4 .}name {\cf12\b not} {\cf12\b in} dependencies{\cf4 .}keys():\par
+                        dependencies[table{\cf4 .}name] {\cf4 =} []\par
+                    dependencies[table{\cf4 .}name]{\cf4 .}append(\par
+                        field[{\cf2 '}{\cf2 reference}{\cf2 '}][{\cf2 '}{\cf2 table}{\cf2 '}])\par
+                    reference {\cf4 =} {\cf8 True}\par
+\par
+            {\cf5\i # If the table has no dependencies, just print it.}\par
+            {\cf8\b if} {\cf12\b not} reference:\par
+                ret {\cf4 +}{\cf4 =} {\cf2 '}{\cf10\b \\n}{\cf2 '} {\cf4 +} table{\cf4 .}sql()\par
+                done{\cf4 .}append(table{\cf4 .}name)\par
+\par
+        {\cf5\i # Solve dependencies.}\par
+        {\cf8\b while} ({\cf8 len}(dependencies) {\cf4 >} {\cf4 0}):\par
+            {\cf5\i # Run through all dependencies.}\par
+            {\cf8\b for} table, deplist {\cf12\b in} dependencies{\cf4 .}items():\par
+                {\cf5\i # Check is some has been solved since the last run.}\par
+                {\cf8\b for} solved {\cf12\b in} done:\par
+                    {\cf8\b if} solved {\cf12\b in} deplist:\par
+                        {\cf5\i # Bingo. Remove it.}\par
+                        deplist{\cf4 .}remove(solved)\par
+                {\cf5\i # If there are no more dependencies}\par
+                {\cf8\b if} {\cf8 len}(deplist) {\cf4 ==} {\cf4 0}:\par
+                    {\cf5\i # Add thw SQL to the return value,}\par
+                    ret {\cf4 +}{\cf4 =} {\cf2 '}{\cf10\b \\n}{\cf2 '} {\cf4 +} {\cf8 self}{\cf4 .}tables[table]{\cf4 .}sql()\par
+                    {\cf5\i # Add the table name to the solved list.}\par
+                    done{\cf4 .}append(table)\par
+\par
+            {\cf5\i # Remove all tables that have had its dependencies solved.}\par
+            {\cf8\b for} solved {\cf12\b in} done:\par
+                {\cf8\b if} solved {\cf12\b in} dependencies{\cf4 .}keys():\par
+                    {\cf8\b del} dependencies[solved]\par
+\par
+        {\cf8\b return} ret\par
+\par
+\par
+{\cf8\b def} {\cf19 parse_commandline}():\par
+    {\cf2\i """\par
+    Parse command line arguments.\par
+    \par
+    :return: A tuple with a list of files path to include, and a list of paths\par
+             to exclude.\par
+    """}\par
+    {\cf5\i # Set up the arguments.}\par
+    parser {\cf4 =} argparse{\cf4 .}ArgumentParser(description{\cf4 =}{\cf2 '}{\cf2 Count lines of Python }{\cf2 '} {\cf4 +}\par
+                                                 {\cf2 '}{\cf2 code in given paths.}{\cf2 '})\par
+    parser{\cf4 .}add_argument({\cf2 '}{\cf2 infile}{\cf2 '}, {\cf8 type}{\cf4 =}argparse{\cf4 .}FileType({\cf2 '}{\cf2 r}{\cf2 '}),\par
+                        help{\cf4 =}{\cf2 '}{\cf2 PlantUML file to read the database structure from.}{\cf2 '})\par
+\par
+    {\cf5\i # Parse command line}\par
+    args {\cf4 =} parser{\cf4 .}parse_args()\par
+\par
+    {\cf5\i # Return the paths.}\par
+    {\cf8\b return} ((args{\cf4 .}infile))\par
+\par
+\par
+{\cf8\b def} {\cf19 main}():\par
+    {\cf2\i """\par
+    Program main entry point.\par
+    """}\par
+    {\cf5\i # Print welcome message}\par
+    {\cf8\b print}(\par
+        {\cf2 '}{\cf2 dbdia2sql.py v\{\} by Martin B. K. Gr{\u248}nholdt}{\cf10\b \\n}{\cf2 '}{\cf4 .}format(__VERSION__))\par
+    {\cf5\i # Parse the command line.}\par
+    puml_file {\cf4 =} parse_commandline()\par
+\par
+    {\cf5\i # Instantiate the PUMLReader class and parse the file given on the command}\par
+    {\cf5\i # line.}\par
+    reader {\cf4 =} PUMLReader()\par
+    reader{\cf4 .}parse(puml_file{\cf4 .}readlines())\par
+\par
+    {\cf5\i # Print the SQL.}\par
+    {\cf8\b print}(reader{\cf4 .}sql())\par
+\par
+\par
+{\cf5\i # Run this when invoked directly}\par
+{\cf8\b if} __name__ {\cf4 ==} {\cf2 '}{\cf2 __main__}{\cf2 '}:\par
+    main()\par
+}

@@ -92,7 +92,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Output file name is input file +'.classes.puml'
-    puml_file_name = args.py_file.name + '.classes.puml'
+    puml_file_name = args.py_file.name + '.db.puml'
 
     try:
         with open(puml_file_name, 'w') as puml_file:

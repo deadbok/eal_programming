@@ -1,0 +1,35 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+scale 2
+
+
+class Table {
+    +name
+    +fields
+    -__init__()
+    +parse()
+    +sql()
+}
+
+class ForeignKey {
+    +source_table
+    +source_field
+    +target_table
+    +target_field
+    -__init__()
+    +parse()
+}
+
+class PUMLReader {
+    +keywords
+    +tables
+    -__init__()
+    +parse()
+    +sql()
+}
+
+PUMLReader "? " -- "0" Table
+PUMLReader "?" -- "0 " ForeignKey
+
+@enduml

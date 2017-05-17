@@ -30,7 +30,10 @@ class PyExcludes:
         
         :param exclude_paths: List of exclude paths. 
         """
-        self.__exclude_paths = exclude_paths
+        if exclude_paths is not None:
+            self.__exclude_paths = exclude_paths
+        else:
+            self.__exclude_paths = []
 
     def exclude_path(self, path):
         """

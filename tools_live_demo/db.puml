@@ -11,7 +11,7 @@ sprite $primary [17x12/16z] bOqv3e1030CJRzPn9Fx_NWY7n4eqJ3TJs6OVa5pTpD-5tl3YyFHG
 
 table(customerTable) {
     primary_key(idCust) INTEGER
-    name TEXT
+    primary_key(name) TEXT
     email TEXT
     address TEXT
     city TEXT

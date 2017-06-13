@@ -1,0 +1,74 @@
+@startuml
+
+skinparam monochrome true
+skinparam linetype ortho
+scale 2
+
+!define table(x) class x << (T,#FFAAAA) >>
+!define view(x) class x << (V,#FFAAAA) >>
+!define ent(x) class x << (E,#FFAAAA) >>
+
+!define primary_key(x) <b>PK: x</b>
+!define foreign_key(x) <b>FK: </b>x
+hide methods
+hide stereotypes
+
+
+ent(customerTable) {
+    primary_key(idCust) INTEGER
+    foreign_key(city) INTEGER
+    ---
+    name TEXT
+    email TEXT
+    address TEXT
+}
+
+ent(cityTable) {
+    primary_key(idCity) INTEGER
+    foreign_key(country) INTEGER
+    ---
+    city TEXT
+}
+
+ent(countryTable) {
+    primary_key(idCountry) INTEGER
+    ---
+    country TEXT
+}
+
+ent(orderTable) {
+    primary_key(idOrder) INTEGER
+    foreign_key(custId) INTEGER
+    ---
+    date DATE
+}
+
+ent(orderProductTable) {
+    foreign_key(orderId) INTEGER
+    foreign_key(productId) INTEGER
+}
+
+ent(productTable) {
+    primary_key(idProd) INTEGER
+    ---
+    product TEXT
+}
+
+productTable "1..1" - "0..n" orderProductTable : "        "
+orderProductTable "0..n" - "1..1 " orderTable : "        "
+orderTable "0..n  " - "1..1" customerTable : "        "
+
+customerTable "0..n" -- "1..1" cityTable
+countryTable "1..1" - "0..n " cityTable : "        "
+
+view(productCountry) {
+    product TEXT
+    country TEXT
+}
+
+productCountry "1..1" --- "0..1" productTable
+productCountry "1..1" - "0..1" countryTable
+
+@enduml
+
+

@@ -8,4 +8,4 @@ tools to help me in being lazy.
  * A Python tool to generate SQL database creation commands from a PlantUML
    database diagram.
 
-This all relies havely on [PlantUML - http://plantuml.com](http://plantuml.com)
+This all relies heavely on [PlantUML - http://plantuml.com](http://plantuml.com)
